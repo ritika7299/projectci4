@@ -12,22 +12,12 @@
                                 <?= session()->getFlashdata('success') ?>
                             </span>
                         <?php endif; ?>
-
                         <?php if (session()->getFlashdata('error')): ?>
                             <span class="alert alert-danger">
                                 <?= session()->getFlashdata('error') ?>
                             </span>
                         <?php endif; ?>
                     </div>
-                    <!-- Add JavaScript to auto hide the message after 5 seconds -->
-                    <script>
-                        setTimeout(function () {
-                            let flashMessage = document.getElementById('flashMessage');
-                            if (flashMessage) {
-                                flashMessage.style.display = 'none';
-                            }
-                        }, 5000); // 5000ms = 5 seconds
-                    </script>
                     <div class="mb-1">
                         <div class="add-details mt-5">
                             <button type="submit" class="btn btn-primary float-right mt-0 mb-0" data-toggle="modal"
@@ -35,7 +25,6 @@
                                 Add Details <i class="fa fa-plus-circle"></i>
                             </button>
                         </div>
-
                         <div class="clearfix"></div>
                     </div>
                     <!-- Add Search Bar -->
@@ -138,25 +127,29 @@
                                                                     </a>
                                                                     <div class="dropdown-menu"
                                                                         aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item text-primary" href="#"
-                                                                            data-toggle="modal"
-                                                                            data-target="#updateDetailsModal">
+                                                                        <a class="dropdown-item text-dark edit_btn"
+                                                                            id="edit_btn" href="#" data-toggle="modal"
+                                                                            data-target="#editDetailsModal"
+                                                                            data-id="<?php echo $key['prog_id']; ?>"
+                                                                            title="Edit Details">
                                                                             <i class="fa fa-edit"></i> Edit
                                                                             Details
                                                                         </a>
-                                                                        <a class="dropdown-item text-primary" href="#"
+                                                                        <a class="dropdown-item text-dark" href="#"
                                                                             data-toggle="modal"
                                                                             data-target="#EditProgScheduleModel">
-                                                                            <i class="fa fa-file"></i> Edit Prog. Schedule(pdf)
+                                                                            <i class="fa fa-file-pdf-o"></i> Edit Prog.
+                                                                            Schedule(pdf)
                                                                         </a>
-                                                                        <a class="dropdown-item text-primary" href="#"
+                                                                        <a class="dropdown-item text-dark" href="#"
                                                                             data-toggle="modal"
                                                                             data-target="#EditAttendanceModel">
-                                                                            <i class="fa fa-file"></i> Edit Attendance(pdf)
+                                                                            <i class="fa fa-file-pdf-o"></i> Edit
+                                                                            Attendance(pdf)
                                                                         </a>
-                                                                        <a class="dropdown-item text-primary" href="#"
+                                                                        <a class="dropdown-item text-dark" href="#"
                                                                             data-toggle="modal" data-target="#lockPdfModal">
-                                                                            <i class="fa fa-file-lock"></i> Lock (pdf)
+                                                                            <i class="fa fa-lock"></i> Lock (pdf)
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -196,7 +189,7 @@
                 </div>
             </div>
             <!-- /main content -->
-            <!-- model start  -->
+            <!-- modals start  -->
             <!-- add details modal -->
             <div class="modal fade" id="addDetailsModal" tabindex="-1" role="dialog"
                 aria-labelledby="addDetailsModalLabel" aria-hidden="true">
@@ -291,84 +284,130 @@
                                         </tr>
                                         <tr></tr>
                                     </table>
-                                    <?php //echo form_close(); ?>
+
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="save_add_Button">Save
-                                Details</button>
+                            <button type="submit" class="btn btn-primary" id="save_add_Button">Save <i
+                                    class="fa fa-paper-plane"></i>
+                            </button>
+                            <?php echo form_close(); ?>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /models end -->
-            <!--update Modal Structure -->
-            <!-- <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
-                aria-hidden="true">
+            <!-- /end add details modal  -->
+            <!--edit details modal  -->
+            <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog"
+                aria-labelledby="editDetailsModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="updateModalLabel">Update Details</h5>
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white" id="editDetailsModalLabel">Edit Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="updateForm" enctype="multipart/form-data">
-                                <input type="hidden" id="prog_id" name="prog_id">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
-                                        <td><input type="text" class="form-control" id="progTitle" name="progTitle"
-                                                placeholder=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 30%;"><label for="targetGroup">Target Group</label></td>
-                                        <td>
-                                            <select class="form-control" id="targetGroup" name="targetGroup">
-                                                <option value="">Select</option>
-                                                <option value="TG-1">TG-1</option>
-                                                <option value="TG-2">TG-2</option>
-                                                <option value="TG-3">TG-3</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 30%;"><label for="date">Date</label></td>
-                                        <td><input type="date" class="form-control" id="date" name="date"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 30%;"><label for="progDirector">Programme Director</label>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" id="progDirector" name="progDirector">
-                                                <option value="">Select</option>
-                                                <option value="PD-1">PD-1</option>
-                                                <option value="PD-2">PD-2</option>
-                                                <option value="PD-3">PD-3</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 30%;"><label for="progPdf">Programme Schedule in PDF</label>
-                                        </td>
-                                        <td><input type="file" class="form-control mt-2" id="progPdf" name="progPdf">
-                                        </td>
-                                    </tr>
-                                    
-                                </table>
-                                <button type="submit" id="updateButton" class="btn btn-primary">Submit</button>
-                            </form>
+                            <div class="form-area custom-background">
+                                <form id="edit_form_details" action="<?php echo base_url('/admin/updateRecord'); ?>"
+                                    method="POST">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
+                                            <td><input type="text" class="form-control" id="progTitle" name="progTitle"
+                                                    value="" placeholder=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="targetGroup">Target Group</label></td>
+                                            <td>
+                                                <select class="form-control" id="targetGroup" name="targetGroup">
+                                                    <option value="">Select</option>
+                                                    <option value="TG-1">TG-1</option>
+                                                    <option value="TG-2">TG-2</option>
+                                                    <option value="TG-3">TG-3</option>
+                                                </select>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="date">Date</label></td>
+                                            <td><input type="date" class="form-control" value="" id="date" name="date">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="progDirector">Programme
+                                                    Director</label>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="progDirector" name="progDirector">
+                                                    <option value="">Select</option>
+                                                    <option value="PD-1">PD-1</option>
+                                                    <option value="PD-2">PD-2</option>
+                                                    <option value="PD-3">PD-3</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="dealingAsstt">Dealing Assistant</label>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="dealingAsstt" name="dealingAsstt">
+                                                    <option value="">Select</option>
+                                                    <option value="DA-1">DA-1</option>
+                                                    <option value="DA-2">DA-2</option>
+                                                    <option value="DA-3">DA-3</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="progPdf">Programme Schedule in
+                                                    PDF</label>
+                                            </td>
+                                            <td><input type="file" class="mt-2 text-primary" id="progPdf"
+                                                    name="progPdf">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="attandancePdf">Attendance in
+                                                    PDF</label>
+                                            </td>
+                                            <td><input type="file" class="mt-2 text-primary" id="attandancePdf"
+                                                    name="attandancePdf">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="materialLink">Reading Material
+                                                    Link</label>
+                                            </td>
+                                            <td><input class="form-control" id="materialLink" name="materialLink"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;"><label for="paymentdone">Payment Done</label></td>
+                                            <td>
+                                                <select class="form-control" id="paymentdone" name="paymentdone">
+                                                    <option value="">Select</option>
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr></tr>
+                                    </table>
+
+                            </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="edit_Button">Save <i
+                                    class="fa fa-paper-plane"></i>
+                            </button>
+                            <?php echo form_close(); ?>
+                        </div>
+
                     </div>
                 </div>
-            </div> -->
-        </div>
-
-
-
-        <!-- lock Pdf modal -->
-        <!-- <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
+            </div>
+            <!--/end edit details modal -->
+            <!-- lock Pdf modal -->
+            <!-- <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -393,63 +432,92 @@
                 </div>
             </div>
         </div> -->
-        <!-- /models end -->
+            <!-- /lock Pdf modal -->
+        </div>
+
 
     </div>
 </div>
 </div>
-<!-- update details ajax -->
-<!-- <script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+<!-- JQUERY.MIN.JS v-3.7.1 created by ritika  -->
+<script src="<?php echo base_url("../public/assets/build/js/jquery.min.js"); ?>"></script>
+<script>
+    $("#edit_btn").click(function () {
+        alert();
+        var progId = $(this).data('id');
+        alert(progId);
+        $.ajax({
+            url: '<?php echo base_url() . "/admin/get-data-for-update/" ?>',
+            dataType: 'json',
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                prog_id: progId,
 
-    $(document).ready(function () {
-        // Populate Modal Fields
-        $(document).on('click', '.update-btn', function () {
+            },
+            beforeSend: function () { },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        }).done(function (data) {
 
-            const progId = $(this).closest('a').data('id');
-            $('#prog_id').val(progId);
-
-
-            // Optionally, you can fetch existing data via AJAX to populate fields.
-            $.ajax({
-                url: `<?php echo base_url('admin/getDetails'); ?>/${progId}`,
-                type: 'POST',
-                success: function (response) {
-                    // Assuming `response` contains JSON data of the record
-                    $('#progTitle').val(response.progTitle);
-                    $('#targetGroup').val(response.targetGroup);
-                    $('#date').val(response.date);
-                    $('#progDirector').val(response.progDirector);
-                    // Populate other fields as needed
-                },
-            });
+            if (data != '') {
+                alert("hh");
+            } else {
+                alert("jj");
+            }
+            $("#prog_id").val(data['prog_id']);
+            $("#prog_id1").val(data[0]['progTitle']);
+            $("#prog_id2").val(data[0]['paymentdone']);
+            $("#prog_id3").val(data[0]['date']);
+            // $("#progTitle").val(data[0]['prog_id']);
+            $("#targetGroup").val(data[0]['progTitle']);
         });
+        // alert('prog_id1');
+        // die;
+        //console.log('prog_id1');
+    });
+</script>
+<!-- <script>
+    $("#edit_btn").click(function () {
+        var progId = $(this).data('id'); // Get the program ID from the clicked button
+        $.ajax({
+            url: '<?php echo base_url() . "/admin/updateRecord"; ?>',
+            dataType: 'json',
+            type: 'GET',
+            data: {
+                prog_id: progId
+            },
+            success: function (data) {
+                if (data.status === 'success' && data.data) {
+                    // Fill in the modal form fields
+                    var record = data.data;
+                    $("#prog_id").val(record.progTitle);
+                    $("#targetGroup").val(record.targetGroup);
+                    $("#date").val(record.date);
+                    $("#progDirector").val(record.progDirector);
+                    $("#dealingAsstt").val(record.dealingAsstt);
+                    $("#materialLink").val(record.materialLink);
+                    $("#paymentdone").val(record.paymentdone);
 
-        // Submit Form via AJAX
-        $('#updateButton').click(function () {
-            const formData = new FormData($('#updateForm')[0]);
-
-            $.ajax({
-                url: '<?php echo base_url('admin/updateDetails'); ?>',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response.status) {
-                        alert('Details updated successfully!');
-                        location.reload(); // Reload the page or update the table dynamically
-                    } else {
-                        alert('Failed to update details: ' + response.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert('An error occurred: ' + error);
-                },
-            });
+                    // Show the modal
+                    $('#editDetailsModal').modal('show');
+                } else {
+                    alert("No data found or error occurred");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+                alert("Something went wrong while fetching data.");
+            }
         });
     });
-
 </script> -->
+
 
 <?php include('template/footer.php'); ?>
 <!-- /page content -->

@@ -98,19 +98,16 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right"
                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#"> Profile</a>
-                                    <a class="dropdown-item" href="#">
-                                        <!-- <span class="badge bg-red pull-right">50%</span> -->
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <!-- <a class="dropdown-item" href="#">
                                         <span>Settings</span>
-                                    </a>
-                                    <a class="dropdown-item" href="#">Help</a>
+                                    </a> -->
+                                    <!-- <a class="dropdown-item" href="#">Help</a> -->
                                     <a class="dropdown-item" href="<?php echo base_url('admin/logout'); ?>"><i
                                             class="fa fa-sign-out pull-right"></i>
                                         Log Out</a>
                                 </div>
                             </li>
-
-
                         </ul>
                     </nav>
                 </div>
