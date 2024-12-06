@@ -114,7 +114,7 @@ class Admin extends BaseController
             'progDirector' => $request->getPost('progDirector'),
             'dealingAsstt' => $request->getPost('dealingAsstt'),
             'progPdf' => $request->getPost('progPdf'),
-            'attandancePdf' => $request->getPost('attandancePdf'),
+            'attendancePdf' => $request->getPost('attendancePdf'),
             'materialLink' => $request->getPost('materialLink'),
             'paymentdone' => $request->getPost('paymentdone'),
         ];
@@ -125,31 +125,47 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'User not logged in');
             return redirect()->to('/dashboard');
         }
-
         // File Upload Configuration
-        $fileFields = ['progPdf', 'attandancePdf'];
-        $uploadPathProgramsPdf = ROOTPATH . 'uploads/programs_pdf/';
-        $uploadPathAttendance = ROOTPATH . 'uploads/attendance_pdf/';
+        $fileFields = ['progPdf', 'attendancePdf'];
+        // print_r($fileFields);
+        // die;
+        $uploadPathProgramsPdf = ROOTPATH . 'uploads/programsPdf/';
+        $uploadPathAttendance = ROOTPATH . 'uploads/attendance/';
         foreach ($fileFields as $field) {
+            // print_r('running');
+            // die;
             $file = $this->request->getFile($field);
-
+            // print_r($field);     //output progPdf
+            // die;
+            // print_r('running again');
+            // die;
             if ($file && $file->isValid() && !$file->hasMoved()) {
-                $originalFileName = $file->getClientName();  // Get the original file name
-                $fileExtension = $file->getExtension();  // Get the file extension
-
-                // Create the new file name by appending the logged-in user's name (i.e., 'by john')
-                // We use pathinfo to get the original file name without the extension
+                // Get the original file name and extension
+                $originalFileName = $file->getClientName();
+                $fileExtension = $file->getExtension();
+                // Create the new file name by appending the user's name
                 $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . ' by ' . $userName . '.' . $fileExtension;
-
-                // Determine the correct path based on the field and move the file
+                // Determine the directory path based on the field and move the file
                 if ($field == 'progPdf') {
-                    // Move the program PDF file to the specified directory and save the relative path
-                    $file->move($uploadPathProgramsPdf, $newFileName);
-                    $data[$field] = 'uploads/programs_pdfs/' . $newFileName; // Save relative file path
-                } elseif ($field == 'attandancePdf') {
-                    // Move the attendance PDF file to the specified directory and save the relative path
-                    $file->move($uploadPathAttendance, $newFileName);
-                    $data[$field] = 'uploads/attendance_pdfs/' . $newFileName; // Save relative file path
+                    // Define the new path for the manual folder
+                    $manualFolderPath = 'uploads/programsPdf/';
+                    // Ensure the directory exists
+                    if (!is_dir($manualFolderPath)) {
+                        mkdir($manualFolderPath, 0777, true); // Create the directory if it doesn't exist
+                    }
+                    // Move the file to the "manual" folder
+                    $file->move($manualFolderPath, $newFileName);
+                    $data[$field] = $manualFolderPath . $newFileName; // Save relative file path
+                } elseif ($field == 'attendancePdf') {
+                    // Define the new path for the manual folder
+                    $manualFolderPath = 'uploads/attendance/';
+                    // Ensure the directory exists
+                    if (!is_dir($manualFolderPath)) {
+                        mkdir($manualFolderPath, 0777, true); // Create the directory if it doesn't exist
+                    }
+                    // Move the file to the "manual" folder
+                    $file->move($manualFolderPath, $newFileName);
+                    $data[$field] = $manualFolderPath . $newFileName; // Save relative file path
                 }
             }
         }
@@ -168,23 +184,11 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');
     }*/
 
-
-
-
-
-    public function saveDetails()
+    /*public function saveDetails()
     {
-        $session = session();  // Get the session object
-        $userName = $session->get('name');  // Assuming 'name' is stored in the session during login
-
-        // If no user is logged in, set an error message in the session and redirect
-        if (!$userName) {
-            $session->setFlashdata('status', 'error');
-            $session->setFlashdata('message', 'User is not logged in.');
-            return redirect()->to('admin/login');  // Redirect to login or an appropriate page
-        }
         $request = service('request');
-        // Get data from the request
+
+        // Collect form data
         $data = [
             'progTitle' => $request->getPost('progTitle'),
             'targetGroup' => $request->getPost('targetGroup'),
@@ -192,66 +196,138 @@ class Admin extends BaseController
             'progDirector' => $request->getPost('progDirector'),
             'dealingAsstt' => $request->getPost('dealingAsstt'),
             'progPdf' => $request->getPost('progPdf'),
-            'attandancePdf' => $request->getPost('attandancePdf'),
+            'attendancePdf' => $request->getPost('attendancePdf'),
             'materialLink' => $request->getPost('materialLink'),
             'paymentdone' => $request->getPost('paymentdone'),
         ];
 
+        // Get the username from the session
+        $userName = session()->get('name');
+
+        if (!$userName) {
+            // Handle case if user is not logged in
+            session()->setFlashdata('error', 'User not logged in');
+            return redirect()->to('/dashboard');
+        }
+
+        // File Upload Configuration
+        $fileFields = ['progPdf', 'attendancePdf'];
+
+        // Upload paths for the files
+        $uploadPathProgramsPdf = ROOTPATH . 'uploads/programsPdf/';
+        $uploadPathAttendance = ROOTPATH . 'uploads/attendance/';
+
+        foreach ($fileFields as $field) {
+            // Get the file from the request
+            $file = $this->request->getFile($field);
+
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                // Get the original file name and extension
+                $originalFileName = $file->getClientName();
+                $fileExtension = $file->getExtension();
+
+                // Create the new file name by appending the username
+                // $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . $fileExtension . ' by ' . $userName . '.';
+
+                // Determine the folder path and move the file accordingly
+                if ($field == 'progPdf') {
+                    // Move the file to the "programsPdf" folder
+                    $file->move($uploadPathProgramsPdf, $newFileName);
+                    $data[$field] = 'uploads/programsPdf/' . $newFileName; // Save relative file path
+                    $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . $fileExtension . ' by ' . $userName . '.';
+                } elseif ($field == 'attendancePdf') {
+                    // Move the file to the "attendance" folder
+                    $file->move($uploadPathAttendance, $newFileName);
+                    $data[$field] = 'uploads/attendance/' . $newFileName; // Save relative file path
+                    $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . $fileExtension . ' by ' . $userName . '.';
+                }
+            }
+        }
+        // Save the collected data to the database
+        $programModel = new ProgramModel();
+        try {
+            // Attempt to save the details in the database
+            $result = $programModel->saveDetail($data);
+            session()->setFlashdata('success', 'Details Added successfully!');
+        } catch (\Exception $e) {
+            // Handle exceptions
+            session()->setFlashdata('error', $e->getMessage());
+        }
+
+        // Redirect to the dashboard after saving
+        return redirect()->to('admin/dashboard');
+    }*/
+    public function saveDetails()
+    {
+        $session = session();  // Get the session object
+        $userName = $session->get('name');  // Assuming 'name' is stored in the session during login
+
+        // If no user is logged in, set session error and redirect
+        if (!$userName) {
+            $session->setFlashdata('error', 'User is not logged in.');
+            return redirect()->to('admin/dashboard');  // Redirect to login page or wherever appropriate
+        }
+
+        // Get data from the request
+        $data = [
+            'progTitle' => $this->request->getPost('progTitle'),
+            'targetGroup' => $this->request->getPost('targetGroup'),
+            'date' => $this->request->getPost('date'),  // This should be in 'DD/MM/YYYY' format
+            'progDirector' => $this->request->getPost('progDirector'),
+            'dealingAsstt' => $this->request->getPost('dealingAsstt'),
+            'materialLink' => $this->request->getPost('materialLink'),
+            'paymentdone' => $this->request->getPost('paymentdone')
+        ];
+
         // Validate the required fields
         if (empty($data['progTitle']) || empty($data['targetGroup']) || empty($data['date']) || empty($data['progDirector']) || empty($data['dealingAsstt'])) {
-            $session->setFlashdata('status', 'error');
-            $session->setFlashdata('message', 'Please fill all required fields.');
-            return redirect()->to('admin/dashboard');  // Redirect back to the form page
+            $session->setFlashdata('error', 'Please fill all required fields.');
+            return redirect()->to('admin/dashboard');  // Redirect to the form page with error message
         }
 
-        // Handle file uploads (progPdf and attandancePdf) independently of paymentdone field
-        // Handle programme schedule PDF upload
-        $programfile = $this->request->getFile('progPdf');
-        // print_r($file); //run here
-        // die;
-        if ($programfile && $programfile->isValid()) {
-            $originalFileName = $programfile->getName();
-            $fileExtension = $programfile->getExtension();
+        // Handle file uploads if paymentdone is "yes"
+        if ($data['paymentdone'] == 'yes') {
+            // Handle programme schedule PDF upload
+            $file = $this->request->getFile('progPdf');
+            if ($file && $file->isValid()) {
+                $originalFileName = $file->getName();
+                $fileExtension = $file->getExtension();
 
-            // Concatenate the original file name with " by " and the username
-            $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . '.' . $fileExtension . ' by ' . $userName;
+                // Concatenate the original file name with " by " and the username
+                $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . '.' . $fileExtension . ' by ' . $userName;
 
-            // Move the file to the 'uploads/program_pdfs' directory with the new name
-            $programfile->move('uploads/programPdf', $newFileName);
-            $data['progPdf'] = $newFileName;  // Save the new file name in the database
-        } else {
-            $session->setFlashdata('error', 'Please upload a valid program schedule PDF.');
-            return redirect()->to('admin/dashboard');  // Redirect back to the form page
+                // Move the file to the 'uploads/programsPdf' directory with the new name
+                $file->move('uploads/programsPdf', $newFileName);
+                $data['progPdf'] = $newFileName;  // Save the new file name in the database
+            } else {
+                $session->setFlashdata('error', 'Please upload a valid programme schedule PDF.');
+                return redirect()->to('admin/dashboard');  // Redirect back to form if no file uploaded or invalid
+            }
+            // Handle attendance PDF upload
+            $attendanceFile = $this->request->getFile('attandancePdf');
+            if ($attendanceFile && $attendanceFile->isValid()) {
+                $originalAttendanceFileName = $attendanceFile->getName();
+                $attendanceFileExtension = $attendanceFile->getExtension();
+
+                // Concatenate the original file name with " by " and the username
+                $newAttendanceFileName = pathinfo($originalAttendanceFileName, PATHINFO_FILENAME) . '.' . $attendanceFileExtension . ' by ' . $userName;
+
+                // Move the file to the 'uploads/attendance' directory with the new name
+                $attendanceFile->move('uploads/attendance', $newAttendanceFileName);
+                $data['attandancePdf'] = $newAttendanceFileName;  // Save the new file name in the database
+            } else {
+                $session->setFlashdata('error', 'Please upload a valid attendance PDF.');
+                return redirect()->to('admin/dashboard');  // Redirect back to form if no file uploaded or invalid
+            }
         }
-
-        // Handle attendance PDF upload
-        $attendanceFile = $this->request->getFile('attandancePdf');
-        if ($attendanceFile && $attendanceFile->isValid()) {
-            $originalAttendanceFileName = $attendanceFile->getName();
-            $attendanceFileExtension = $attendanceFile->getExtension();
-
-            // Concatenate the original file name with " by " and the username
-            $newAttendanceFileName = pathinfo($originalAttendanceFileName, PATHINFO_FILENAME) . '.' . $attendanceFileExtension . ' by ' . $userName;
-
-            // Move the file to the 'uploads/attendance' directory with the new name
-            $attendanceFile->move('uploads/attendancePdf', $newAttendanceFileName);
-            $data['attandancePdf'] = $newAttendanceFileName;  // Save the new file name in the database
-        } else {
-            $session->setFlashdata('error', 'Please upload a valid attendance PDF.');
-            return redirect()->to('admin/dashboard');  // Redirect back to the form page
-        }
-
         // Save data into the database
         $programModel = new ProgramModel();
         $programModel->save($data);
 
-        // Set success message in the session and redirect back
-        $session->setFlashdata('success', 'Details added successfully');
-        return redirect()->to('admin/dashboard');  // Redirect back to the form page with success message
+        // Set success message in session and redirect
+        $session->setFlashdata('success', 'Details added successfully.');
+        return redirect()->to('admin/dashboard');  // Redirect to the list of programs or another relevant page
     }
-
-
-
     // delete details function
     public function delete($prog_id = null)
     {

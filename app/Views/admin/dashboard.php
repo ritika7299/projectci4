@@ -93,7 +93,7 @@
                                                         </td>
                                                         <td class="text-center text-capitalize text-wrap"
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <?php echo $key['attandancePdf']; ?>
+                                                            <?php echo $key['attendancePdf']; ?>
                                                         </td>
                                                         <td class="text-center text-capitalize"
                                                             style="word-wrap: break-word; white-space: normal;">
@@ -262,8 +262,8 @@
                                             <td style="width: 30%;"><label for="attandancePdf">Attendance in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="attandancePdf"
-                                                    name="attandancePdf">
+                                            <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
+                                                    name="attendancePdf">
                                             </td>
                                         </tr>
                                         <tr>

@@ -18,40 +18,40 @@ class ProgramModel extends Model
         'progDirector',
         'dealingAsstt',
         'progPdf',
-        'attandancePdf',
+        'attendancePdf',
         'materialLink',
         'paymentdone'
     ];
     protected $useTimestamps = true;
 
     // Method to save the data
-    public function saveDetail($data)
-    {
-        // print_r('hello');
-        // die;
-        try {
-            // Insert data into the table
-            if ($this->insert($data)) {
-                return [
-                    'status' => true,
-                    'message' => 'Data saved successfully',
-                ];
-            } else {
-                return [
-                    'status' => false,
-                    'message' => 'Failed to save data',
-                    'errors' => $this->errors() // Capture validation or database errors
-                ];
-            }
-        } catch (\Exception $e) {
-            // Catch and return any exception that occurs during the operation
-            return [
-                'status' => false,
-                'message' => 'An error occurred while saving data',
-                'error_detail' => $e->getMessage(),
-            ];
-        }
-    }
+    // public function saveDetail($data)
+    // {
+    //     // print_r('hello');
+    //     // die;
+    //     try {
+    //         // Insert data into the table
+    //         if ($this->insert($data)) {
+    //             return [
+    //                 'status' => true,
+    //                 'message' => 'Data saved successfully',
+    //             ];
+    //         } else {
+    //             return [
+    //                 'status' => false,
+    //                 'message' => 'Failed to save data',
+    //                 'errors' => $this->errors() // Capture validation or database errors
+    //             ];
+    //         }
+    //     } catch (\Exception $e) {
+    //         // Catch and return any exception that occurs during the operation
+    //         return [
+    //             'status' => false,
+    //             'message' => 'An error occurred while saving data',
+    //             'error_detail' => $e->getMessage(),
+    //         ];
+    //     }
+    // }
 
     // public function updateDetail($data)
     // {
