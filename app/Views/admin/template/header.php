@@ -24,6 +24,8 @@
 
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url("../public/assets/build/css/custom.min.css"); ?>" rel="stylesheet" />
+    <!-- sweetalert css file -->
+    <link href="<?php echo base_url("../public/assets/build/css/sweetalert2.min.css"); ?>" rel="stylesheet" />
     <!-- css by ritika -->
     <style>
         .table-responsive {

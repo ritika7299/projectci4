@@ -25,93 +25,81 @@ class ProgramModel extends Model
     protected $useTimestamps = true;
 
     // Method to save the data
-    // public function saveDetail($data)
-    // {
-    //     // print_r('hello');
-    //     // die;
-    //     try {
-    //         // Insert data into the table
-    //         if ($this->insert($data)) {
-    //             return [
-    //                 'status' => true,
-    //                 'message' => 'Data saved successfully',
-    //             ];
-    //         } else {
-    //             return [
-    //                 'status' => false,
-    //                 'message' => 'Failed to save data',
-    //                 'errors' => $this->errors() // Capture validation or database errors
-    //             ];
-    //         }
-    //     } catch (\Exception $e) {
-    //         // Catch and return any exception that occurs during the operation
-    //         return [
-    //             'status' => false,
-    //             'message' => 'An error occurred while saving data',
-    //             'error_detail' => $e->getMessage(),
-    //         ];
-    //     }
-    // }
+    public function saveDetail($data)
+    {
+        // print_r('hello');
+        // die;
+        try {
+            // Insert data into the table
+            if ($this->insert($data)) {
+                return [
+                    'status' => true,
+                    'message' => 'Data saved successfully',
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => 'Failed to save data',
+                    'errors' => $this->errors() // Capture validation or database errors
+                ];
+            }
+        } catch (\Exception $e) {
+            // Catch and return any exception that occurs during the operation
+            return [
+                'status' => false,
+                'message' => 'An error occurred while saving data',
+                'error_detail' => $e->getMessage(),
+            ];
+        }
+    }
+    // delete details function 
+    public function deleteDetails($prog_id)
+    {
+        // Check if the record exists
+        $program = $this->find($prog_id);
 
-    // public function updateDetail($data)
-    // {
+        if ($program) {
+            // If the record exists, delete it
+            return $this->delete($prog_id);
+        }
 
-
-    //     // print_r("sameer");
-    //     // die;
-    //     // alert($data);die;
-    //     try {
-    //         // Ensure 'id' is provided for updating
-    //         if (!isset($data['prog_id'])) {
-    //             return [
-    //                 'status' => false,
-    //                 'message' => 'Missing record ID for update',
-    //             ];
-    //         }
-
-    //         // Update data in the table
-    //         if ($this->update($data['prog_id'], $data)) {
-    //             return [
-    //                 'status' => true,
-    //                 'message' => 'Data updated successfully',
-    //             ];
-    //         } else {
-    //             // Log validation errors
-    //             log_message('error', 'Failed to update data: ' . json_encode($this->errors()));
-
-    //             return [
-    //                 'status' => false,
-    //                 'message' => 'Failed to update data',
-    //                 'errors' => $this->errors(),
-    //             ];
-    //         }
-    //     } catch (\Exception $e) {
-    //         // Log exception
-    //         log_message('critical', 'Database Update Error: ' . $e->getMessage());
-
-    //         return [
-    //             'status' => false,
-    //             'message' => 'An error occurred while updating data',
-    //             'error_detail' => $e->getMessage(),
-    //         ];
-    //     }
-    // }
-
-
+        // Return false if the record does not exist
+        return false;
+    }
+    // get user details 
     public function get_user_details($prog_id)
     {
-        $query = "select * from programme_info where prog_id='$prog_id' ";
-        print_r($query);
+        // print_r($prog_id);die;
+        $query = "select prog_id, progTitle,targetGroup,date,progDirector,dealingAsstt,materialLink,paymentdone from programme_info where prog_id = '$prog_id'";
+        // print_r($query);
         // die;
-
-
         $result = $this->db->query($query);
+        // print_r($result);die;
         if ($result) {
             return $result->getResultArray();
+        } else {
+            return false;
         }
-        // return $this->db->table('programme_info')
-        //     ->where('prog_id', $prog_id)
-        //     ->update($data);
+    }
+
+    // update form details 
+    public function updateDetailsModel($data, $id)
+    {
+        // print_r($data);
+        // print_r($id);
+        // die;
+
+        $query = $this->db->table('projectci4.programme_info');
+        $query->where('prog_id', $id);
+        $query->update($data);
+
+        // $query->insert($userdata);
+        // print_r($query);die;
+        if ($query) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }
 

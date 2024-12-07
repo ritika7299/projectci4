@@ -2,62 +2,24 @@
 <?php include('template/header.php'); ?>
 <div class="right_col" role="main">
     <div class="">
-        <div class="row" style="display: inline-block;width:fixed">
+        <div class="row" style="display: inline-block">
             <!-- main content -->
             <div class="col-md-12 col-lg-12">
                 <div class="x_panel">
-                    <!-- show success and error messages through SweetAlert -->
                     <div class="title float-right mb-2 mt-2" id="flashMessage">
                         <?php if (session()->getFlashdata('success')): ?>
-                            <!-- Success message in SweetAlert -->
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        text: '<?= addslashes(session()->getFlashdata('success')) ?>',
-                                        timer: 2000,
-                                        showConfirmButton: false,  // Hide the OK button
-                                        willClose: () => { // Optional: you can add any additional actions when the alert closes
-                                            // You can do something after the alert closes, like redirecting
-                                        }
-                                    });
-                                });
-                            </script>
+                            <span class="alert alert-success">
+                                <?= session()->getFlashdata('success') ?>
+                            </span>
                         <?php endif; ?>
-
                         <?php if (session()->getFlashdata('error')): ?>
-                            <!-- Error message in SweetAlert -->
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        text: '<?= addslashes(session()->getFlashdata('error')) ?>',
-                                        timer: 2000,
-                                        showConfirmButton: false,  // Hide the OK button
-                                        willClose: () => { // Optional: you can add any additional actions when the alert closes
-                                            // You can do something after the alert closes, like redirecting
-                                        }
-                                    });
-                                });
-                            </script>
+                            <span class="alert alert-danger">
+                                <?= session()->getFlashdata('error') ?>
+                            </span>
                         <?php endif; ?>
                     </div>
-
-                    <!-- success and error messages  -->
-                    <!-- <div class="title float-right mb-2 mt-2" id="flashMessage">
-                        <?php //if (session()->getFlashdata('success')): ?>
-                            <span class="alert alert-success"><i class="fa fa-check"></i>
-                                <?//= session()->getFlashdata('success') ?>
-                            </span>
-                        <?php //endif; ?>
-                        <?php //if (session()->getFlashdata('error')): ?>
-                            <span class="alert alert-danger"><i class="fa fa-warning"></i>
-                                <?//= session()->getFlashdata('error') ?>
-                            </span>
-                        <?php //endif; ?>
-                    </div> -->
                     <div class="mb-1">
-                        <div class="add-details mt-1">
+                        <div class="add-details mt-5">
                             <button type="submit" class="btn btn-primary float-right mt-0 mb-0" data-toggle="modal"
                                 data-target="#addDetailsModal">
                                 Add Details <i class="fa fa-plus-circle"></i>
@@ -72,10 +34,10 @@
                     <div class="x_content">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="fixed">
+                                <div class="">
                                     <table id="datatable-responsive"
-                                        class="table table-striped table-bordered dt-responsive nowrap datatable-responsive"
-                                        cellspacing="0" width="100%">
+                                        class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0"
+                                        width="100%">
                                         <thead class="text-center mt-0">
                                             <tr>
                                                 <th class="text-center" style="width:10%;">#</th>
@@ -127,40 +89,26 @@
                                                         </td>
                                                         <td class="text-center text-capitalize text-wrap"
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <?php echo $key['progPdf'] . ' - by ' . $_SESSION['name']; ?>
+                                                            <?php echo $key['progPdf']; ?>
                                                         </td>
                                                         <td class="text-center text-capitalize text-wrap"
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <?php echo $key['attendancePdf'] . ' - by ' . $_SESSION['name']; ?>
+                                                            <?php echo $key['attandancePdf']; ?>
                                                         </td>
-                                                        <!-- <td class="text-center text-capitalize text-wrap"
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <?php //echo $key['progPdf']; ?>
-                                                        </td>
-                                                        <td class="text-center text-capitalize text-wrap"
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <?php //echo $key['attendancePdf']; ?>
-                                                        </td> -->
                                                         <td class="text-center text-capitalize"
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <a href="<?php echo $key['materialLink']; ?>" target="_blank">
                                                                 <?php echo $key['materialLink']; ?>
                                                             </a>
                                                         </td>
-                                                        <!-- <td class="text-center text-capitalize"
-                                                            style="word-wrap: break-word; white-space: normal;"> -->
-                                                        <!-- <a href="<?php //echo $key['']; ?>" target="_blank">
-                                                                <?php //echo $key['']; ?>
-                                                            </a> -->
-                                                        <!-- <i class="fa fa-eye"></i>
-                                                        </td> -->
+
                                                         <td
                                                             class="text-center text-capitalize text-wrap 
                                                         <?php echo ($key['paymentdone'] == 'yes') ? 'text-success' : 'text-danger'; ?>">
                                                             <?php echo ucfirst($key['paymentdone']); ?>
                                                         </td>
+
                                                         <td class="">
-                                                            <!-- edit and delete actions -->
                                                             <div
                                                                 class="row d-flex justify-content-between align-items-start w-100">
                                                                 <!-- edit details-->
@@ -172,8 +120,8 @@
                                                                     </a>
                                                                     <div class="dropdown-menu"
                                                                         aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item text-dark edit_btn"
-                                                                            id="edit_btn" href="#" data-toggle="modal"
+                                                                        <a class="dropdown-item text-dark edit_btn" id=""
+                                                                            href="#" data-toggle="modal"
                                                                             data-target="#editDetailsModal"
                                                                             data-id="<?php echo $key['prog_id']; ?>"
                                                                             value="<?php echo $key['prog_id']; ?>"
@@ -181,15 +129,15 @@
                                                                             <i class="fa fa-edit"></i> Edit
                                                                             Details
                                                                         </a>
-                                                                        <a class="dropdown-item text-dark" href="#"
+                                                                        <a class="dropdown-item text-dark" id="" href="#"
                                                                             data-toggle="modal"
-                                                                            data-target="#edit_program_pdf_Modal">
+                                                                            data-target="#editProgScheduleModal">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit Prog.
                                                                             Schedule(pdf)
                                                                         </a>
                                                                         <a class="dropdown-item text-dark" href="#"
                                                                             data-toggle="modal"
-                                                                            data-target="#edit_attendance_pdf_Modal">
+                                                                            data-target="#EditAttendanceModel">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit
                                                                             Attendance(pdf)
                                                                         </a>
@@ -199,14 +147,6 @@
                                                                         </a>
                                                                     </div>
                                                                 </div>
-                                                                <!-- Trigger Button -->
-                                                                <!-- <div class="update-details ml-2 mr-3">
-                                                                    <a href="#" data-toggle="modal" data-target="#updateModal"
-                                                                        data-id="<?php //echo $key['prog_id']; ?>">
-                                                                        <i class="fa fa-edit text-primary fa-lg update-btn"
-                                                                            name="prog_id"></i>
-                                                                    </a>
-                                                                </div> -->
                                                                 <div class="delete-details ml-2 mr-3">
                                                                     <a
                                                                         href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
@@ -241,7 +181,7 @@
                 aria-labelledby="addDetailsModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
+                        <div class="modal-header bg-primary">
                             <h5 class="modal-title text-white" id="addDetailsModalLabel">Add Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -308,8 +248,8 @@
                                             <td style="width: 30%;"><label for="attandancePdf">Attendance in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
-                                                    name="attendancePdf">
+                                            <td><input type="file" class="mt-2 text-primary" id="attandancePdf"
+                                                    name="attandancePdf">
                                             </td>
                                         </tr>
                                         <tr>
@@ -328,13 +268,14 @@
                                                 </select>
                                             </td>
                                         </tr>
+                                        <tr></tr>
                                     </table>
 
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="save_add_Button"
-                                style="background-color: #2A3F54;">Save <i class="fa fa-paper-plane"></i>
+                            <button type="submit" class="btn btn-primary" id="save_add_Button">Save <i
+                                    class="fa fa-paper-plane"></i>
                             </button>
                             <?php echo form_close(); ?>
                         </div>
@@ -342,12 +283,12 @@
                 </div>
             </div>
             <!-- /end add details modal  -->
-            <!--edit details modal  -->
+            <!--update or edit modal  -->
             <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog"
                 aria-labelledby="editDetailsModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
+                        <div class="modal-header bg-primary">
                             <h5 class="modal-title text-white" id="editDetailsModalLabel">Edit Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -427,6 +368,7 @@
                                             <td style="width: 30%;"><label for="materialLink">Reading Material
                                                     Link</label>
                                             </td>
+
                                             <td><input type="text" class="form-control" id="materialLink_666"
                                                     name="materialLink" value="" placeholder=""></td>
                                             <!-- <input class="form-control" id="materialLink_666" name="materialLink"></td> -->
@@ -447,69 +389,74 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="edit_Button"
-                                style="background-color: #2A3F54;">Edit Details <i class="fa fa-paper-plane"></i>
+                            <button type="submit" class="btn btn-primary" id="edit_Button">Edit Details <i
+                                    class="fa fa-paper-plane"></i>
                             </button>
                             <?php echo form_close(); ?>
                         </div>
-
                     </div>
                 </div>
             </div>
-            <!--/end edit details modal -->
-            <!-- edit Program(pdf) details modal -->
-            <!-- <div class="modal fade" id="edit_program_pdf_Modal" tabindex="-1" role="dialog"
-                aria-labelledby="editProgramPdfModalLabel" aria-hidden="true">
+            <!--/update modal Structure -->
+            <!--update or edit Programme Schedule modal  -->
+            <div class="modal fade" id="editProgScheduleModal" tabindex="-1" role="dialog"
+                aria-labelledby="editProgScheduleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="editProgramPdfModalLabel">Edit Program Schedule PDF
-                                <i class="fa fa-file-pdf-o"></i>
-                            </h5>
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white" id="editProgScheduleModalLabel">Edit Program Schedule
+                                Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-area custom-background">
-                                <form id="edit_form_details" action="<?php //echo base_url(''); ?>" method="POST">
+                                <form id="ProgSchedule_form_details"
+                                    action="<?php echo base_url('/admin/updateProgSchedule'); ?>" method="POST">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
-                                            <td><input type="text" class="form-control" id="progTitle" name="progTitle"
-                                                    value="Demo" placeholder=""></td>
+                                            <td><input type="text" class="form-control" id="progTitle_666"
+                                                    name="progTitle_edit" value="" placeholder=""></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="progPdf">Programme Schedule in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="progPdf"
-                                                    name="progPdf">
+                                            <td><input type="file" class="mt-2 text-primary" id="progPdf_666"
+                                                    name="progPdf_edit">
                                             </td>
                                         </tr>
+                                        <!-- <tr>
+                                            <td style="width: 30%;"><label for="attandancePdf">Attendance in
+                                                    PDF</label>
+                                            </td>
+                                            <td><input type="file" class="mt-2 text-primary" id="attandancePdf"
+                                                    name="attandancePdf">
+                                            </td>
+                                        </tr> -->
                                     </table>
 
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="edit_Button"
-                                style="background-color: #2A3F54;">Update <i class="fa fa-paper-plane"></i>
+                            <button type="submit" class="btn btn-primary" data-id="123" id="edit_Button">Save <i
+                                    class="fa fa-paper-plane"></i>
                             </button>
                             <?php echo form_close(); ?>
                         </div>
-
                     </div>
                 </div>
-            </div> -->
-            <!-- /end program (pdf)  -->
-            <!-- edit attendance(pdf) details modal -->
-            <!-- <div class="modal fade" id="edit_attendance_pdf_Modal" tabindex="-1" role="dialog"
-                aria-labelledby="editAttendancePdfModalLabel" aria-hidden="true">
+            </div>
+            <!--/update modal Structure -->
+            <!--update or edit Programme Schedule modal  -->
+            <div class="modal fade" id="EditAttendanceModel" tabindex="-1" role="dialog"
+                aria-labelledby="EditAttendanceModelLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="editAttendancePdfModalLabel">Edit Attendance PDF
-                                <i class="fa fa-file-pdf-o"></i>
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white" id="EditAttendanceModelLabel">Edit Attendance Details
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -517,70 +464,77 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-area custom-background">
-                                <form id="edit_form_details" action="<?php //echo base_url(''); ?>" method="POST">
+                                <form id="ProgSchedule_form_details"
+                                    action="<?php echo base_url('/admin/updateAttendance'); ?>" method="POST">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
-                                            <td><input type="text" class="form-control" id="progTitle" name="progTitle"
-                                                    value="Demo" placeholder=""></td>
+                                            <td><input type="text" class="form-control" id="progTitle_666"
+                                                    name="progTitle_edit" value="" placeholder=""></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="attandancePdf">Attendance in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
-                                                    name="attendancePdf">
+                                            <td><input type="file" class="mt-2 text-primary" id="attandancePdf"
+                                                    name="attandancePdf">
                                             </td>
                                         </tr>
                                     </table>
+
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="edit_Button"
-                                style="background-color: #2A3F54;">Update <i class="fa fa-paper-plane"></i>
+                            <button type="submit" class="btn btn-primary" data-id="123" id="edit_Button">Save <i
+                                    class="fa fa-paper-plane"></i>
                             </button>
                             <?php echo form_close(); ?>
-                        </div>
-
-                    </div>
-                </div>
-            </div> -->
-            <!-- /end program (pdf)  -->
-            <!-- lock Pdf modal -->
-            <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color: #d9534f;">
-                            <h5 class="modal-title text-white" id="lockPdfModalLabel">Lock PDF</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="text-center text-danger">
-                                <strong>Are you sure you want to lock this PDF?</strong>
-                            </p>
-                            <p class="text-center text-muted">
-                                Once locked, the PDF cannot be modified or changed.
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" id="confirmLockButton">Lock PDF</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /lock Pdf modal -->
+            <!--/update modal Structure -->
         </div>
 
-
+        <!--lock Pdf modal modal  -->
+        <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #d9534f;">
+                        <h5 class="modal-title text-white" id="lockPdfModalLabel">locked PDF Files</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center text-danger">
+                            <strong>Are you sure you want to lock this PDF?</strong>
+                        </p>
+                        <p class="text-center text-muted">
+                            Once locked, the PDF cannot be modified or changed.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" data-id="123">Lock PDF</button>
+                        <?php echo form_close(); ?>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-id="123" id="lock_Button">LOCKED PDF<i
+                                class="fa fa-paper-plane"></i>
+                        </button>
+                       
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!--/update modal Structure -->
     </div>
 </div>
 </div>
-<!-- JQUERY.MIN.JS v-3.7.1 created by ritika  -->
-<script src="<?php echo base_url("../public/assets/build/js/jquery.min.js"); ?>"></script>
+<!-- update details ajax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 
     $(".edit_btn").click(function () {
@@ -624,10 +578,12 @@
                 console.log(data);
             }
         }).done(function (data) {
+
         });
     });
 
 </script>
+
 
 
 <?php include('template/footer.php'); ?>
