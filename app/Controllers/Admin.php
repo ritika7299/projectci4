@@ -2,6 +2,8 @@
 namespace App\Controllers;
 use App\Models\AdminModel;
 use App\Models\ProgramModel;
+
+use App\Libraries\Pdf;
 class Admin extends BaseController
 {
     protected $programModel;
@@ -125,52 +127,19 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'User not logged in');
             return redirect()->to('/dashboard');
         }
-
-        // File Upload Configuration
-        // $fileFields = ['progPdf', 'attandancePdf'];
-        // $uploadPathProgramsPdf = WRITEPATH . 'uploads/programs_pdf/';
-        // $uploadPathAttendance = WRITEPATH . 'uploads/attendance_pdf/';
-        // helper(['form', 'filesystem']);
-
-        // foreach ($fileFields as $field) {
-        //     $file = $this->request->getFile($field);
-
-        //     if ($file && $file->isValid() && !$file->hasMoved()) {
-        //         $originalFileName = $file->getClientName();  // Get the original file name
-        //         $fileExtension = $file->getExtension();  // Get the file extension
-
-        //         // Create the new file name by appending the logged-in user's name (i.e., 'by john')
-        //         // We use pathinfo to get the original file name without the extension
-        //         $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . ' by ' . $userName . '.' . $fileExtension;
-
-        //         // Determine the correct path based on the field and move the file
-        //         if ($field == 'progPdf') {
-        //             // Move the program PDF file to the specified directory and save the relative path
-        //             $file->move($uploadPathProgramsPdf, $newFileName);
-        //             $data[$field] = 'uploads/programs_pdf/' . $newFileName; // Save relative file path
-        //         } elseif ($field == 'attandancePdf') {
-        //             // Move the attendance PDF file to the specified directory and save the relative path
-        //             $file->move($uploadPathAttendance, $newFileName);
-        //             $data[$field] = 'uploads/attendance_pdf/' . $newFileName; // Save relative file path
-        //         }
-        //     }
-        // }
-
         // Save data to the database using the model
         $programmeModel = new ProgramModel();
         try {
             // Attempt to save the details in the database
             $result = $programmeModel->saveDetail($data);
-            session()->setFlashdata('success', 'Details Added successfully!');
+            session()->setFlashdata('success', 'Added details successfully!');
         } catch (\Exception $e) {
             // Handle exceptions
             session()->setFlashdata('error', $e->getMessage());
         }
-
         // Redirect to the dashboard after saving
         return redirect()->to('admin/dashboard');
     }
-
     //delete details function 
     public function delete($prog_id = null)
     {
@@ -180,24 +149,21 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'No program ID provided.');
             return redirect()->to(base_url('admin/dashboard'));
         }
-
         // Initialize the model
         $model = new ProgramModel();
 
         // Attempt to delete the record via the model
         if ($model->deleteDetails($prog_id)) {
             // Set success message
-            session()->setFlashdata('success', 'Details deleted successfully.');
+            session()->setFlashdata('success', 'Deleted details successfully.');
         } else {
             // Set error message
             session()->setFlashdata('error', 'Error deleting program. It may not exist.');
         }
-
         // Redirect back to the dashboard
         return redirect()->to(base_url('admin/dashboard'));
     }
     // get user details function
-
     public function getRecord()
     {
         // print_r("hh");
@@ -253,7 +219,7 @@ class Admin extends BaseController
         try {
             // Attempt to save the details in the database
             $result = $programModel->updateDetailsModel($data, $id);
-            session()->setFlashdata('success', 'Details Update successfully!');
+            session()->setFlashdata('success', 'Update details successfully!');
         } catch (\Exception $e) {
             // Handle exceptions
             session()->setFlashdata('error', $e->getMessage());
@@ -262,8 +228,6 @@ class Admin extends BaseController
         // Redirect to the dashboard after saving
         return redirect()->to('admin/dashboard');
     }
-
-
     // Admin logout function
     public function logout()
     {

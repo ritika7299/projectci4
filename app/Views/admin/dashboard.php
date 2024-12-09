@@ -24,7 +24,6 @@
                                 });
                             </script>
                         <?php endif; ?>
-
                         <?php if (session()->getFlashdata('error')): ?>
                             <!-- Error message in SweetAlert -->
                             <script>
@@ -42,7 +41,6 @@
                             </script>
                         <?php endif; ?>
                     </div>
-
                     <!-- success and error messages  -->
                     <!-- <div class="title float-right mb-2 mt-2" id="flashMessage">
                         <?php //if (session()->getFlashdata('success')): ?>
@@ -148,11 +146,12 @@
                                                             </a>
                                                         </td>
                                                         <!-- <td class="text-center text-capitalize"
-                                                            style="word-wrap: break-word; white-space: normal;"> -->
-                                                        <!-- <a href="<?php //echo $key['']; ?>" target="_blank">
+                                                            style="word-wrap: break-word; white-space: normal;">
+                                                            <a href="#" data-toggle="modal" data-target="#user_images_modal">
                                                                 <?php //echo $key['']; ?>
-                                                            </a> -->
-                                                        <!-- <i class="fa fa-eye"></i>
+                                                                <span class="text-danger">view
+                                                                    images</span>
+                                                            </a>
                                                         </td> -->
                                                         <td
                                                             class="text-center text-capitalize text-wrap 
@@ -223,9 +222,7 @@
                                                     <td colspan="11" class="text-center text-danger">No Data Found
                                                     </td>
                                                 </tr>
-
                                             <?php } ?>
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -300,8 +297,8 @@
                                             <td style="width: 30%;"><label for="progPdf">Programme Schedule in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="progPdf"
-                                                    name="progPdf">
+                                            <td><input type="file" class="mt-2 text-primary" id="progPdf" name="progPdf"
+                                                    accept=".pdf" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -309,7 +306,7 @@
                                                     PDF</label>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
-                                                    name="attendancePdf">
+                                                    name="attendancePdf" accept=".pdf" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -342,7 +339,7 @@
                 </div>
             </div>
             <!-- /end add details modal  -->
-            <!--edit details modal  -->
+            <!--update or edit details modal  -->
             <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog"
                 aria-labelledby="editDetailsModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -456,7 +453,7 @@
                     </div>
                 </div>
             </div>
-            <!--/end edit details modal -->
+            <!--/end update or edit details modal -->
             <!-- edit Program(pdf) details modal -->
             <!-- <div class="modal fade" id="edit_program_pdf_Modal" tabindex="-1" role="dialog"
                 aria-labelledby="editProgramPdfModalLabel" aria-hidden="true">
@@ -472,7 +469,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-area custom-background">
-                                <form id="edit_form_details" action="<?php //echo base_url(''); ?>" method="POST">
+                                <form id="edit_form_details" action="<?php //echo base_url('/admin/edit_prog_schedule_pdf'); ?>" method="POST">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
@@ -517,7 +514,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-area custom-background">
-                                <form id="edit_form_details" action="<?php //echo base_url(''); ?>" method="POST">
+                                <form id="edit_form_details" action="<?php //echo base_url('/admin/edit_attendance_pdf'); ?>" method="POST">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
@@ -573,9 +570,42 @@
                 </div>
             </div>
             <!-- /lock Pdf modal -->
+            <!-- user images modal  -->
+            <!-- <div class="modal fade" id="user_images_modal" tabindex="-1" role="dialog"
+                aria-labelledby="UserImagesModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #2A3F54;">
+                            <h5 class="modal-title text-white" id="UserImagesModalLabel">User Images</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="images-area">
+                                <div class="row d-flex">
+                                    <div class="col-md-3">
+                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
+                                    </div>
+                                </div>
+                                <div class="row d-flex">
+                                    <div class="col-md-3">
+                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- /end user images modal -->
         </div>
-
-
     </div>
 </div>
 </div>

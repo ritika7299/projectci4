@@ -67,7 +67,7 @@
 <script src="<?php echo base_url("../public/assets/build/js/custom.min.js"); ?>"></script>
 <!-- sweetalert js file -->
 <script src="<?php echo base_url("../public/assets/build/js/sweetalert2.min.js"); ?>"></script>
-<!-- <script src="<?php //echo base_url("../public/assets/build/js/jquery.min.js"); ?>"></script> -->
+
 </body>
 
 </html>
