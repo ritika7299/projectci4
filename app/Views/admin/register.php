@@ -71,13 +71,13 @@
                                 Submit <i class="fa fa-paper-plane"></i>
                             </button>
                         </div>
-                        <div class="separator">
+                        <!-- <div class="separator">
                             <p class="change_link text-primary">
                                 Already have an account?
-                                <a href="<?php echo base_url('/'); ?>" class="to_register"> Login </a>
+                                <a href="<?php //echo base_url('/'); ?>" class="to_register"> Login </a>
                             </p>
                             <br />
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </section>

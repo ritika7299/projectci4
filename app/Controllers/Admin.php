@@ -101,8 +101,6 @@ class Admin extends BaseController
         $data['prog_data'] = $programmeInfo;
         return view('admin/dashboard', $data); // Pass formatted data to the view
     }
-
-
     // save details function
     public function saveDetails()
     {
@@ -141,7 +139,6 @@ class Admin extends BaseController
         // Redirect to the dashboard after saving
         return redirect()->to('admin/dashboard');
     }
-
     //delete details function 
     public function delete($prog_id = null)
     {

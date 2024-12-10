@@ -6,41 +6,7 @@
             <!-- main content -->
             <div class="col-md-12 col-lg-12">
                 <div class="x_panel">
-                    <!-- show success and error messages through SweetAlert -->
-                    <div class="title float-right mb-2 mt-2" id="flashMessage">
-                        <?php if (session()->getFlashdata('success')): ?>
-                            <!-- Success message in SweetAlert -->
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        text: '<?= addslashes(session()->getFlashdata('success')) ?>',
-                                        timer: 2000,
-                                        showConfirmButton: false,  // Hide the OK button
-                                        willClose: () => { // Optional: you can add any additional actions when the alert closes
-                                            // You can do something after the alert closes, like redirecting
-                                        }
-                                    });
-                                });
-                            </script>
-                        <?php endif; ?>
-                        <?php if (session()->getFlashdata('error')): ?>
-                            <!-- Error message in SweetAlert -->
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        text: '<?= addslashes(session()->getFlashdata('error')) ?>',
-                                        timer: 2000,
-                                        showConfirmButton: false,  // Hide the OK button
-                                        willClose: () => { // Optional: you can add any additional actions when the alert closes
-                                            // You can do something after the alert closes, like redirecting
-                                        }
-                                    });
-                                });
-                            </script>
-                        <?php endif; ?>
-                    </div>
+
                     <!-- success and error messages  -->
                     <!-- <div class="title float-right mb-2 mt-2" id="flashMessage">
                         <?php //if (session()->getFlashdata('success')): ?>
@@ -76,15 +42,15 @@
                                         cellspacing="0" width="100%">
                                         <thead class="text-center mt-0">
                                             <tr>
-                                                <th class="text-center" style="width:10%;">#</th>
+                                                <th class="text-center" style="width:5%;">#</th>
                                                 <th class="text-center" style="width:20%;">Programme<br>
                                                     Title</th>
-                                                <th class="text-center" style="width:15%;">Target<br>
+                                                <th class="text-center" style="width:10%;">Target<br>
                                                     Group</th>
-                                                <th class="text-center" style="width:15%;">Date</th>
-                                                <th class="text-center" style="width:15%;">Programme<br>
+                                                <th class="text-center" style="width:10%;">Date</th>
+                                                <th class="text-center" style="width:10%;">Programme<br>
                                                     Director</th>
-                                                <th class="text-center" style="width:15%;">Dealing<br>
+                                                <th class="text-center" style="width:12%;">Dealing<br>
                                                     Assitant</th>
                                                 <th class="text-center" style="width:25%;">Programme<br>
                                                     Schedule<br>
@@ -94,8 +60,8 @@
                                                 <th class="text-center" style="width:25%;">Reading<br>
                                                     matrial</th>
 
-                                                <th class="text-center" style="width:15%;">Payment Done</th>
-                                                <th class="text-center" style="width:25%;">Action</th>
+                                                <th class="text-center" style="width:10%;">Payment Done</th>
+                                                <th class="text-center" style="width:10%;">Action</th>
                                             </tr>
                                         </thead>
                                         <?php $i = 1;
@@ -122,22 +88,18 @@
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php echo $key['dealingAsstt']; ?>
                                                         </td>
+                                                        <!-- Programme PDF Link with Username -->
                                                         <td class="text-center text-capitalize text-wrap"
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <?php echo $key['progPdf'] . ' - by ' . $_SESSION['name']; ?>
+                                                            <a href="<?= base_url($key['progPdf']); ?>"
+                                                                target="_blank"><?= basename($key['progPdf']); ?></a>
                                                         </td>
+                                                        <!-- Attendance PDF Link with Username -->
                                                         <td class="text-center text-capitalize text-wrap"
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <?php echo $key['attendancePdf'] . ' - by ' . $_SESSION['name']; ?>
+                                                            <a href="<?= base_url($key['attendancePdf']); ?>"
+                                                                target="_blank"><?= basename($key['attendancePdf']); ?></a>
                                                         </td>
-                                                        <!-- <td class="text-center text-capitalize text-wrap"
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <?php //echo $key['progPdf']; ?>
-                                                        </td>
-                                                        <td class="text-center text-capitalize text-wrap"
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <?php //echo $key['attendancePdf']; ?>
-                                                        </td> -->
                                                         <td class="text-center text-success"
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <a href="<?php echo $key['materialLink']; ?>" target="_blank">
@@ -150,19 +112,19 @@
                                                             <?php echo ucfirst($key['paymentdone']); ?>
                                                         </td>
                                                         <td class="">
-                                                            <!-- edit and delete actions -->
-                                                            <div
-                                                                class="row d-flex justify-content-between align-items-start w-100">
-                                                                <!-- edit details-->
-                                                                <div role="presentation" class="dropdown ml-4">
+                                                            <!-- actions -->
+                                                            <div class="row d-flex">
+                                                                <!-- edit and delete details action-->
+                                                                <div role="presentation" class="dropdown">
                                                                     <a id="drop5" href="#" class="#" data-toggle="dropdown"
                                                                         aria-haspopup="true" role="button"
                                                                         aria-expanded="false">
                                                                         <i class="fa fa-bars fa-lg text-primary"></i>
                                                                     </a>
-                                                                    <div class="dropdown-menu"
+                                                                    <!-- edit details  -->
+                                                                    <div class="dropdown-menu mr-5 "
                                                                         aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item text-dark edit_btn"
+                                                                        <a class="dropdown-item text-danger edit_btn"
                                                                             id="edit_btn" href="#" data-toggle="modal"
                                                                             data-target="#editDetailsModal"
                                                                             data-id="<?php echo $key['prog_id']; ?>"
@@ -171,26 +133,29 @@
                                                                             <i class="fa fa-edit"></i> Edit
                                                                             Details
                                                                         </a>
-                                                                        <a class="dropdown-item text-dark" href="#"
+                                                                        <!-- edit prog. Schedule pdf -->
+                                                                        <a class="dropdown-item text-danger" href="#"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_program_pdf_Modal">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit Prog.
                                                                             Schedule(pdf)
                                                                         </a>
-                                                                        <a class="dropdown-item text-dark" href="#"
+                                                                        <!-- edit attendance Schedule pdf -->
+                                                                        <a class="dropdown-item text-danger" href="#"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_attendance_pdf_Modal">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit
                                                                             Attendance(pdf)
                                                                         </a>
-                                                                        <a class="dropdown-item text-dark" href="#"
+                                                                        <!-- lock pdf details -->
+                                                                        <a class="dropdown-item text-danger" href="#"
                                                                             data-toggle="modal" data-target="#lockPdfModal">
-                                                                            <i class="fa fa-lock"></i> Lock (pdf)
+                                                                            <i class="fa fa-lock"></i> Lock Details
                                                                         </a>
-                                                                        <!-- for delete details -->
-                                                                        <a class="dropdown-item text-dark"
+                                                                        <!-- delete details -->
+                                                                        <a class="dropdown-item text-danger"
                                                                             href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
-                                                                            <i class="fa fa-trash fa-lg delete-btn"
+                                                                            <i class="fa fa-trash delete-btn"
                                                                                 name="prog_id"></i> Delete details
                                                                         </a>
                                                                     </div>
