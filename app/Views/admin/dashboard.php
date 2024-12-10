@@ -138,7 +138,7 @@
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <?php //echo $key['attendancePdf']; ?>
                                                         </td> -->
-                                                        <td class="text-center"
+                                                        <td class="text-center text-success"
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <a href="<?php echo $key['materialLink']; ?>" target="_blank">
                                                                 <?php echo $key['materialLink']; ?>
@@ -187,6 +187,12 @@
                                                                             data-toggle="modal" data-target="#lockPdfModal">
                                                                             <i class="fa fa-lock"></i> Lock (pdf)
                                                                         </a>
+                                                                        <!-- for delete details -->
+                                                                        <a class="dropdown-item text-dark"
+                                                                            href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
+                                                                            <i class="fa fa-trash fa-lg delete-btn"
+                                                                                name="prog_id"></i> Delete details
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                                 <!-- Trigger Button -->
@@ -197,13 +203,13 @@
                                                                             name="prog_id"></i>
                                                                     </a>
                                                                 </div> -->
-                                                                <div class="delete-details ml-2 mr-3">
+                                                                <!-- <div class="delete-details ml-2 mr-3">
                                                                     <a
-                                                                        href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
+                                                                        href="<?php //echo base_url("admin/delete/" . $key['prog_id']); ?>">
                                                                         <i class="fa fa-trash text-danger fa-lg delete-btn"
                                                                             name="prog_id"></i>
                                                                     </a>
-                                                                </div>
+                                                                </div> -->
                                                             </div>
                                                         </td>
                                                     </tr>
