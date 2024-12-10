@@ -27,8 +27,13 @@
 
 <body class="login" style="background: rgb(199, 202, 203)">
     <!-- error message -->
-    <div class="col-md-12 ">
+    <div class="col-md-12">
         <div class="error-message float-right" id="flashMessage">
+            <?php if (session()->getFlashdata('success')): ?>
+                <div id="success-message" class="alert alert-success text-white">
+                    <?= session()->getFlashdata('success'); ?>
+                </div>
+            <?php endif; ?>
             <?php if (session()->getFlashdata('error')): ?>
                 <div id="error-message" class="alert alert-danger text-white">
                     <?= session()->getFlashdata('error'); ?>

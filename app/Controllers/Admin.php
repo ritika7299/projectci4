@@ -3,11 +3,9 @@ namespace App\Controllers;
 use App\Models\AdminModel;
 use App\Models\ProgramModel;
 
-use App\Libraries\Pdf;
 class Admin extends BaseController
 {
     protected $programModel;
-    // controller construct
     public function __construct()
     {
         $this->programModel = new ProgramModel();
@@ -25,7 +23,6 @@ class Admin extends BaseController
     //registration details store function 
     public function registerSubmit()
     {
-
         // Get the form data
         $name = $this->request->getPost('name');
         $email = $this->request->getPost('email');
@@ -62,7 +59,7 @@ class Admin extends BaseController
         ]);
 
         // Redirect to the login page after successful registration
-        return redirect()->to('/')->with('success', 'Registration successful. Please login.');
+        return redirect()->to('admin/register_view')->with('success', 'Registration successful. Please login.');
     }
     // admin login function
     public function login()
@@ -104,6 +101,8 @@ class Admin extends BaseController
         $data['prog_data'] = $programmeInfo;
         return view('admin/dashboard', $data); // Pass formatted data to the view
     }
+
+
     // save details function
     public function saveDetails()
     {
@@ -120,13 +119,15 @@ class Admin extends BaseController
             'materialLink' => $request->getPost('materialLink'),
             'paymentdone' => $request->getPost('paymentdone'),
         ];
+        // print_r($data);
+        // die;
         // Get the username from the session or request
-        $userName = session()->get('name'); // Assuming username is stored in the session
-        if (!$userName) {
-            // Handle the case if the username is not available
-            session()->setFlashdata('error', 'User not logged in');
-            return redirect()->to('/dashboard');
-        }
+        // $userName = session()->get('name'); // Assuming username is stored in the session
+        // if (!$userName) {
+        //     // Handle the case if the username is not available
+        //     session()->setFlashdata('error', 'User not logged in');
+        //     return redirect()->to('/dashboard');
+        // }
         // Save data to the database using the model
         $programmeModel = new ProgramModel();
         try {
@@ -140,6 +141,7 @@ class Admin extends BaseController
         // Redirect to the dashboard after saving
         return redirect()->to('admin/dashboard');
     }
+
     //delete details function 
     public function delete($prog_id = null)
     {

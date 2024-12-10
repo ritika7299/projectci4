@@ -93,8 +93,7 @@
                                                     (In pdf)</th>
                                                 <th class="text-center" style="width:25%;">Reading<br>
                                                     matrial</th>
-                                                <!-- <th class="text-center" style="width:15%;">User<br>
-                                                    Images</th> -->
+
                                                 <th class="text-center" style="width:15%;">Payment Done</th>
                                                 <th class="text-center" style="width:25%;">Action</th>
                                             </tr>
@@ -139,20 +138,12 @@
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <?php //echo $key['attendancePdf']; ?>
                                                         </td> -->
-                                                        <td class="text-center text-capitalize"
+                                                        <td class="text-center"
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <a href="<?php echo $key['materialLink']; ?>" target="_blank">
                                                                 <?php echo $key['materialLink']; ?>
                                                             </a>
                                                         </td>
-                                                        <!-- <td class="text-center text-capitalize"
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <a href="#" data-toggle="modal" data-target="#user_images_modal">
-                                                                <?php //echo $key['']; ?>
-                                                                <span class="text-danger">view
-                                                                    images</span>
-                                                            </a>
-                                                        </td> -->
                                                         <td
                                                             class="text-center text-capitalize text-wrap 
                                                         <?php echo ($key['paymentdone'] == 'yes') ? 'text-success' : 'text-danger'; ?>">
@@ -252,7 +243,7 @@
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
                                             <td><input type="text" class="form-control" id="progTitle" name="progTitle"
-                                                    value="" placeholder=""></td>
+                                                    value="" placeholder="" required></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="targetGroup">Target Group</label></td>
@@ -266,7 +257,8 @@
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="date">Date</label></td>
-                                            <td><input type="date" class="form-control" value="" id="date" name="date">
+                                            <td><input type="date" class="form-control" value="" id="date" name="date"
+                                                    required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -298,7 +290,7 @@
                                                     PDF</label>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="progPdf" name="progPdf"
-                                                    accept=".pdf" required>
+                                                    accept="image/*,application/pdf" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -306,7 +298,7 @@
                                                     PDF</label>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
-                                                    name="attendancePdf" accept=".pdf" required>
+                                                    name="attendancePdf" accept="image/*,application/pdf" required>
                                             </td>
                                         </tr>
                                         <tr>
