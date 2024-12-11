@@ -78,7 +78,7 @@
                                         <!-- <span class="fa fa-chevron-down"></span></a> --></a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url('/admin/register_view'); ?>">
+                                    <a href="<?php echo base_url('/admin/register'); ?>">
                                         <i class="fa fa-user"></i> Registration</a>
                                 </li>
                             </ul>

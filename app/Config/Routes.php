@@ -10,7 +10,7 @@ use App\Controllers\Pages;
 // $routes->get('/', 'Home::index');    //home page routes
 /************************************************************************************************************************************/
 $routes->get('/', 'Admin::index');                                      //view page of login
-$routes->get('admin/register_view', 'Admin::register_view');            //view page of registration
+$routes->get('admin/register', 'Admin::register');            //view page of registration
 $routes->post('admin/registerSubmit', 'Admin::registerSubmit');
 $routes->post('admin/login', 'Admin::login');                           //login action  
 $routes->get('admin/logout', 'Admin::logout');                          // Logout action

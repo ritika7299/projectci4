@@ -94,7 +94,6 @@
                                                     (In pdf)</th>
                                                 <th class="text-center" style="width:25%;">Reading<br>
                                                     matrial</th>
-
                                                 <th class="text-center" style="width:10%;">Payment Done</th>
                                                 <th class="text-center" style="width:10%;">Action</th>
                                             </tr>
@@ -124,16 +123,32 @@
                                                             <?php echo $key['dealingAsstt']; ?>
                                                         </td>
                                                         <!-- Programme PDF Link with Username -->
-                                                        <td class="text-center text-capitalize text-wrap "
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <a class="text-primary" href="<?= base_url($key['progPdf']); ?>"
-                                                                target="_blank"><?= basename($key['progPdf']); ?></a>
+                                                        <!-- <td class="text-center text-capitalize text-wrap ">
+                                                            <a style="word-wrap: break-word; white-space: normal;"
+                                                                class="badge badge-pill badge-success text-white"
+                                                                href="<?//= base_url("public/uploads/programsPdf/" . $key['progPdf']); ?>"
+                                                                target="_blank">
+                                                                <?//= basename($key['progPdf']); ?></a>
+                                                        </td> -->
+                                                        <td class="text-center text-capitalize text-wrap">
+                                                            <?php
+                                                            $session = session();  // Get the session object
+                                                            $userName = $session->get('name');
+                                                            ?>
+                                                            <a style="word-wrap: break-word; white-space: normal;"
+                                                                class="badge badge-pill badge-success text-white"
+                                                                href="<?= base_url("public/uploads/programsPdf/" . $key['progPdf']); ?>"
+                                                                target="_blank">
+                                                                <?= pathinfo($key['progPdf'], PATHINFO_FILENAME) . ' by ' . $userName . '.' . pathinfo($key['progPdf'], PATHINFO_EXTENSION); ?>
+                                                            </a>
                                                         </td>
+
                                                         <!-- Attendance PDF Link with Username -->
-                                                        <td class="text-center text-capitalize text-wrap"
-                                                            style="word-wrap: break-word; white-space: normal;">
-                                                            <a class="text-primary"
-                                                                href="<?= base_url($key['attendancePdf']); ?>" target="_blank">
+                                                        <td class="text-center text-capitalize text-wrap">
+                                                            <a style="word-wrap: break-word; white-space: normal;"
+                                                                class="badge badge-pill badge-success text-white"
+                                                                href="<?= base_url("public/uploads/attendancePdf/" . $key['attendancePdf']); ?>"
+                                                                target="_blank">
                                                                 <?= basename($key['attendancePdf']); ?></a>
                                                         </td>
                                                         <td class="text-center text-success"
