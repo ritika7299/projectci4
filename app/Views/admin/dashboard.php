@@ -6,6 +6,41 @@
             <!-- main content -->
             <div class="col-md-12 col-lg-12">
                 <div class="x_panel">
+                    <!-- show success and error messages through SweetAlert -->
+                    <div class="title float-right mb-2 mt-2" id="flashMessage">
+                        <?php if (session()->getFlashdata('success')): ?>
+                            <!-- Success message in SweetAlert -->
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        text: '<?= addslashes(session()->getFlashdata('success')) ?>',
+                                        timer: 2000,
+                                        showConfirmButton: false,  // Hide the OK button
+                                        willClose: () => { // Optional: you can add any additional actions when the alert closes
+                                            // You can do something after the alert closes, like redirecting
+                                        }
+                                    });
+                                });
+                            </script>
+                        <?php endif; ?>
+                        <?php if (session()->getFlashdata('error')): ?>
+                            <!-- Error message in SweetAlert -->
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        text: '<?= addslashes(session()->getFlashdata('error')) ?>',
+                                        timer: 2000,
+                                        showConfirmButton: false,  // Hide the OK button
+                                        willClose: () => { // Optional: you can add any additional actions when the alert closes
+                                            // You can do something after the alert closes, like redirecting
+                                        }
+                                    });
+                                });
+                            </script>
+                        <?php endif; ?>
+                    </div>
 
                     <!-- success and error messages  -->
                     <!-- <div class="title float-right mb-2 mt-2" id="flashMessage">
@@ -89,16 +124,17 @@
                                                             <?php echo $key['dealingAsstt']; ?>
                                                         </td>
                                                         <!-- Programme PDF Link with Username -->
-                                                        <td class="text-center text-capitalize text-wrap"
+                                                        <td class="text-center text-capitalize text-wrap "
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <a href="<?= base_url($key['progPdf']); ?>"
+                                                            <a class="text-primary" href="<?= base_url($key['progPdf']); ?>"
                                                                 target="_blank"><?= basename($key['progPdf']); ?></a>
                                                         </td>
                                                         <!-- Attendance PDF Link with Username -->
                                                         <td class="text-center text-capitalize text-wrap"
                                                             style="word-wrap: break-word; white-space: normal;">
-                                                            <a href="<?= base_url($key['attendancePdf']); ?>"
-                                                                target="_blank"><?= basename($key['attendancePdf']); ?></a>
+                                                            <a class="text-primary"
+                                                                href="<?= base_url($key['attendancePdf']); ?>" target="_blank">
+                                                                <?= basename($key['attendancePdf']); ?></a>
                                                         </td>
                                                         <td class="text-center text-success"
                                                             style="word-wrap: break-word; white-space: normal;">
@@ -122,7 +158,7 @@
                                                                         <i class="fa fa-bars fa-lg text-primary"></i>
                                                                     </a>
                                                                     <!-- edit details  -->
-                                                                    <div class="dropdown-menu mr-5 "
+                                                                    <div class="dropdown-menu mr-5"
                                                                         aria-labelledby="dropdownMenuButton">
                                                                         <a class="dropdown-item text-danger edit_btn"
                                                                             id="edit_btn" href="#" data-toggle="modal"
@@ -209,7 +245,7 @@
                         <div class="modal-body">
                             <div class="form-area custom-background">
                                 <form id="add_form_details" action="<?php echo base_url('/admin/saveDetails'); ?>"
-                                    method="POST">
+                                    method="POST" enctype="multipart/form-data">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
@@ -261,7 +297,7 @@
                                                     PDF</label>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="progPdf" name="progPdf"
-                                                    accept="image/*,application/pdf" required>
+                                                    accept="image/*,application/pdf">
                                             </td>
                                         </tr>
                                         <tr>
@@ -269,7 +305,7 @@
                                                     PDF</label>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
-                                                    name="attendancePdf" accept="image/*,application/pdf" required>
+                                                    name="attendancePdf" accept="image/*,application/pdf">
                                             </td>
                                         </tr>
                                         <tr>
@@ -521,53 +557,19 @@
                             <p class="text-center text-danger">
                                 <strong>Are you sure you want to lock this PDF?</strong>
                             </p>
-                            <p class="text-center text-muted">
-                                Once locked, the PDF cannot be modified or changed.
+                            <p class="text-center text-muted text-warning">
+                                Once your locked, the PDF cannot be modified or changed.
                             </p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" id="confirmLockButton">Lock PDF</button>
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button> -->
+                            <a href="<?php //echo base_url('/admin/lockDetails' . $key['prog_id']); ?>" type="submit"
+                                class="btn btn-danger" id="lockDetailsBtn">Lock PDF</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- /lock Pdf modal -->
-            <!-- user images modal  -->
-            <!-- <div class="modal fade" id="user_images_modal" tabindex="-1" role="dialog"
-                aria-labelledby="UserImagesModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="UserImagesModalLabel">User Images</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="images-area">
-                                <div class="row d-flex">
-                                    <div class="col-md-3">
-                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
-                                    </div>
-                                </div>
-                                <div class="row d-flex">
-                                    <div class="col-md-3">
-                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="uploads/user_images/123.png" accept="image/*" alt="" width="100%" height="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- /end user images modal -->
         </div>
     </div>
 </div>
@@ -591,8 +593,6 @@
             type: 'GET',
             data: {
                 prog_id: progId,//all, branch, court, both, individual, deputation & diverted
-
-
             },
             beforeSend: function () { },
             success: function (data) {
@@ -609,10 +609,6 @@
 
                 $("#progid").val(data[0]['prog_id']);
             },
-
-
-
-
             error: function (data) {
                 console.log(data);
             }
@@ -621,6 +617,16 @@
     });
 
 </script>
+<!-- <script>
+    $('#lockPdfModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var progId = button.data('prog-id'); // Extract prog_id from data-* attributes
+
+        // Update the modal action with the correct prog_id
+        var modal = $(this);
+        modal.find('#lockDetailsBtn').attr('href', '<?= base_url("admin/lockDetails/"); ?>' + progId);
+    });
+</script> -->
 
 
 <?php include('template/footer.php'); ?>

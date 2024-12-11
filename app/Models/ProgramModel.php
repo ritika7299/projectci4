@@ -24,7 +24,7 @@ class ProgramModel extends Model
     ];
     protected $useTimestamps = true;
 
-    // Method to save the data
+    // Method to save the details
     public function saveDetail($data)
     {
         // print_r('hello');
@@ -52,7 +52,7 @@ class ProgramModel extends Model
             ];
         }
     }
-    // delete details function 
+    // Method to delete the details 
     public function deleteDetails($prog_id)
     {
         // Check if the record exists
@@ -66,7 +66,7 @@ class ProgramModel extends Model
         // Return false if the record does not exist
         return false;
     }
-    // get user details 
+    // Method to get user details 
     public function get_user_details($prog_id)
     {
         // print_r($prog_id);die;
@@ -82,7 +82,7 @@ class ProgramModel extends Model
         }
     }
 
-    // update form details 
+    // Method to update form details 
     public function updateDetailsModel($data, $id)
     {
         // print_r($data);
@@ -101,5 +101,6 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
+
 }
 

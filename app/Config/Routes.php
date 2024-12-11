@@ -16,7 +16,8 @@ $routes->post('admin/login', 'Admin::login');                           //login 
 $routes->get('admin/logout', 'Admin::logout');                          // Logout action
 $routes->get('admin/dashboard', 'Admin::dashboard');                    //dashboard page 
 $routes->post('admin/saveDetails', 'Admin::saveDetails');               //save programme form details
-$routes->get('admin/delete/(:num)', 'Admin::delete/$1');
-$routes->get('admin/get-data-for-update', 'Admin::getRecord');        // For fetching details
-$routes->post('admin/updateDetails', 'Admin::updateDetails');      // For updating details
+$routes->get('admin/delete/(:num)', 'Admin::delete/$1');                // delete details 
+$routes->get('admin/get-data-for-update', 'Admin::getRecord');          // For fetching details
+$routes->post('admin/updateDetails', 'Admin::updateDetails');            // For updating details
+$routes->get('admin/lockDetails/(:num)', 'Admin::lockDetails/$1');
 
