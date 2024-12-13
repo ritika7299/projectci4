@@ -79,7 +79,7 @@
                                 </li>
                                 <li>
                                     <a href="<?php echo base_url('/admin/register'); ?>">
-                                        <i class="fa fa-user"></i> Registration</a>
+                                        <i class="fa fa-user-plus"></i> Registration</a>
                                 </li>
                             </ul>
                         </div>

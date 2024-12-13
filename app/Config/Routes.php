@@ -19,5 +19,5 @@ $routes->post('admin/saveDetails', 'Admin::saveDetails');               //save p
 $routes->get('admin/delete/(:num)', 'Admin::delete/$1');                // delete details 
 $routes->get('admin/get-data-for-update', 'Admin::getRecord');          // For fetching details
 $routes->post('admin/updateDetails', 'Admin::updateDetails');            // For updating details
-$routes->get('admin/lockDetails/(:num)', 'Admin::lockDetails/$1');
+// $routes->get('admin/lock_details', 'Admin::lock_details');
 

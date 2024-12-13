@@ -101,6 +101,5 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
-
 }
 

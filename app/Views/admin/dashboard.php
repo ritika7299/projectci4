@@ -110,7 +110,7 @@
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php echo $key['progTitle']; ?>
                                                         </td>
-                                                        <td c class="text-center text-capitalize text-wrap">
+                                                        <td class="text-center text-capitalize text-wrap">
                                                             <?php echo $key['targetGroup']; ?>
                                                         </td>
                                                         <td class="text-center text-capitalize text-wrap">
@@ -122,34 +122,54 @@
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php echo $key['dealingAsstt']; ?>
                                                         </td>
-                                                        <!-- Programme PDF Link with Username -->
-                                                        <!-- <td class="text-center text-capitalize text-wrap ">
-                                                            <a style="word-wrap: break-word; white-space: normal;"
-                                                                class="badge badge-pill badge-success text-white"
-                                                                href="<?//= base_url("public/uploads/programsPdf/" . $key['progPdf']); ?>"
-                                                                target="_blank">
-                                                                <?//= basename($key['progPdf']); ?></a>
-                                                        </td> -->
+                                                        <!-- program pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
-                                                            <?php
-                                                            $session = session();  // Get the session object
-                                                            $userName = $session->get('name');
-                                                            ?>
-                                                            <a style="word-wrap: break-word; white-space: normal;"
-                                                                class="badge badge-pill badge-success text-white"
-                                                                href="<?= base_url("public/uploads/programsPdf/" . $key['progPdf']); ?>"
-                                                                target="_blank">
-                                                                <?= pathinfo($key['progPdf'], PATHINFO_FILENAME) . ' by ' . $userName . '.' . pathinfo($key['progPdf'], PATHINFO_EXTENSION); ?>
-                                                            </a>
+                                                            <?php if (!empty($key['progPdf'])): ?>
+                                                                <button type="button" class="btn btn-outline-primary" style="padding:
+                                                                    8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0,
+                                                                    0.1);"
+                                                                    onclick="window.open('<?= base_url('public/uploads/programsPdf/' . $key['progPdf']); ?>', '_blank');"
+                                                                    title="Click to view the PDF">
+                                                                    View PDF <i class="fa fa-eye"></i>
+                                                                </button>
+                                                                <br>
+                                                                <?php
+                                                                // Extract the username from the file name
+                                                                $fileName = $key['progPdf'];
+                                                                $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
+                                                                $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+                                                                ?>
+                                                                <span class="text-info">
+                                                                    <?= 'uploaded by ' . $uploadedBy; ?>
+                                                                </span>
+                                                            <?php else: ?>
+                                                                <span class="text-danger font-italic">No PDF Available</span>
+                                                                <br>
+                                                            <?php endif; ?>
                                                         </td>
-
-                                                        <!-- Attendance PDF Link with Username -->
+                                                        <!-- attendance pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
-                                                            <a style="word-wrap: break-word; white-space: normal;"
-                                                                class="badge badge-pill badge-success text-white"
-                                                                href="<?= base_url("public/uploads/attendancePdf/" . $key['attendancePdf']); ?>"
-                                                                target="_blank">
-                                                                <?= basename($key['attendancePdf']); ?></a>
+                                                            <?php if (!empty($key['attendancePdf'])): ?>
+                                                                <button type="button" class="btn btn-outline-primary"
+                                                                    style="padding: 8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                                                                    onclick="window.open('<?= base_url('public/uploads/attendancePdf/' . $key['attendancePdf']); ?>', '_blank');"
+                                                                    title="Click to view the PDF">
+                                                                    View PDF <i class="fa fa-eye"></i>
+                                                                </button>
+                                                                <br>
+                                                                <?php
+                                                                // Extract the username from the file name
+                                                                $fileName = $key['attendancePdf'];
+                                                                $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
+                                                                $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+                                                                ?>
+                                                                <span class="text-info">
+                                                                    <?= 'uploaded by ' . $uploadedBy; ?>
+                                                                </span>
+                                                            <?php else: ?>
+                                                                <span class="text-danger font-italic">No PDF Available</span>
+                                                                <br>
+                                                            <?php endif; ?>
                                                         </td>
                                                         <td class="text-center text-success"
                                                             style="word-wrap: break-word; white-space: normal;">
@@ -165,17 +185,16 @@
                                                         <td class="">
                                                             <!-- actions -->
                                                             <div class="row d-flex">
-                                                                <!-- edit and delete details action-->
                                                                 <div role="presentation" class="dropdown">
                                                                     <a id="drop5" href="#" class="#" data-toggle="dropdown"
                                                                         aria-haspopup="true" role="button"
                                                                         aria-expanded="false">
                                                                         <i class="fa fa-bars fa-lg text-primary"></i>
                                                                     </a>
-                                                                    <!-- edit details  -->
-                                                                    <div class="dropdown-menu mr-5"
+
+                                                                    <div class="dropdown-menu mr-5" style="width:190%;"
                                                                         aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item text-danger edit_btn"
+                                                                        <a class="dropdown-item text-primary edit_btn"
                                                                             id="edit_btn" href="#" data-toggle="modal"
                                                                             data-target="#editDetailsModal"
                                                                             data-id="<?php echo $key['prog_id']; ?>"
@@ -184,50 +203,41 @@
                                                                             <i class="fa fa-edit"></i> Edit
                                                                             Details
                                                                         </a>
-                                                                        <!-- edit prog. Schedule pdf -->
-                                                                        <a class="dropdown-item text-danger" href="#"
+
+                                                                        <a class="dropdown-item text-primary" href="#"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_program_pdf_Modal">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit Prog.
                                                                             Schedule(pdf)
                                                                         </a>
-                                                                        <!-- edit attendance Schedule pdf -->
-                                                                        <a class="dropdown-item text-danger" href="#"
+
+                                                                        <a class="dropdown-item text-primary" href="#"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_attendance_pdf_Modal">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit
                                                                             Attendance(pdf)
                                                                         </a>
-                                                                        <!-- lock pdf details -->
-                                                                        <a class="dropdown-item text-danger" href="#"
+                                                                        <a class="dropdown-item text-primary" href="#"
                                                                             data-toggle="modal" data-target="#lockPdfModal">
                                                                             <i class="fa fa-lock"></i> Lock Details
                                                                         </a>
-                                                                        <!-- delete details -->
-                                                                        <a class="dropdown-item text-danger"
+                                                                        <a class="dropdown-item text-primary"
                                                                             href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
                                                                             <i class="fa fa-trash delete-btn"
                                                                                 name="prog_id"></i> Delete details
                                                                         </a>
                                                                     </div>
                                                                 </div>
-                                                                <!-- Trigger Button -->
-                                                                <!-- <div class="update-details ml-2 mr-3">
-                                                                    <a href="#" data-toggle="modal" data-target="#updateModal"
-                                                                        data-id="<?php //echo $key['prog_id']; ?>">
-                                                                        <i class="fa fa-edit text-primary fa-lg update-btn"
-                                                                            name="prog_id"></i>
-                                                                    </a>
-                                                                </div> -->
-                                                                <!-- <div class="delete-details ml-2 mr-3">
-                                                                    <a
-                                                                        href="<?php //echo base_url("admin/delete/" . $key['prog_id']); ?>">
-                                                                        <i class="fa fa-trash text-danger fa-lg delete-btn"
-                                                                            name="prog_id"></i>
-                                                                    </a>
-                                                                </div> -->
                                                             </div>
                                                         </td>
+                                                        <style>
+                                                            .dropdown-item.disabled {
+                                                                color: #ccc;
+                                                                /* Light gray color to indicate disabled state */
+                                                                pointer-events: none;
+                                                                /* Prevent interactions */
+                                                            }
+                                                        </style>
                                                     </tr>
                                                 <?php }
                                         } else { ?>
@@ -557,34 +567,58 @@
                 </div>
             </div> -->
             <!-- /end program (pdf)  -->
-            <!-- lock Pdf modal -->
-            <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
+            <!-- lock details modal -->
+            <!-- <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-medium" role="document">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color: #d9534f;">
-                            <h5 class="modal-title text-white" id="lockPdfModalLabel">Lock PDF</h5>
+                        <div class="modal-header bg-danger">
+                            <h5 class="modal-title text-white" id="lockPdfModalLabel">Lock Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <p class="text-center text-danger">
-                                <strong>Are you sure you want to lock this PDF?</strong>
+                                <strong>Are you sure you want to lock Details ?</strong>
                             </p>
                             <p class="text-center text-muted text-warning">
-                                Once your locked, the PDF cannot be modified or changed.
+                                Once your locked, cannot be modified or changed.
                             </p>
                         </div>
                         <div class="modal-footer">
-                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button> -->
-                            <a href="<?php //echo base_url('/admin/lockDetails' . $key['prog_id']); ?>" type="submit"
-                                class="btn btn-danger" id="lockDetailsBtn">Lock PDF</a>
+                            <a href="#" type="submit" class="btn btn-danger" id="lockDetailsBtn"><i
+                                    class="fa fa-lock"></i> Lock</a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Lock Modal -->
+            <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-medium" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h5 class="modal-title text-white" id="lockPdfModalLabel">Lock Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center text-danger"><strong>Are you sure you want to lock Details ?</strong>
+                            </p>
+                            <p class="text-center text-muted text-warning">Once locked, cannot be modified or changed.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" type="button" class="btn btn-danger" id="lockDetailsBtn"><i
+                                    class="fa fa-lock"></i> Lock</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /lock Pdf modal -->
+            <!-- /lock details modal -->
         </div>
     </div>
 </div>
@@ -630,19 +664,6 @@
         }).done(function (data) {
         });
     });
-
 </script>
-<!-- <script>
-    $('#lockPdfModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var progId = button.data('prog-id'); // Extract prog_id from data-* attributes
-
-        // Update the modal action with the correct prog_id
-        var modal = $(this);
-        modal.find('#lockDetailsBtn').attr('href', '<?= base_url("admin/lockDetails/"); ?>' + progId);
-    });
-</script> -->
-
-
 <?php include('template/footer.php'); ?>
 <!-- /page content -->
