@@ -152,6 +152,65 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');  // Redirect to the dashboard or another page
     }
 
+    /*public function saveDetails()
+    {
+        $session = session();  // Get the session object
+        $userName = $session->get('name');  // Assuming 'name' is stored in the session during login
+
+        // If no user is logged in, set an error message and redirect
+        if (!$userName) {
+            $session->setFlashdata('error', 'User is not logged in.');
+            return redirect()->to('admin/dashboard');  // Redirect to the login page or any other page
+        }
+
+        // Get data from the request
+        $data = [
+            'progTitle' => $this->request->getPost('progTitle'),
+            'targetGroup' => $this->request->getPost('targetGroup'),
+            'date' => $this->request->getPost('date'),  // This should be in 'DD/MM/YYYY' format
+            'progDirector' => $this->request->getPost('progDirector'),
+            'dealingAsstt' => $this->request->getPost('dealingAsstt'),
+            'progPdf' => $this->request->getPost('progPdf'),
+            'attendancePdf' => $this->request->getPost('attendancePdf'),
+            'materialLink' => $this->request->getPost('materialLink'),
+            'paymentdone' => $this->request->getPost('paymentdone'),
+            'uploadedBy' => $userName,  // Store the username who uploaded the file
+        ];
+
+        // Get the files (no validation on whether they are valid)
+        $progFile = $this->request->getFile('progPdf');  // for programs pdf
+        $attendanceFile = $this->request->getFile('attendancePdf');  // for attendance pdf
+
+        // Handle program PDF upload if it exists
+        if ($progFile && $progFile->isValid()) {
+            $originalProgFileName = $progFile->getName();
+            $progFileExtension = $progFile->getExtension();
+            $newProgFileName = pathinfo($originalProgFileName, PATHINFO_FILENAME) . '.' . $progFileExtension; // Remove ' by username'
+            $progFile->move('public/uploads/programsPdf', $newProgFileName);
+            $data['progPdf'] = $newProgFileName;  // Save the new file name in the database
+        }
+
+        // Handle attendance PDF upload if it exists
+        if ($attendanceFile && $attendanceFile->isValid()) {
+            $originalAttendanceFileName = $attendanceFile->getName();
+            $attendanceFileExtension = $attendanceFile->getExtension();
+            $newAttendanceFileName = pathinfo($originalAttendanceFileName, PATHINFO_FILENAME) . '.' . $attendanceFileExtension; // Remove ' by username'
+            $attendanceFile->move('public/uploads/attendancePdf', $newAttendanceFileName);
+            $data['attendancePdf'] = $newAttendanceFileName;  // Save the new file name in the database
+        }
+
+        // Save data into the database
+        $programModel = new ProgramModel();
+        $programModel->save($data);
+
+        // Set a success message and redirect to another page
+        $session->setFlashdata('success', 'Details added successfully.');
+        return redirect()->to('admin/dashboard');  // Redirect to the dashboard or another page
+    }*/
+
+
+
+
     // delete all details function
     public function delete($prog_id = null)
     {

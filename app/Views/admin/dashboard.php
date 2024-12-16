@@ -122,12 +122,12 @@
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php echo $key['dealingAsstt']; ?>
                                                         </td>
-                                                        <!-- program pdf -->
+                                                        <!-- programs pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php if (!empty($key['progPdf'])): ?>
                                                                 <button type="button" class="btn btn-outline-primary" style="padding:
-                                                                    8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0,
-                                                                    0.1);"
+                                                                        8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0,
+                                                                        0.1);"
                                                                     onclick="window.open('<?= base_url('public/uploads/programsPdf/' . $key['progPdf']); ?>', '_blank');"
                                                                     title="Click to view the PDF">
                                                                     View PDF <i class="fa fa-eye"></i>
@@ -147,6 +147,8 @@
                                                                 <br>
                                                             <?php endif; ?>
                                                         </td>
+                                                        <!-- /programs pdf end -->
+
                                                         <!-- attendance pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php if (!empty($key['attendancePdf'])): ?>
@@ -171,6 +173,8 @@
                                                                 <br>
                                                             <?php endif; ?>
                                                         </td>
+                                                        <!-- /attendance pdf end -->
+
                                                         <td class="text-center text-success"
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <a href="<?php echo $key['materialLink']; ?>" target="_blank">
@@ -185,14 +189,15 @@
                                                         <td class="">
                                                             <!-- actions -->
                                                             <div class="row d-flex">
+                                                                <!-- edit and delete details action-->
                                                                 <div role="presentation" class="dropdown">
                                                                     <a id="drop5" href="#" class="#" data-toggle="dropdown"
                                                                         aria-haspopup="true" role="button"
                                                                         aria-expanded="false">
                                                                         <i class="fa fa-bars fa-lg text-primary"></i>
                                                                     </a>
-
-                                                                    <div class="dropdown-menu mr-5" style="width:190%;"
+                                                                    <!-- edit details -->
+                                                                    <div class="dropdown-menu mr-5"
                                                                         aria-labelledby="dropdownMenuButton">
                                                                         <a class="dropdown-item text-primary edit_btn"
                                                                             id="edit_btn" href="#" data-toggle="modal"
@@ -200,31 +205,38 @@
                                                                             data-id="<?php echo $key['prog_id']; ?>"
                                                                             value="<?php echo $key['prog_id']; ?>"
                                                                             title="Edit Details">
-                                                                            <i class="fa fa-edit"></i> Edit
-                                                                            Details
+                                                                            <i class="fa fa-edit"></i> Edit Details
                                                                         </a>
-
-                                                                        <a class="dropdown-item text-primary" href="#"
+                                                                        <!-- edit prog. Schedule pdf -->
+                                                                        <a class="dropdown-item text-primary edit_btn_pdf"
                                                                             data-toggle="modal"
-                                                                            data-target="#edit_program_pdf_Modal">
+                                                                            data-target="#edit_program_pdf_Modal"
+                                                                            data-id="<?php echo $key['prog_id']; ?>"
+                                                                            value="<?php echo $key['prog_id']; ?>"
+                                                                            title="Edit program pdf">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit Prog.
                                                                             Schedule(pdf)
                                                                         </a>
-
-                                                                        <a class="dropdown-item text-primary" href="#"
-                                                                            data-toggle="modal"
-                                                                            data-target="#edit_attendance_pdf_Modal">
+                                                                        <!-- edit attendance Schedule pdf -->
+                                                                        <a class="dropdown-item text-primary edit_btn_pdf1"
+                                                                            href="#" data-toggle="modal"
+                                                                            data-target="#edit_attendance_pdf_Modal"
+                                                                            data-id="<?php echo $key['prog_id']; ?>"
+                                                                            value="<?php echo $key['prog_id']; ?>"
+                                                                            title="Edit Attendance pdf">
                                                                             <i class="fa fa-file-pdf-o"></i> Edit
                                                                             Attendance(pdf)
                                                                         </a>
-                                                                        <a class="dropdown-item text-primary" href="#"
-                                                                            data-toggle="modal" data-target="#lockPdfModal">
+                                                                        <!-- lock pdf details -->
+                                                                        <a class="dropdown-item text-primary lock-btn" href="#"
+                                                                            onclick="lockActions('<?php echo $key['prog_id']; ?>')">
                                                                             <i class="fa fa-lock"></i> Lock Details
                                                                         </a>
-                                                                        <a class="dropdown-item text-primary"
+                                                                        <!-- delete details -->
+                                                                        <a class="dropdown-item text-primary delete-btn"
                                                                             href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
-                                                                            <i class="fa fa-trash delete-btn"
-                                                                                name="prog_id"></i> Delete details
+                                                                            <i class="fa fa-trash" name="prog_id"></i> Delete
+                                                                            details
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -625,6 +637,7 @@
 </div>
 <!-- JQUERY.MIN.JS v-3.7.1 created by ritika  -->
 <script src="<?php echo base_url("../public/assets/build/js/jquery.min.js"); ?>"></script>
+<!-- details edit script  -->
 <script>
 
     $(".edit_btn").click(function () {
@@ -665,5 +678,132 @@
         });
     });
 </script>
+<!-- this script for lock details  -->
+<script>
+    // Key to store locked state in localStorage
+    const LOCK_STORAGE_KEY = 'lockedActions';
+
+    // Initialize locked actions on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        const lockedActions = JSON.parse(localStorage.getItem(LOCK_STORAGE_KEY)) || [];
+
+        // Disable locked actions
+        lockedActions.forEach(progId => {
+            disableDropdownActions(progId);
+        });
+    });
+
+    // Function to lock actions for a specific prog_id
+    function lockActions(progId) {
+        // Retrieve current locked state
+        let lockedActions = JSON.parse(localStorage.getItem(LOCK_STORAGE_KEY)) || [];
+
+        // Check if the row is already locked
+        if (lockedActions.includes(progId)) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Already Locked',
+                text: 'This actions is already locked. Locked actions cannot be changed or modified.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            });
+            return; // Exit the function if already locked
+        }
+
+        // Show confirmation dialog before locking actions
+        Swal.fire({
+            icon: 'warning',
+            title: 'Confirm Lock',
+            text: 'Are you sure you want to lock these actions? Locked actions cannot be changed or modified.',
+            showCancelButton: true, // Enable the Cancel button
+            confirmButtonText: 'Yes, Lock it!',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#3085d6', // Blue for confirm
+            cancelButtonColor: '#d33' // Red for cancel
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If user confirms, lock the actions
+                lockedActions.push(progId);
+                localStorage.setItem(LOCK_STORAGE_KEY, JSON.stringify(lockedActions));
+                disableDropdownActions(progId);
+
+                // Show feedback message after locking
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Details Locked',
+                    text: 'If all actions are locked, they cannot be changed or modified.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6'
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Optional: Add logic if the user cancels, e.g., show a canceled message
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Action Canceled',
+                    text: 'No changes have been made.',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+
+    // Function to disable dropdown actions for a specific prog_id
+    function disableDropdownActions(progId) {
+        const dropdownMenu = document.querySelectorAll(`.dropdown-menu [data-id="${progId}"]`);
+        dropdownMenu.forEach(item => {
+            item.classList.add('disabled');
+            item.setAttribute('aria-disabled', 'true');
+            item.removeAttribute('href'); // Disable the href to prevent navigation
+        });
+
+        // Disable delete action explicitly
+        const deleteBtn = document.querySelector(`.dropdown-menu .delete-btn[href *= "${progId}"]`);
+        if (deleteBtn) {
+            deleteBtn.classList.add('disabled');
+            deleteBtn.setAttribute('aria-disabled', 'true');
+            deleteBtn.removeAttribute('href');
+        }
+        // Disable delete action explicitly
+        const lockBtn = document.querySelector(`.dropdown-menu .lock-btn[href *= "${progId}"]`);
+        if (lockBtn) {
+            lockBtn.classList.add('disabled');
+            lockBtn.setAttribute('aria-disabled', 'true');
+            lockBtn.removeAttribute('href');
+        }
+    }
+
+    // Function to unlock actions (optional, for reset functionality)
+    function unlockActions(progId) {
+        // Retrieve current locked state
+        let lockedActions = JSON.parse(localStorage.getItem(LOCK_STORAGE_KEY)) || [];
+        lockedActions = lockedActions.filter(id => id !== progId); // Remove the progId
+        localStorage.setItem(LOCK_STORAGE_KEY, JSON.stringify(lockedActions));
+
+        // Re-enable dropdown actions
+        const dropdownMenu = document.querySelectorAll(`.dropdown-menu [data-id="${progId}"]`);
+        dropdownMenu.forEach(item => {
+            item.classList.remove('disabled');
+            item.removeAttribute('aria-disabled');
+            item.setAttribute('href', '#'); // Restore href
+        });
+
+        // Re-enable delete action explicitly
+        const deleteBtn = document.querySelector(`.dropdown-menu .delete-btn[href *= "${progId}"]`);
+        if (deleteBtn) {
+            deleteBtn.classList.remove('disabled');
+            deleteBtn.removeAttribute('aria-disabled');
+            deleteBtn.setAttribute('href', '<?php echo base_url("admin/delete/"); ?>' + progId);
+        }
+    }
+</script>
+
+<style>
+    .dropdown-item.disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+
 <?php include('template/footer.php'); ?>
 <!-- /page content -->
