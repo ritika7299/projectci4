@@ -152,7 +152,8 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');  // Redirect to the dashboard or another page
     }
 
-    /*public function saveDetails()
+    /*
+    public function saveDetails()
     {
         $session = session();  // Get the session object
         $userName = $session->get('name');  // Assuming 'name' is stored in the session during login
@@ -208,9 +209,6 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');  // Redirect to the dashboard or another page
     }*/
 
-
-
-
     // delete all details function
     public function delete($prog_id = null)
     {
@@ -255,7 +253,6 @@ class Admin extends BaseController
     // update details function
     public function updateDetails()
     {
-
         $request = service('request');
         $id = $this->request->getPost('progid');
 
@@ -271,7 +268,6 @@ class Admin extends BaseController
             'materialLink' => $request->getPost('materialLink'),
             'paymentdone' => $request->getPost('paymentdone'),
         ];
-
         // print_r($data);
         // die;
 
@@ -296,6 +292,89 @@ class Admin extends BaseController
         }
 
         // Redirect to the dashboard after saving
+        return redirect()->to('admin/dashboard');
+    }
+
+    public function getProgramRecord()
+    {
+        // print_r("hh");       
+        // die;
+        $id = $this->request->getGet('prog_id');
+        // echo $id;
+        // die;
+
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is missing hai bhai :( ']);
+        } else {
+            $result = $this->programModel->getuserProgramRecord($id);
+            // print_r($result);
+            // die;
+            echo json_encode($result);
+        }
+    }
+    public function updateProgramRecord()
+    {
+        // print_r('sameer');
+        // die;
+        $request = service('request');
+        $id = $request->getPost('progid');
+        // print_r('sameer');
+
+        // Collect form data
+        $data = [
+            'progTitle' => $request->getPost('progTitle'),
+            'progPdf' => $request->getPost('progPdf'),
+            'attendancePdf' => $request->getPost('attendancePdf'),
+        ];
+        // print_r($data);
+        // die;
+
+        // Get the username from the session
+        $userName = session()->get('name');
+        if (!$userName) {
+            session()->setFlashdata('error', 'User not logged in');
+            return redirect()->to('/dashboard');
+        }
+        // Handle file uploads
+        $progFile = $request->getFile('progPdf'); // For program PDF
+        $attendanceFile = $request->getFile('attendancePdf'); // For attendance PDF
+
+        // print_r($progFile);
+        // print_r($attendanceFile);
+        // die;
+
+        // Validate and move the uploaded files
+        if ($progFile && $progFile->isValid() && $progFile->getClientExtension() === 'pdf') {
+            $originalProgFileName = $progFile->getRandomName(); // Use a unique name
+            $progFile->move('public/uploads/programsPdf', $originalProgFileName);
+            $data['progPdf'] = 'public/uploads/programsPdf/' . $originalProgFileName;
+        }
+
+        if ($attendanceFile && $attendanceFile->isValid() && $attendanceFile->getClientExtension() === 'pdf') {
+            $originalAttendanceFileName = $attendanceFile->getRandomName(); // Use a unique name
+            $attendanceFile->move('public/uploads/attendancePdf', $originalAttendanceFileName);
+            $data['attendancePdf'] = 'public/uploads/attendancePdf/' . $originalAttendanceFileName;
+        }
+        // Ensure at least one file was successfully uploaded
+        if (!isset($data['progPdf']) && !isset($data['attendancePdf'])) {
+            session()->setFlashdata('error', 'Please upload valid PDF files for both Program and Attendance. sameer');
+            return redirect()->to('admin/dashboard');
+        }
+
+        // Update the record in the database
+        $programModel = new ProgramModel();
+        try {
+            $result = $programModel->updateDetailsModel($data, $id); // Ensure this method is defined in ProgramModel
+            if ($result) {
+                session()->setFlashdata('success', 'Details updated successfully!');
+            } else {
+                session()->setFlashdata('error', 'Failed to update details. Please try again.');
+            }
+        } catch (\Exception $e) {
+            session()->setFlashdata('error', $e->getMessage());
+        }
+
+        // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
 

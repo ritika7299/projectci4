@@ -234,8 +234,9 @@
                                                                         </a>
                                                                         <!-- delete details -->
                                                                         <a class="dropdown-item text-primary delete-btn"
-                                                                            href="<?php echo base_url("admin/delete/" . $key['prog_id']); ?>">
-                                                                            <i class="fa fa-trash" name="prog_id"></i> Delete
+                                                                            href="#"
+                                                                            onclick="confirmDelete('<?php echo base_url('admin/delete/' . $key['prog_id']); ?>');">
+                                                                            <i class="fa fa-trash"></i> Delete
                                                                             details
                                                                         </a>
                                                                     </div>
@@ -476,7 +477,6 @@
                                         </tr>
                                         <tr></tr>
                                     </table>
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -491,12 +491,12 @@
             </div>
             <!--/end update or edit details modal -->
             <!-- edit Program(pdf) details modal -->
-            <!-- <div class="modal fade" id="edit_program_pdf_Modal" tabindex="-1" role="dialog"
+            <div class="modal fade" id="edit_program_pdf_Modal" tabindex="-1" role="dialog"
                 aria-labelledby="editProgramPdfModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="editProgramPdfModalLabel">Edit Program Schedule PDF
+                            <h5 class="modal-title text-white" id="editProgramPdfModalLabel">Edit Program Schedule
                                 <i class="fa fa-file-pdf-o"></i>
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -505,63 +505,32 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-area custom-background">
-                                <form id="edit_form_details" action="<?php //echo base_url('/admin/edit_prog_schedule_pdf'); ?>" method="POST">
+                                <form id="edit_form_details"
+                                    action="<?php echo base_url('/admin/updateProgramRecord'); ?>" method="POST">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
-                                            <td><input type="text" class="form-control" id="progTitle" name="progTitle"
-                                                    value="Demo" placeholder=""></td>
+                                            <td><input type="text" class="form-control" id="progTitle_id"
+                                                    name="progTitle" value="" placeholder=""></td>
+                                            <td style="display: none;"><input type="text" class="form-control"
+                                                    id="progidd" name="progid" value="" placeholder=""></td>
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="progPdf">Programme Schedule in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="progPdf"
+                                            <td>
+                                                <input type="file" class="mt-2 text-primary" id="progPdf_666"
                                                     name="progPdf">
                                             </td>
                                         </tr>
-                                    </table>
-
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="edit_Button"
-                                style="background-color: #2A3F54;">Update <i class="fa fa-paper-plane"></i>
-                            </button>
-                            <?php echo form_close(); ?>
-                        </div>
-
-                    </div>
-                </div>
-            </div> -->
-            <!-- /end program (pdf)  -->
-            <!-- edit attendance(pdf) details modal -->
-            <!-- <div class="modal fade" id="edit_attendance_pdf_Modal" tabindex="-1" role="dialog"
-                aria-labelledby="editAttendancePdfModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="editAttendancePdfModalLabel">Edit Attendance PDF
-                                <i class="fa fa-file-pdf-o"></i>
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-area custom-background">
-                                <form id="edit_form_details" action="<?php //echo base_url('/admin/edit_attendance_pdf'); ?>" method="POST">
-                                    <table class="table table-bordered">
                                         <tr>
-                                            <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
-                                            <td><input type="text" class="form-control" id="progTitle" name="progTitle"
-                                                    value="Demo" placeholder=""></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 30%;"><label for="attandancePdf">Attendance in
+                                            <td style="width: 30%;">
+                                                <label for="attandancePdf">Attendance in
                                                     PDF</label>
                                             </td>
-                                            <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
+                                            <td>
+                                                <input type="file" class="mt-2 text-primary" id="attendancePdf_666"
                                                     name="attendancePdf">
                                             </td>
                                         </tr>
@@ -577,60 +546,8 @@
 
                     </div>
                 </div>
-            </div> -->
-            <!-- /end program (pdf)  -->
-            <!-- lock details modal -->
-            <!-- <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-medium" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-white" id="lockPdfModalLabel">Lock Details</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="text-center text-danger">
-                                <strong>Are you sure you want to lock Details ?</strong>
-                            </p>
-                            <p class="text-center text-muted text-warning">
-                                Once your locked, cannot be modified or changed.
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" type="submit" class="btn btn-danger" id="lockDetailsBtn"><i
-                                    class="fa fa-lock"></i> Lock</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Lock Modal -->
-            <div class="modal fade" id="lockPdfModal" tabindex="-1" role="dialog" aria-labelledby="lockPdfModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-medium" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-white" id="lockPdfModalLabel">Lock Details</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="text-center text-danger"><strong>Are you sure you want to lock Details ?</strong>
-                            </p>
-                            <p class="text-center text-muted text-warning">Once locked, cannot be modified or changed.
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" type="button" class="btn btn-danger" id="lockDetailsBtn"><i
-                                    class="fa fa-lock"></i> Lock</a>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <!-- /lock details modal -->
+            <!-- /edit Program(pdf) details modal -->
         </div>
     </div>
 </div>
@@ -639,16 +556,12 @@
 <script src="<?php echo base_url("../public/assets/build/js/jquery.min.js"); ?>"></script>
 <!-- details edit script  -->
 <script>
-
     $(".edit_btn").click(function () {
-
         // alert("sameer");
         var progId = $(this).data('id');
         // alert(progId);
         // alert("progId:" + progId);
-
         $.ajax({
-
             url: '<?php echo base_url() . "/admin/get-data-for-update/" ?>',
             dataType: 'json',
             contentType: 'application/json',
@@ -668,7 +581,6 @@
                 // $("#progPdf_666").val(data[0]['progPdf']);
                 $("#materialLink_666").val(data[0]['materialLink']);
                 $("#paymentdone_666").val(data[0]['paymentdone']);
-
                 $("#progid").val(data[0]['prog_id']);
             },
             error: function (data) {
@@ -678,6 +590,45 @@
         });
     });
 </script>
+
+<!-- edit programs and attendance pdf script -->
+<script>
+    $(".edit_btn_pdf").click(function () {
+
+        alert("sameer111");
+        var progId = $(this).data('id');
+        // // alert(progId);
+        // $("#progidd").val(progId);
+        // $("#progTitle_id").val(progTitle);
+
+        // alert("progId:" + progId);
+
+        $.ajax({
+            url: '<?php echo base_url() . "/admin/get-data-for-program/" ?>',
+            dataType: 'json',
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                prog_id: progId,//all, branch, court, both, individual, deputation & diverted
+            },
+            beforeSend: function () { },
+            success: function (data) {
+                console.log(data);
+                //alert(data[0]['progid']);
+                $("#progTitle_id").val(data[0]['progTitle']);
+                $("#progid").val(data[0]['prog_id']);
+                $("#progPdf_666").val(data[0]['progPdf']);
+                $("#attendancePdf_666").val(data[0]['attendancePdf']);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        }).done(function (data) {
+        });
+    });
+
+</script>
+<!-- /edit pdf script -->
 <!-- this script for lock details  -->
 <script>
     // Key to store locked state in localStorage
@@ -692,7 +643,6 @@
             disableDropdownActions(progId);
         });
     });
-
     // Function to lock actions for a specific prog_id
     function lockActions(progId) {
         // Retrieve current locked state
@@ -707,9 +657,9 @@
                 confirmButtonText: 'OK',
                 confirmButtonColor: '#3085d6'
             });
+
             return; // Exit the function if already locked
         }
-
         // Show confirmation dialog before locking actions
         Swal.fire({
             icon: 'warning',
@@ -726,7 +676,6 @@
                 lockedActions.push(progId);
                 localStorage.setItem(LOCK_STORAGE_KEY, JSON.stringify(lockedActions));
                 disableDropdownActions(progId);
-
                 // Show feedback message after locking
                 Swal.fire({
                     icon: 'info',
@@ -797,13 +746,31 @@
         }
     }
 </script>
-
+<!-- /this script for lock details  -->
 <style>
     .dropdown-item.disabled {
         pointer-events: none;
         opacity: 0.6;
     }
 </style>
+<!-- delete details -->
+<script>
+    function confirmDelete(url) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; // Redirect to the delete URL
+            }
+        });
+    }
+</script>
 
 <?php include('template/footer.php'); ?>
 <!-- /page content -->

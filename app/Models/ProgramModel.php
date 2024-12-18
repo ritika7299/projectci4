@@ -85,7 +85,8 @@ class ProgramModel extends Model
     // Method to update form details 
     public function updateDetailsModel($data, $id)
     {
-        // print_r($data);
+        // print_r('$aaaaaaaaaaaaaaaaaaa');
+        // // print_r($data);
         // print_r($id);
         // die;
 
@@ -93,8 +94,52 @@ class ProgramModel extends Model
         $query->where('prog_id', $id);
         $query->update($data);
 
+        // $query->insert($data);
+        // print_r($query);
+        // die;
+        if ($query) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getuserProgramRecord($prog_id)
+    {
+        // print_r($prog_id);die;
+        $query = "select prog_id, progTitle,progPdf from programme_info where prog_id = '$prog_id'";
+        // print_r($query);
+        // die;
+        $result = $this->db->query($query);
+        // print_r($result);die;
+        if ($result) {
+            return $result->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    public function updatePdfRecord($data, $id)
+    {
+        // print_r($data);
+        // die;
+        $demo = $data['progPdf'];
+
+        // print_r($data);
+        // print_r($id);
+        // die;
+        //  $query = "update projectci4.programme_info set progTitle = 'Sameer', progPdf = 'jpb to myr.pdf' WHERE prog_id = '$id'";
+
+        $query = "UPDATE projectci4.programme_info  SET progPdf  = $demo WHERE prog_id = $id";
+        // print_r($query);
+        // die;
+        $query = $this->db->table('projectci4.programme_info');
+        $query->where('prog_id', $id);
+        $query->update($data);
+        // print_r($query);
+        // die;
         // $query->insert($userdata);
-        // print_r($query);die;
+
         if ($query) {
             return TRUE;
         } else {

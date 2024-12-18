@@ -86,74 +86,75 @@
 
 </body>
 <script>
-<?php
-public function saveDetails() {
+    <?php
+    /*public function saveDetails() {
 
-        // print_r('hello');
-        // die;
-        $session = session();  // Get the session object
-        $userName = $session -> get('name');  // Assuming 'name' is stored in the session during login
+            // print_r('hello');
+            // die;
+            $session = session();  // Get the session object
+            $userName = $session -> get('name');  // Assuming 'name' is stored in the session during login
 
-        // If no user is logged in, set an error message and redirect
-        if (!$userName) {
-            $session -> setFlashdata('error', 'User is not logged in.');
-            return redirect() -> to('admin/dashboard');  // Redirect to the login page or any other page
+            // If no user is logged in, set an error message and redirect
+            if (!$userName) {
+                $session -> setFlashdata('error', 'User is not logged in.');
+                return redirect() -> to('admin/dashboard');  // Redirect to the login page or any other page
+            }
+
+            // Get data from the request
+            $data = [
+                'progTitle' => $this -> request -> getPost('progTitle'),
+                'targetGroup' => $this -> request -> getPost('targetGroup'),
+                'date' => $this -> request -> getPost('date'),  // This should be in 'DD/MM/YYYY' format
+                'progDirector' => $this -> request -> getPost('progDirector'),
+                'dealingAsstt' => $this -> request -> getPost('dealingAsstt'),
+                'progPdf' => $this -> request -> getPost('progPdf'),
+                'attendancePdf' => $this -> request -> getPost('attendancePdf'),
+                'materialLink' => $this -> request -> getPost('materialLink'),
+                'paymentdone' => $this -> request -> getPost('paymentdone'),
+            ];
+
+            // Validate the required fields
+            if (empty($data['progTitle']) || empty($data['targetGroup']) || empty($data['date']) || empty($data['progDirector']) || empty($data['dealingAsstt'])) {
+                $session -> setFlashdata('error', 'Please fill all required fields.');
+                return redirect() -> to('admin/dashboard');  // Redirect back to the form page
+            }
+
+            // Check if both files (progPdf and attendancePdf) are uploaded and valid
+            $progFile = $this -> request -> getFile('progPdf');                     // for program PDF 
+            $attendanceFile = $this -> request -> getFile('attendancePdf');         // for attendance PDF
+
+            // If both files are valid, handle the uploads
+            if (($progFile && $progFile -> isValid()) && ($attendanceFile && $attendanceFile -> isValid())) {
+
+                // Handle program PDF upload
+                $originalProgFileName = $progFile -> getName();
+                $progFileExtension = $progFile -> getExtension();
+                // Save the file with the original name (no username added)
+                $progFile -> move('public/uploads/programsPdf', $originalProgFileName);
+                $data['progPdf'] = $originalProgFileName;  // Save the file name (no changes) in the database
+
+                // Handle attendance PDF upload
+                $originalAttendanceFileName = $attendanceFile -> getName();
+                $attendanceFileExtension = $attendanceFile -> getExtension();
+                // Save the file with the original name (no username added)
+                
+                $attendanceFile -> move('public/uploads/attendancePdf', $originalAttendanceFileName);
+                $data['attendancePdf'] = $originalAttendanceFileName;  // Save the file name (no changes) in the database
+
+            } else {
+                // If one or both files are invalid, set an error message
+                $session -> setFlashdata('error', 'Please upload valid program and attendance PDFs.');
+                return redirect() -> to('admin/dashboard');  // Redirect back to the form
+            }
+
+            // Save data into the database
+            $programModel = new ProgramModel();
+            $programModel -> save($data);
+
+            // Set a success message and redirect to another page
+            $session -> setFlashdata('success', 'Details added successfully.');
+            return redirect() -> to('admin/dashboard');  // Redirect to the dashboard or another page
         }
-
-        // Get data from the request
-        $data = [
-            'progTitle' => $this -> request -> getPost('progTitle'),
-            'targetGroup' => $this -> request -> getPost('targetGroup'),
-            'date' => $this -> request -> getPost('date'),  // This should be in 'DD/MM/YYYY' format
-            'progDirector' => $this -> request -> getPost('progDirector'),
-            'dealingAsstt' => $this -> request -> getPost('dealingAsstt'),
-            'progPdf' => $this -> request -> getPost('progPdf'),
-            'attendancePdf' => $this -> request -> getPost('attendancePdf'),
-            'materialLink' => $this -> request -> getPost('materialLink'),
-            'paymentdone' => $this -> request -> getPost('paymentdone'),
-        ];
-
-        // Validate the required fields
-        if (empty($data['progTitle']) || empty($data['targetGroup']) || empty($data['date']) || empty($data['progDirector']) || empty($data['dealingAsstt'])) {
-            $session -> setFlashdata('error', 'Please fill all required fields.');
-            return redirect() -> to('admin/dashboard');  // Redirect back to the form page
-        }
-
-        // Check if both files (progPdf and attendancePdf) are uploaded and valid
-        $progFile = $this -> request -> getFile('progPdf');                     // for program PDF 
-        $attendanceFile = $this -> request -> getFile('attendancePdf');         // for attendance PDF
-
-        // If both files are valid, handle the uploads
-        if (($progFile && $progFile -> isValid()) && ($attendanceFile && $attendanceFile -> isValid())) {
-
-            // Handle program PDF upload
-            $originalProgFileName = $progFile -> getName();
-            $progFileExtension = $progFile -> getExtension();
-            // Save the file with the original name (no username added)
-            $progFile -> move('public/uploads/programsPdf', $originalProgFileName);
-            $data['progPdf'] = $originalProgFileName;  // Save the file name (no changes) in the database
-
-            // Handle attendance PDF upload
-            $originalAttendanceFileName = $attendanceFile -> getName();
-            $attendanceFileExtension = $attendanceFile -> getExtension();
-            // Save the file with the original name (no username added)
-            $attendanceFile -> move('public/uploads/attendancePdf', $originalAttendanceFileName);
-            $data['attendancePdf'] = $originalAttendanceFileName;  // Save the file name (no changes) in the database
-
-        } else {
-            // If one or both files are invalid, set an error message
-            $session -> setFlashdata('error', 'Please upload valid program and attendance PDFs.');
-            return redirect() -> to('admin/dashboard');  // Redirect back to the form
-        }
-
-        // Save data into the database
-        $programModel = new ProgramModel();
-        $programModel -> save($data);
-
-        // Set a success message and redirect to another page
-        $session -> setFlashdata('success', 'Details added successfully.');
-        return redirect() -> to('admin/dashboard');  // Redirect to the dashboard or another page
-    }
-    ?>
-</script>
-</html>
+        ?>
+    </script>
+    </html>
