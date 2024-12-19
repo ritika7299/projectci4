@@ -118,7 +118,7 @@ class ProgramModel extends Model
             return false;
         }
     }
-
+    // update both program and attendance pdfs 
     public function updatePdfRecord($data, $id)
     {
         // print_r($data);
@@ -147,5 +147,6 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
+
 }
 

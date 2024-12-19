@@ -43,18 +43,6 @@
                     </div>
 
                     <!-- success and error messages  -->
-                    <!-- <div class="title float-right mb-2 mt-2" id="flashMessage">
-                        <?php //if (session()->getFlashdata('success')): ?>
-                            <span class="alert alert-success"><i class="fa fa-check"></i>
-                                <?//= session()->getFlashdata('success') ?>
-                            </span>
-                        <?php //endif; ?>
-                        <?php //if (session()->getFlashdata('error')): ?>
-                            <span class="alert alert-danger"><i class="fa fa-warning"></i>
-                                <?//= session()->getFlashdata('error') ?>
-                            </span>
-                        <?php //endif; ?>
-                    </div> -->
                     <div class="mb-1">
                         <div class="add-details mt-1">
                             <button type="submit" class="btn btn-primary float-right mt-0 mb-0" data-toggle="modal"
@@ -89,10 +77,10 @@
                                                     Assitant</th>
                                                 <th class="text-center" style="width:25%;">Programme<br>
                                                     Schedule<br>
-                                                    <span class="text-danger">(In pdf)</span>
+                                                    <span class="text-danger">(Pdf)</span>
                                                 </th>
                                                 <th class="text-center" style="width:25%;">Attendance<br>
-                                                    <span class="text-danger">(In pdf)</span>
+                                                    <span class="text-danger">(Pdf)</span>
                                                 </th>
                                                 <th class="text-center" style="width:25%;">Reading<br>
                                                     matrial</th>
@@ -208,7 +196,7 @@
                                                                             <i class="fa fa-edit"></i> Edit Details
                                                                         </a>
                                                                         <!-- edit prog. Schedule pdf -->
-                                                                        <a class="dropdown-item text-primary edit_btn_pdf"
+                                                                        <a class="dropdown-item text-primary edit_btn_program"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_program_pdf_Modal"
                                                                             data-id="<?php echo $key['prog_id']; ?>"
@@ -218,7 +206,7 @@
                                                                             Schedule(pdf)
                                                                         </a>
                                                                         <!-- edit attendance Schedule pdf -->
-                                                                        <a class="dropdown-item text-primary edit_btn_pdf1"
+                                                                        <a class="dropdown-item text-primary edit_btn_attendance"
                                                                             href="#" data-toggle="modal"
                                                                             data-target="#edit_attendance_pdf_Modal"
                                                                             data-id="<?php echo $key['prog_id']; ?>"
@@ -522,6 +510,56 @@
                                                     name="progPdf">
                                             </td>
                                         </tr>
+                                        <!-- <tr>
+                                            <td style="width: 30%;"><label for="attandancePdf">Attendance in
+                                                    PDF</label>
+                                            </td>
+                                            <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
+                                                    name="attendancePdf">
+                                            </td>
+                                        </tr> -->
+                                    </table>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="edit_Button"
+                                style="background-color: #2A3F54;">Update <i class="fa fa-paper-plane"></i>
+                            </button>
+                            <?php echo form_close(); ?>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /end program (pdf)  -->
+            <!-- edit attendance(pdf) details modal -->
+
+            <div class="modal fade" id="edit_attendance_pdf_Modal" tabindex="-1" role="dialog"
+                aria-labelledby="editProgramPdfModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #2A3F54;">
+                            <h5 class="modal-title text-white" id="editProgramPdfModalLabel">Edit Attendance pdf
+                                <i class="fa fa-file-pdf-o"></i>
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-area custom-background">
+                                <form id="edit_form_details"
+                                    action="<?php echo base_url('/admin/updateAttendanceRecord'); ?>" method="POST"
+                                    enctype="multipart/form-data">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
+                                            <td><input type="text" class="form-control" id="att_Title_id" name="att_id"
+                                                    value="" placeholder=""></td>
+                                            <td class="d-none"><input type="text" class="form-control" id="attid"
+                                                    name="progid" value="" placeholder=""></td>
+                                        </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="attandancePdf">Attendance in
                                                     PDF</label>
@@ -543,8 +581,8 @@
 
                     </div>
                 </div>
+
             </div>
-            <!-- /end program (pdf)  -->
         </div>
     </div>
 </div>
@@ -589,9 +627,9 @@
 
 <!-- edit programs and attendance pdf script -->
 <script>
-    $(".edit_btn_pdf").click(function () {
+    $(".edit_btn_program").click(function () {
 
-        alert("sameer111");
+        alert("sameerPrograms");
         var progId = $(this).data('id');
         //  alert(progId);
         $("#progidd").val(progId);
@@ -625,7 +663,46 @@
     });
 
 </script>
-<!-- /edit pdf script -->
+
+<script>
+    $(".edit_btn_attendance").click(function () {
+
+        alert("sameerAttendance");
+        var progId = $(this).data('id');
+        alert(progId);
+        $("#attid").val(progId);
+        $("#att_Title_id").val(progTitle);
+
+        alert("progId:" + progTitle);
+
+        $.ajax({
+
+            url: '<?php echo base_url() . "/admin/get-data-for-attendance/" ?>',
+            dataType: 'json',
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                prog_id: progId,//all, branch, court, both, individual, deputation & diverted
+            },
+
+
+            beforeSend: function () { },
+            success: function (data) {
+                console.log(data);
+                alert(data[0]['progid']);
+
+                $("#att_Title_id").val(data[0]['progTitle']);
+                $("#attid").val(data[0]['prog_id']);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        }).done(function (data) {
+        });
+    });
+
+</script>
+<!-- /edit programs and attendance pdf script -->
 <!-- this script for lock details  -->
 <script>
     // Key to store locked state in localStorage
@@ -773,7 +850,7 @@
     // Get the session expiration time passed from PHP
     let sessionExpiryTime = <?= $session_expiry_time ?>; // The timestamp when the session will expire
     let lastActivityTime = Date.now(); // Store the last activity time (initially the page load time)
-    let inactivityLimit = 600 * 1000; // 10 minute in milliseconds
+    let inactivityLimit = 60 * 1000; // 10 minute in milliseconds
 
     // Function to reset the inactivity timer on user activity
     function resetInactivityTimer() {

@@ -20,5 +20,5 @@ $routes->get('admin/delete/(:num)', 'Admin::delete/$1');                // delet
 $routes->get('admin/get-data-for-update', 'Admin::getRecord');          // For fetching details
 $routes->post('admin/updateDetails', 'Admin::updateDetails');            // For updating details
 $routes->get('admin/get-data-for-program', 'Admin::getProgramRecord');          // For fetching pdf details
-$routes->post('admin/updateProgramRecord', 'Admin::updateProgramRecord');            // For updating details
-
+$routes->post('admin/updateProgramRecord', 'Admin::updateProgramRecord');            // For updating program pdf 
+$routes->post('admin/updateAttendanceRecord', 'Admin::updateAttendanceRecord');            // For updating attendance pdf
