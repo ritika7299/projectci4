@@ -289,8 +289,8 @@ class Admin extends BaseController
         if ($prog_pdf && $prog_pdf->isValid()) {
             $originalProgFileName = $prog_pdf->getName();
             $progFileExtension = $prog_pdf->getExtension();
-            $newProgFileName = pathinfo($originalProgFileName, PATHINFO_FILENAME) . '.' . $progFileExtension . ' by ' . $userName;       //(. ' by ' . $userName)
-            $prog_pdf->move('public/uploads/programsPdf', $newProgFileName);
+            $newProgFileName = pathinfo($originalProgFileName, PATHINFO_FILENAME) . '.' . $progFileExtension . ' by ' . $userName;
+            $prog_pdf->move('public/uploads/updateProgramsPdf', $newProgFileName);
             $data['progPdf'] = $newProgFileName;  // Save the new file name in the database
         }
         // Ensure at least one file was successfully uploaded
@@ -315,6 +315,8 @@ class Admin extends BaseController
         // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
+
+
 
     // get attendance pdf record 
     public function getAttendanceRecord()
@@ -356,7 +358,7 @@ class Admin extends BaseController
             $originalProgFileName = $attendancePdf->getName();
             $progFileExtension = $attendancePdf->getExtension();
             $newProgFileName = pathinfo($originalProgFileName, PATHINFO_FILENAME) . '.' . $progFileExtension . ' by ' . $userName;       //(. ' by ' . $userName)
-            $attendancePdf->move('public/uploads/attendancePdf', $newProgFileName);
+            $attendancePdf->move('public/uploads/updateAttendancePdf', $newProgFileName);
             $data['attendancePdf'] = $newProgFileName;
         }
         // Ensure at least one file was successfully uploaded
