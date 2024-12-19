@@ -89,9 +89,11 @@
                                                     Assitant</th>
                                                 <th class="text-center" style="width:25%;">Programme<br>
                                                     Schedule<br>
-                                                    (In pdf)</th>
+                                                    <span class="text-danger">(In pdf)</span>
+                                                </th>
                                                 <th class="text-center" style="width:25%;">Attendance<br>
-                                                    (In pdf)</th>
+                                                    <span class="text-danger">(In pdf)</span>
+                                                </th>
                                                 <th class="text-center" style="width:25%;">Reading<br>
                                                     matrial</th>
                                                 <th class="text-center" style="width:10%;">Payment Done</th>
@@ -148,7 +150,6 @@
                                                             <?php endif; ?>
                                                         </td>
                                                         <!-- /programs pdf end -->
-
                                                         <!-- attendance pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
                                                             <?php if (!empty($key['attendancePdf'])): ?>
@@ -174,7 +175,6 @@
                                                             <?php endif; ?>
                                                         </td>
                                                         <!-- /attendance pdf end -->
-
                                                         <td class="text-center text-success"
                                                             style="word-wrap: break-word; white-space: normal;">
                                                             <a href="<?php echo $key['materialLink']; ?>" target="_blank">
@@ -363,7 +363,6 @@
                                             </td>
                                         </tr>
                                     </table>
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -409,7 +408,6 @@
                                                     <option value="TG-2">TG-2</option>
                                                     <option value="TG-3">TG-3</option>
                                                 </select>
-
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="date">Date</label></td>
@@ -506,35 +504,34 @@
                         <div class="modal-body">
                             <div class="form-area custom-background">
                                 <form id="edit_form_details"
-                                    action="<?php echo base_url('/admin/updateProgramRecord'); ?>" method="POST">
+                                    action="<?php echo base_url('/admin/updateProgramRecord'); ?>" method="POST"
+                                    enctype="multipart/form-data">
                                     <table class="table table-bordered">
                                         <tr>
                                             <td style="width: 30%;"><label for="progTitle">Programme Title</label></td>
                                             <td><input type="text" class="form-control" id="progTitle_id"
-                                                    name="progTitle" value="" placeholder=""></td>
+                                                    name="progTitle" value="" placeholder="" readonly></td>
                                             <td style="display: none;"><input type="text" class="form-control"
                                                     id="progidd" name="progid" value="" placeholder=""></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 30%;"><label for="progPdf">Programme Schedule in
+                                            <td style="width: 30%;"><label for="progPdf_11">Programme Schedule in
                                                     PDF</label>
                                             </td>
-                                            <td>
-                                                <input type="file" class="mt-2 text-primary" id="progPdf_666"
+                                            <td><input type="file" class="mt-2 text-primary" id="progPdf_666"
                                                     name="progPdf">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 30%;">
-                                                <label for="attandancePdf">Attendance in
+                                            <td style="width: 30%;"><label for="attandancePdf">Attendance in
                                                     PDF</label>
                                             </td>
-                                            <td>
-                                                <input type="file" class="mt-2 text-primary" id="attendancePdf_666"
+                                            <td><input type="file" class="mt-2 text-primary" id="attendancePdf"
                                                     name="attendancePdf">
                                             </td>
                                         </tr>
                                     </table>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -547,10 +544,9 @@
                     </div>
                 </div>
             </div>
-            <!-- /edit Program(pdf) details modal -->
+            <!-- /end program (pdf)  -->
         </div>
     </div>
-</div>
 </div>
 <!-- JQUERY.MIN.JS v-3.7.1 created by ritika  -->
 <script src="<?php echo base_url("../public/assets/build/js/jquery.min.js"); ?>"></script>
@@ -597,13 +593,14 @@
 
         alert("sameer111");
         var progId = $(this).data('id');
-        // // alert(progId);
-        // $("#progidd").val(progId);
-        // $("#progTitle_id").val(progTitle);
+        //  alert(progId);
+        $("#progidd").val(progId);
+        // $("#progTitle").val(progTitle);
 
-        // alert("progId:" + progId);
+        alert("progId:" + progId);
 
         $.ajax({
+
             url: '<?php echo base_url() . "/admin/get-data-for-program/" ?>',
             dataType: 'json',
             contentType: 'application/json',
@@ -611,14 +608,14 @@
             data: {
                 prog_id: progId,//all, branch, court, both, individual, deputation & diverted
             },
+
+
             beforeSend: function () { },
             success: function (data) {
                 console.log(data);
-                //alert(data[0]['progid']);
+                //     alert(data[0]['progid']);
                 $("#progTitle_id").val(data[0]['progTitle']);
                 $("#progid").val(data[0]['prog_id']);
-                $("#progPdf_666").val(data[0]['progPdf']);
-                $("#attendancePdf_666").val(data[0]['attendancePdf']);
             },
             error: function (data) {
                 console.log(data);
@@ -657,7 +654,6 @@
                 confirmButtonText: 'OK',
                 confirmButtonColor: '#3085d6'
             });
-
             return; // Exit the function if already locked
         }
         // Show confirmation dialog before locking actions
@@ -772,5 +768,52 @@
     }
 </script>
 
+<!-- this script for session expire time -->
+<script>
+    // Get the session expiration time passed from PHP
+    let sessionExpiryTime = <?= $session_expiry_time ?>; // The timestamp when the session will expire
+    let lastActivityTime = Date.now(); // Store the last activity time (initially the page load time)
+    let inactivityLimit = 600 * 1000; // 10 minute in milliseconds
+
+    // Function to reset the inactivity timer on user activity
+    function resetInactivityTimer() {
+        lastActivityTime = Date.now(); // Reset the last activity time
+    }
+    // Attach event listeners for user activity (mousemove, keypress)
+    document.addEventListener("mousemove", resetInactivityTimer);
+    document.addEventListener("keypress", resetInactivityTimer);
+    document.addEventListener("click", resetInactivityTimer);
+
+    // Update the countdown every second
+    let countdown = setInterval(function () {
+        let currentTime = Math.floor(Date.now() / 1000); // Get the current time in seconds
+        let remainingTime = sessionExpiryTime - currentTime; // Calculate the remaining time in seconds
+
+
+        // Check for inactivity (if the last activity was more than 1 minute ago)
+        if (Date.now() - lastActivityTime > inactivityLimit) {
+            // If inactive for more than 1 minute, consider the session expired
+            clearInterval(countdown); // Stop the countdown
+
+            // Show SweetAlert for session expiry
+            Swal.fire({
+                title: 'Session Expired',
+                text: 'You have been inactive for too long. Please log in again.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false, // Disable closing by clicking outside
+                allowEscapeKey: false, // Disable closing with escape key
+            }).then(() => {
+                // Redirect to login page after SweetAlert closes
+                window.location.href = "/"; // Modify this URL as per your requirement
+            });
+        } else {
+            // Calculate minutes and seconds
+            let minutes = Math.floor(remainingTime / 60);
+            let seconds = remainingTime % 60;
+            document.getElementById("session-timer").innerText = `Session will expire in: ${minutes}m ${seconds}s`;
+        }
+    }, 1000); // Update every 1 second
+</script>
 <?php include('template/footer.php'); ?>
 <!-- /page content -->

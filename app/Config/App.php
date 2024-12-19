@@ -206,4 +206,18 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    // session for 15 minutes
+    public $session = [
+        'driver' => 'CodeIgniter\Session\Handlers\DatabaseHandler', // Or whatever session driver you're using
+        'cookieName' => 'ci_session',
+        'expiration' => 300, // 900 seconds = 15 minutes
+        'savePath' => '', // Leave it empty for default storage
+        'restrictCookie' => true,
+        'secure' => false,
+        'httpOnly' => true,
+        'sameSite' => 'None',
+        'storePath' => null,
+    ];
+
 }

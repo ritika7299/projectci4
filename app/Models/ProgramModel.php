@@ -128,7 +128,7 @@ class ProgramModel extends Model
         // print_r($data);
         // print_r($id);
         // die;
-        //  $query = "update projectci4.programme_info set progTitle = 'Sameer', progPdf = 'jpb to myr.pdf' WHERE prog_id = '$id'";
+        //  $query = "update projectci4.programme_info set `progTitle` = 'Sameer', `progPdf` = 'jpb to myr.pdf' WHERE prog_id = '$id'";
 
         $query = "UPDATE projectci4.programme_info  SET progPdf  = $demo WHERE prog_id = $id";
         // print_r($query);
@@ -138,6 +138,7 @@ class ProgramModel extends Model
         $query->update($data);
         // print_r($query);
         // die;
+
         // $query->insert($userdata);
 
         if ($query) {

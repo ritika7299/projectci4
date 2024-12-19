@@ -81,11 +81,34 @@ class Admin extends BaseController
         }
     }
 
+    // public function dashboard()
+    // {
+    //     helper(['form', 'filesystem']);
+    //     $model = new ProgramModel();
+    //     $programmeInfo = $model->orderBy('created_at', 'DESC')->findAll(); // Fetch all rooms records
+
+    //     // Format the created_at date to dd/mm/yyyy
+    //     foreach ($programmeInfo as &$programme) {
+    //         // Check if the date is empty or null
+    //         if (empty($programme['date'])) {
+    //             $programme['date'] = '00/00/0000'; // Default date if not set
+    //         } else {
+    //             $programme['date'] = date('d/m/Y', strtotime($programme['date'])); // Format date if available
+    //         }
+    //     }
+
+    //     $data['prog_data'] = $programmeInfo;
+    //     return view('admin/dashboard', $data); // Pass formatted data to the view
+    // }
+
     public function dashboard()
     {
+        // Helper functions for form and filesystem
         helper(['form', 'filesystem']);
+
+        // Initialize the ProgramModel and fetch data
         $model = new ProgramModel();
-        $programmeInfo = $model->orderBy('created_at', 'DESC')->findAll(); // Fetch all rooms records
+        $programmeInfo = $model->orderBy('created_at', 'DESC')->findAll(); // Fetch all room records
 
         // Format the created_at date to dd/mm/yyyy
         foreach ($programmeInfo as &$programme) {
@@ -97,8 +120,18 @@ class Admin extends BaseController
             }
         }
 
+        // Store the session expiration timestamp
+        $session_expiry_time = time() + config('App')->session['expiration']; // Session expiration time (15 minutes from now)
+
+        // You can also set the 'last_activity' timestamp in the session to track user activity
+        session()->set('last_activity', time());
+
+        // Pass the data and session expiration time to the view
         $data['prog_data'] = $programmeInfo;
-        return view('admin/dashboard', $data); // Pass formatted data to the view
+        $data['session_expiry_time'] = $session_expiry_time;
+
+        // Return the view with the data
+        return view('admin/dashboard', $data);
     }
     // save details function
     public function saveDetails()
@@ -314,18 +347,20 @@ class Admin extends BaseController
     }
     public function updateProgramRecord()
     {
-        // print_r('sameer');
-        // die;
         $request = service('request');
         $id = $request->getPost('progid');
-        // print_r('sameer');
+        $prog_pdf = $request->getFile('progPdf');
+        $attendancePdf = $request->getFile('attendancePdf');
+        // print_r($prog_pdf);
+        // die;    
 
         // Collect form data
-        $data = [
-            'progTitle' => $request->getPost('progTitle'),
-            'progPdf' => $request->getPost('progPdf'),
-            'attendancePdf' => $request->getPost('attendancePdf'),
-        ];
+        // $data = [
+        //     'progTitle' => $request->getPost('progTitle'),
+        //     'progPdf' => $request->getFile('progPdf'),
+        //     'attendancePdf' => $request->getFile('attendancePdf'),
+        // ];
+
         // print_r($data);
         // die;
 
@@ -335,26 +370,21 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'User not logged in');
             return redirect()->to('/dashboard');
         }
-        // Handle file uploads
-        $progFile = $request->getFile('progPdf'); // For program PDF
-        $attendanceFile = $request->getFile('attendancePdf'); // For attendance PDF
+        // print_r($userName);
+        //         die;
 
-        // print_r($progFile);
-        // print_r($attendanceFile);
-        // die;
+        $originalProgFileName = $prog_pdf->getName();
+        $progFileExtension = $prog_pdf->getExtension();
+        $newProgFileName = pathinfo($originalProgFileName, PATHINFO_FILENAME) . '.' . $progFileExtension . ' by ' . $userName;       //(. ' by ' . $userName)
+        $prog_pdf->move('public/uploads/updateProgramsPdf', $newProgFileName);
+        $data['progPdf'] = $newProgFileName;
 
-        // Validate and move the uploaded files
-        if ($progFile && $progFile->isValid() && $progFile->getClientExtension() === 'pdf') {
-            $originalProgFileName = $progFile->getRandomName(); // Use a unique name
-            $progFile->move('public/uploads/programsPdf', $originalProgFileName);
-            $data['progPdf'] = 'public/uploads/programsPdf/' . $originalProgFileName;
-        }
+        $originalProgFileName = $attendancePdf->getName();
+        $progFileExtension = $attendancePdf->getExtension();
+        $newProgFileName = pathinfo($originalProgFileName, PATHINFO_FILENAME) . '.' . $progFileExtension . ' by ' . $userName;       //(. ' by ' . $userName)
+        $attendancePdf->move('public/uploads/updateAttendancePdf', $newProgFileName);
+        $data['attendancePdf'] = $newProgFileName;
 
-        if ($attendanceFile && $attendanceFile->isValid() && $attendanceFile->getClientExtension() === 'pdf') {
-            $originalAttendanceFileName = $attendanceFile->getRandomName(); // Use a unique name
-            $attendanceFile->move('public/uploads/attendancePdf', $originalAttendanceFileName);
-            $data['attendancePdf'] = 'public/uploads/attendancePdf/' . $originalAttendanceFileName;
-        }
         // Ensure at least one file was successfully uploaded
         if (!isset($data['progPdf']) && !isset($data['attendancePdf'])) {
             session()->setFlashdata('error', 'Please upload valid PDF files for both Program and Attendance. sameer');
@@ -377,6 +407,13 @@ class Admin extends BaseController
         // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
+
+
+
+
+
+
+
 
     // Admin logout function
     public function logout()
