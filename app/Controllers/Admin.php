@@ -61,7 +61,7 @@ class Admin extends BaseController
         return redirect()->to('admin/register')->with('success', 'Registration successful. Please login.');
     }
     // admin login function
-    public function login()
+    /*public function login()
     {
         $session = session();
         $email = $this->request->getPost('name');
@@ -79,7 +79,38 @@ class Admin extends BaseController
             $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
             return redirect()->to('/');
         }
+    }*/
+
+    public function login()
+    {
+        $session = session();
+
+        // Check if the user is already logged in
+        if ($session->get('logged_in') === true) {
+            // User is already logged in, so redirect to the dashboard or desired page
+            return redirect()->to('admin/dashboard');
+        }
+
+        $email = $this->request->getPost('name');
+        $password = $this->request->getPost('password');
+        $model = new AdminModel();
+        $admin = $model->where('name', $email)->first();
+
+        // Check if the admin exists and the password matches
+        if ($admin && $admin['password'] === $password) {
+            // Store user info in session
+            $session->set('logged_in', true);
+            $session->set('name', $admin['name']);  // Store the logged-in user's name
+
+            // Redirect to the dashboard after successful login
+            return redirect()->to('admin/dashboard');
+        } else {
+            // Invalid login details
+            $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
+            return redirect()->to('/');
+        }
     }
+
 
     public function dashboard()
     {
@@ -315,9 +346,6 @@ class Admin extends BaseController
         // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
-
-
-
     // get attendance pdf record 
     public function getAttendanceRecord()
     {
@@ -341,6 +369,8 @@ class Admin extends BaseController
     {
         $request = service('request');
         $id = $request->getPost('progid');
+        // print_r($id);
+        // die;
         // $prog_pdf = $request->getFile('progPdf');
         $attendancePdf = $request->getFile('attendancePdf');
 
@@ -352,7 +382,6 @@ class Admin extends BaseController
         }
         // print_r($userName);
         // die;
-
 
         if ($attendancePdf && $attendancePdf->isValid()) {
             $originalProgFileName = $attendancePdf->getName();
