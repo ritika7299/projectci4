@@ -61,7 +61,7 @@ class Admin extends BaseController
         return redirect()->to('admin/register')->with('success', 'Registration successful. Please login.');
     }
     // admin login function
-    /*public function login()
+    public function login()
     {
         $session = session();
         $email = $this->request->getPost('name');
@@ -79,9 +79,22 @@ class Admin extends BaseController
             $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
             return redirect()->to('/');
         }
-    }*/
+    }
 
-    public function login()
+    public function checkSessionTimeout()
+    {
+        $session = session();
+        $loggedInTime = $session->get('logged_in_time');
+        $timeoutDuration = 30 * 60; // 30 minutes in seconds
+
+        if ($loggedInTime && (time() - $loggedInTime) > $timeoutDuration) {
+            // If the session has expired, destroy the session and redirect to login
+            $session->destroy();
+            return redirect()->to('/');
+        }
+    }
+
+    /*public function login()
     {
         $session = session();
 
@@ -109,7 +122,7 @@ class Admin extends BaseController
             $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
             return redirect()->to('/');
         }
-    }
+    }*/
 
 
     public function dashboard()
