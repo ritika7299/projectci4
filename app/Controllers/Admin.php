@@ -408,7 +408,6 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'Please upload valid PDF files for both Program and Attendance. sameer');
             return redirect()->to('admin/dashboard');
         }
-
         // Update the record in the database
         $programModel = new ProgramModel();
         try {
