@@ -93,38 +93,6 @@ class Admin extends BaseController
             return redirect()->to('/');
         }
     }
-
-    /*public function login()
-    {
-        $session = session();
-
-        // Check if the user is already logged in
-        if ($session->get('logged_in') === true) {
-            // User is already logged in, so redirect to the dashboard or desired page
-            return redirect()->to('admin/dashboard');
-        }
-
-        $email = $this->request->getPost('name');
-        $password = $this->request->getPost('password');
-        $model = new AdminModel();
-        $admin = $model->where('name', $email)->first();
-
-        // Check if the admin exists and the password matches
-        if ($admin && $admin['password'] === $password) {
-            // Store user info in session
-            $session->set('logged_in', true);
-            $session->set('name', $admin['name']);  // Store the logged-in user's name
-
-            // Redirect to the dashboard after successful login
-            return redirect()->to('admin/dashboard');
-        } else {
-            // Invalid login details
-            $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
-            return redirect()->to('/');
-        }
-    }*/
-
-
     public function dashboard()
     {
         // Helper functions for form and filesystem
@@ -362,7 +330,7 @@ class Admin extends BaseController
     // get attendance pdf record 
     public function getAttendanceRecord()
     {
-        print_r("Sameer");
+        // print_r("Sameer");
         // die;
         $id = $this->request->getGet('prog_id');
         // echo $id;
@@ -425,6 +393,25 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');
     }
 
+    // get program pdf history view
+    public function get_program_pdf_history()
+    {
+        // print_r("hh");
+        // die;
+        echo view('hello');
+        $id = $this->request->getGet('prog_id');
+        // echo $id;
+        // die;
+
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is correct :( ']);
+        } else {
+            $result = $this->programModel->get_program_pdf_data($id);
+            // print_r($result);
+            // die;
+            echo json_encode($result);
+        }
+    }
     // Admin logout function
     public function logout()
     {

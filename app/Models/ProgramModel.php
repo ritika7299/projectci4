@@ -162,5 +162,55 @@ class ProgramModel extends Model
         }
     }
 
+    //get programs pdf history method
+    public function get_program_pdf_data($prog_id)
+    {
+        // print_r($prog_id);
+        // die;
+        $query = "select prog_id, progTitle, progPdf from programme_info where prog_id = '$prog_id'";
+        // print_r($query);
+        // die;
+        $result = $this->db->query($query);
+        // print_r($result);die;
+        if ($result) {
+            return $result->getResultArray();
+        } else {
+            return false;
+        }
+
+    }
+
+    /* get attendance pdf history method
+        public function get_attendance_pdf_data($prog_id)
+     {
+         // print_r($prog_id);die;
+         $query = "select prog_id, progTitle, attendancePdf from programme_info where prog_id = '$prog_id'";
+         // print_r($query);
+         // die;
+         $result = $this->db->query($query);
+         // print_r($result);die;
+         if ($result) {
+             return $result->getResultArray();
+         } else {
+             return false;
+         }
+
+     }*/
+    // Get view history for a specific program
+    public function getProgramViewHistory($prog_id)
+    {
+        return $this->where('prog_id', $prog_id)->orderBy('viewed_at', 'DESC')->findAll();
+    }
+
+    // Log a view
+    public function logView($prog_id, $user_id = null)
+    {
+        return $this->insert([
+            'prog_id' => $prog_id,
+            'user_id' => $user_id,
+            'viewed_at' => date('Y-m-d H:i:s')
+        ]);
+    }
+
 }
 

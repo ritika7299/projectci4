@@ -1,3 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- programs pdf -->
+    <td class="text-center text-capitalize text-wrap">
+        <?php if (!empty($key['progPdf'])): ?>
+            <button type="button" class="btn btn-outline-primary" style="padding:
+                                                                        8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0,
+                                                                        0.1);"
+                onclick="window.open('<?= base_url('public/uploads/programsPdf/' . $key['progPdf']); ?>', '_blank');"
+                title="Click to view the PDF">
+                View PDF <i class="fa fa-eye"></i>
+            </button>
+            <br>
+            <?php
+            // Extract the username from the file name
+            $fileName = $key['progPdf'];
+            $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
+            $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+            ?>
+            <span class="text-info">
+                <?= 'uploaded by ' . $uploadedBy; ?>
+            </span>
+        <?php else: ?>
+            <span class="text-danger font-italic">No PDF Available</span>
+            <br>
+        <?php endif; ?>
+    </td>
+    <!-- /programs pdf end -->
+    <!-- attendance pdf -->
+    <td class="text-center text-capitalize text-wrap">
+        <?php if (!empty($key['attendancePdf'])): ?>
+            <button type="button" class="btn btn-outline-primary"
+                style="padding: 8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                onclick="window.open('<?= base_url('public/uploads/attendancePdf/' . $key['attendancePdf']); ?>', '_blank');"
+                title="Click to view the PDF">
+                View PDF <i class="fa fa-eye"></i>
+            </button>
+            <br>
+            <?php
+            // Extract the username from the file name
+            $fileName = $key['attendancePdf'];
+            $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
+            $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+            ?>
+            <span class="text-info">
+                <?= 'uploaded by ' . $uploadedBy; ?>
+            </span>
+        <?php else: ?>
+            <span class="text-danger font-italic">No PDF Available</span>
+            <br>
+        <?php endif; ?>
+    </td>
+    <!-- /attendance pdf end -->
+</body>
+
+</html>
 <!-- show success and error messages through SweetAlert -->
 <div class="title float-right mb-2 mt-2" id="flashMessage">
     <?php if (session()->getFlashdata('success')): ?>
@@ -276,4 +340,4 @@
         <span class="text-danger font-italic">No PDF Available</span>
         <br>
     <?php endif; ?>
-</td> */
+</td>

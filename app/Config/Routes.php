@@ -22,3 +22,4 @@ $routes->post('admin/updateDetails', 'Admin::updateDetails');            // For 
 $routes->get('admin/get-data-for-program', 'Admin::getProgramRecord');          // For fetching pdf details
 $routes->post('admin/updateProgramRecord', 'Admin::updateProgramRecord');            // For updating program pdf 
 $routes->post('admin/updateAttendanceRecord', 'Admin::updateAttendanceRecord');            // For updating attendance pdf
+$routes->get('admin/history-program-pdf', 'Admin::get_program_pdf_history');

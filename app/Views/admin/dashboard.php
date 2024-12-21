@@ -114,17 +114,38 @@
                                                         </td>
                                                         <!-- programs pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
-                                                            <?php if (!empty($key['progPdf'])): ?>
-                                                                <button type="button" class="btn btn-outline-primary" style="padding:
-                                                                        8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0,
-                                                                        0.1);"
-                                                                    onclick="window.open('<?= base_url('public/uploads/programsPdf/' . $key['progPdf']); ?>', '_blank');"
-                                                                    title="Click to view the PDF">
+                                                            <?php
+                                                            // Check if there is an updated PDF
+                                                            $updatedPdfPath = 'public/uploads/updateProgramsPdf/' . $key['progPdf'];
+                                                            if (!empty($key['progPdf']) && file_exists($updatedPdfPath)): ?>
+                                                                <!-- Display the updated PDF -->
+                                                                <button type="button" class="btn btn-outline-primary"
+                                                                    style="padding: 8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                                                                    onclick="window.open('<?= base_url($updatedPdfPath); ?>', '_blank');"
+                                                                    title="Click to view the updated PDF">
                                                                     View PDF <i class="fa fa-eye"></i>
                                                                 </button>
                                                                 <br>
                                                                 <?php
-                                                                // Extract the username from the file name
+                                                                // Extract the username from the updated file name
+                                                                $fileName = $key['progPdf'];
+                                                                $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
+                                                                $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+                                                                ?>
+                                                                <span class="text-info">
+                                                                    <?= 'updated by ' . $uploadedBy; ?>
+                                                                </span>
+                                                            <?php elseif (!empty($key['progPdf'])): ?>
+                                                                <!-- If no updated PDF exists, display the original PDF -->
+                                                                <button type="button" class="btn btn-outline-primary"
+                                                                    style="padding: 8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                                                                    onclick="window.open('<?= base_url('public/uploads/programsPdf/' . $key['progPdf']); ?>', '_blank');"
+                                                                    title="Click to view the original PDF">
+                                                                    View PDF <i class="fa fa-eye"></i>
+                                                                </button>
+                                                                <br>
+                                                                <?php
+                                                                // Extract the username from the original file name
                                                                 $fileName = $key['progPdf'];
                                                                 $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
                                                                 $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
@@ -133,23 +154,45 @@
                                                                     <?= 'uploaded by ' . $uploadedBy; ?>
                                                                 </span>
                                                             <?php else: ?>
+                                                                <!-- If no PDF available -->
                                                                 <span class="text-danger font-italic">No PDF Available</span>
                                                                 <br>
                                                             <?php endif; ?>
                                                         </td>
-                                                        <!-- /programs pdf end -->
                                                         <!-- attendance pdf -->
                                                         <td class="text-center text-capitalize text-wrap">
-                                                            <?php if (!empty($key['attendancePdf'])): ?>
+                                                            <?php
+                                                            // Check if there is an updated attendance PDF
+                                                            $updatedAttendancePdfPath = 'public/uploads/updateAttendancePdf/' . $key['attendancePdf'];
+                                                            if (!empty($key['attendancePdf']) && file_exists($updatedAttendancePdfPath)): ?>
+                                                                <!-- Display the updated attendance PDF -->
                                                                 <button type="button" class="btn btn-outline-primary"
                                                                     style="padding: 8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                                                                    onclick="window.open('<?= base_url('public/uploads/attendancePdf/' . $key['attendancePdf']); ?>', '_blank');"
-                                                                    title="Click to view the PDF">
+                                                                    onclick="window.open('<?= base_url($updatedAttendancePdfPath); ?>', '_blank');"
+                                                                    title="Click to view the updated attendance PDF">
                                                                     View PDF <i class="fa fa-eye"></i>
                                                                 </button>
                                                                 <br>
                                                                 <?php
-                                                                // Extract the username from the file name
+                                                                // Extract the username from the updated file name
+                                                                $fileName = $key['attendancePdf'];
+                                                                $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
+                                                                $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+                                                                ?>
+                                                                <span class="text-info">
+                                                                    <?= 'updated by ' . $uploadedBy; ?>
+                                                                </span>
+                                                            <?php elseif (!empty($key['attendancePdf'])): ?>
+                                                                <!-- If no updated attendance PDF exists, display the original -->
+                                                                <button type="button" class="btn btn-outline-primary"
+                                                                    style="padding: 8px 16px; font-size: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                                                                    onclick="window.open('<?= base_url('public/uploads/attendancePdf/' . $key['attendancePdf']); ?>', '_blank');"
+                                                                    title="Click to view the original attendance PDF">
+                                                                    View PDF <i class="fa fa-eye"></i>
+                                                                </button>
+                                                                <br>
+                                                                <?php
+                                                                // Extract the username from the original file name
                                                                 $fileName = $key['attendancePdf'];
                                                                 $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
                                                                 $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
@@ -158,6 +201,7 @@
                                                                     <?= 'uploaded by ' . $uploadedBy; ?>
                                                                 </span>
                                                             <?php else: ?>
+                                                                <!-- If no attendance PDF available -->
                                                                 <span class="text-danger font-italic">No PDF Available</span>
                                                                 <br>
                                                             <?php endif; ?>
@@ -503,8 +547,15 @@
                                                     name="progid" value="" placeholder=""></td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 30%;"><label for="progPdf_11">Programme Schedule in
-                                                    PDF</label>
+                                            <td style="width: 30%;">
+                                                <label for="progPdf_11">Programme Schedule in PDF</label>
+                                                <br><br>
+                                                <a href="#" span
+                                                    class="badge badge-outline-info  float-right programs_pdf_history"
+                                                    id="programs_pdf_history" data-toggle="modal"
+                                                    data-target="#programs_pdf_history_modal">
+                                                    <!-- <i class="fa fa-info"></i> -->
+                                                    <u>Pdf History</u></a>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="progPdf_666"
                                                     name="progPdf">
@@ -534,7 +585,6 @@
             </div>
             <!-- /end program (pdf)  -->
             <!-- edit attendance(pdf) details modal -->
-
             <div class="modal fade" id="edit_attendance_pdf_Modal" tabindex="-1" role="dialog"
                 aria-labelledby="editProgramPdfModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -566,7 +616,11 @@
                                         </tr>
                                         <tr>
                                             <td style="width: 30%;"><label for="attandancePdf">Attendance in
-                                                    PDF</label>
+                                                    PDF</label><br><br>
+                                                <a href="#" span
+                                                    class="badge badge-outline-info  float-right attendance_pdf_history"
+                                                    data-toggle="modal" data-target="#attendance_pdf_history_modal">
+                                                    <u>Pdf History</u></a>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="attendancePdf_666"
                                                     name="attendancePdf">
@@ -585,6 +639,46 @@
                     </div>
                 </div>
 
+            </div>
+            <!-- Programs PDF History Modal -->
+            <div class="modal fade" id="programs_pdf_history_modal" tabindex="-1" role="dialog"
+                aria-labelledby="ProgramsPdfHistoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #2A3F54;">
+                            <h5 class="modal-title" id="ProgramsPdfHistoryModalLabel">Programs PDF History <i
+                                    class="fa fa-file-pdf-o"></i></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="ProgramspdfHistoryContent">
+                                <!-- History content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Attendance PDF History Modal -->
+            <div class="modal fade" id="attendance_pdf_history_modal" tabindex="-1" role="dialog"
+                aria-labelledby="AttendancePdfHistoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #2A3F54;">
+                            <h5 class="modal-title" id="AttendancePdfHistoryModalLabel">Attendance PDF History <i
+                                    class="fa fa-file-pdf-o"></i></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="AttendancepdfHistoryContent">
+                                <!-- History content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -836,7 +930,6 @@
         });
     }
 </script>
-
 <!-- this script for session expire time -->
 <script>
     // Get the session expiration time passed from PHP
@@ -883,6 +976,83 @@
             document.getElementById("session-timer").innerText = `Session will expire in: ${minutes}m ${seconds}s`;
         }
     }, 1000); // Update every 1 second
+</script>
+<!--  programs pdf history script -->
+<!-- <script>
+    $("#programs_pdf_history").click(function () {
+        alert("this is programs pdf history modal");
+        var progId = $(this).data('id');
+        // alert(att_Title_id);
+        $.ajax({
+
+            url: '<?php //echo base_url() . "/admin/history-program-pdf/" ?>',
+            dataType: 'json',
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                prog_id: progId,//all, branch, court, both, individual, deputation & diverted
+            },
+
+            beforeSend: function () { },
+            success: function (data) {
+                console.log(data);
+                alert(data[0]['att_Title_id']);
+                $("#att_Title_id").val(data[0]['progTitle']);
+                $("#attid").val(data[0]['prog_id']);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        }).done(function (data) {
+        });
+    });
+</script> -->
+<!-- <script>
+    // Function to open the modal and load the PDF history
+    function openPdfHistoryModal(prog_id) {
+        // Show the modal
+        $('#programs_pdf_history').modal('show');
+        alert('this is run');
+
+        // Make an AJAX request to fetch the PDF history for the given prog_id
+        $.ajax({
+            url: '/admin/get_program_pdf_history/' + prog_id,  // Replace with your controller's URL
+            method: 'GET',
+            success: function (response) {
+                if (response.length > 0) {
+                    let historyContent = '<table class="table table-bordered">';
+                    historyContent += '<thead><tr><th>PDF Filename</th><th>Action</th><th>Uploaded At</th></tr></thead><tbody>';
+
+                    // Loop through the history data and display it in the table
+                    response.forEach(function (history) {
+                        historyContent += '<tr>';
+                        historyContent += '<td>' + history.progPdf + '</td>';
+                        historyContent += '<td>' + history.action + '</td>';
+                        historyContent += '<td>' + history.uploaded_at + '</td>';
+                        historyContent += '</tr>';
+                    });
+
+                    historyContent += '</tbody></table>';
+
+                    // Insert the table content into the modal
+                    $('#ProgramspdfHistoryContent').html(historyContent);
+                } else {
+                    // If no history, display a message
+                    $('#ProgramspdfHistoryContent').html('<p>No history found for this program.</p>');
+                }
+            },
+            error: function () {
+                $('#ProgramspdfHistoryContent').html('<p>Error loading PDF history. Please try again later.</p>');
+            }
+        });
+    }
+</script> -->
+<!-- attendance pdf history script -->
+<script>
+    $(".attendance_pdf_history").click(function () {
+        alert("this is attendance pdf history modal");
+
+    });
 </script>
 <?php include('template/footer.php'); ?>
 <!-- /page content -->

@@ -67,7 +67,8 @@
 <script src="<?php echo base_url("../public/assets/build/js/custom.min.js"); ?>"></script>
 <!-- sweetalert js file -->
 <script src="<?php echo base_url("../public/assets/build/js/sweetalert2.min.js"); ?>"></script>
-
+<!-- close modal js  -->
+<script src="<?php echo base_url("../public/assets/build/js/modalClose.js"); ?>"></script>
 </body>
 
 </html>
