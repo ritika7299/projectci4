@@ -551,11 +551,12 @@
                                                 <label for="progPdf_11">Programme Schedule in PDF</label>
                                                 <br><br>
                                                 <a href="#" span
-                                                    class="badge badge-outline-info  float-right programs_pdf_history"
+                                                    class="badge badge-outline-info float-right programs_pdf_history"
                                                     id="programs_pdf_history" data-toggle="modal"
                                                     data-target="#programs_pdf_history_modal">
                                                     <!-- <i class="fa fa-info"></i> -->
-                                                    <u>Pdf History</u></a>
+                                                    <u><span class="text-info">Pdf History <i class="fa fa-history"
+                                                                aria-hidden="true"></i></span></u></a>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="progPdf_666"
                                                     name="progPdf">
@@ -620,7 +621,8 @@
                                                 <a href="#" span
                                                     class="badge badge-outline-info  float-right attendance_pdf_history"
                                                     data-toggle="modal" data-target="#attendance_pdf_history_modal">
-                                                    <u>Pdf History</u></a>
+                                                    <u><span class="text-info">Pdf History <i class="fa fa-history"
+                                                                aria-hidden="true"></i></span></u></a>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="attendancePdf_666"
                                                     name="attendancePdf">
