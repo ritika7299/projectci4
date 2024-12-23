@@ -24,7 +24,7 @@ class ProgramModel extends Model
     ];
     protected $useTimestamps = true;
 
-    // Method to save the details
+    // **Method to save the details
     public function saveDetail($data)
     {
         // print_r('hello');
@@ -52,7 +52,7 @@ class ProgramModel extends Model
             ];
         }
     }
-    // Method to delete the details 
+    // **Method to delete the details 
     public function deleteDetails($prog_id)
     {
         // Check if the record exists
@@ -66,7 +66,7 @@ class ProgramModel extends Model
         // Return false if the record does not exist
         return false;
     }
-    // Method to get user details 
+    // **Method to get user details 
     public function get_user_details($prog_id)
     {
         // print_r($prog_id);die;
@@ -82,7 +82,7 @@ class ProgramModel extends Model
         }
     }
 
-    // Method to update form details 
+    // **Method to update form details 
     public function updateDetailsModel($data, $id)
     {
         // print_r('$aaaaaaaaaaaaaaaaaaa');
@@ -103,7 +103,7 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
-    // method to get program record 
+    // **Method to get program record 
     public function getuserProgramRecord($prog_id)
     {
         // print_r($prog_id);die;
@@ -118,7 +118,7 @@ class ProgramModel extends Model
             return false;
         }
     }
-    // update both program and attendance pdfs 
+    // **update program and attendance pdfs 
     public function updatePdfRecord($data, $id)
     {
         // print_r($data);
@@ -147,7 +147,7 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
-    //update attendance pdf method
+    //** update attendance pdf method
     public function updateAttendancePdf($data, $id)
     {
         $demo1 = $data['attendancePdf'];
@@ -163,11 +163,34 @@ class ProgramModel extends Model
     }
 
     //get programs pdf history method
-    public function get_program_pdf_data($prog_id)
+    public function get_history_by_program($prog_id)
     {
-        // print_r($prog_id);
+        // print ('hh');
         // die;
-        $query = "select prog_id, progTitle, progPdf from programme_info where prog_id = '$prog_id'";
+        // Validate input to prevent SQL injection or errors
+        if (!$prog_id) {
+            return false;
+        }
+
+        // Perform the query to get history logs related to the program ID
+        $query = $this->db->table($this->table)
+            ->select('timestamp') // Assuming 'action' is a column in your table
+            ->where('prog_id', $prog_id)
+            ->orderBy('timestamp', 'DESC')
+            ->get();
+
+        // Check if the result has any rows
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray();  // Return the fetched data as an array
+        } else {
+            return false;  // No data found
+        }
+    }
+    //  get attendance pdf history method
+    /*public function get_attendance_pdf_data($prog_id)
+    {
+        // print_r($prog_id);die;
+        $query = "select prog_id, progTitle, attendancePdf from programme_info where prog_id = '$prog_id'";
         // print_r($query);
         // die;
         $result = $this->db->query($query);
@@ -178,39 +201,6 @@ class ProgramModel extends Model
             return false;
         }
 
-    }
-
-    /* get attendance pdf history method
-        public function get_attendance_pdf_data($prog_id)
-     {
-         // print_r($prog_id);die;
-         $query = "select prog_id, progTitle, attendancePdf from programme_info where prog_id = '$prog_id'";
-         // print_r($query);
-         // die;
-         $result = $this->db->query($query);
-         // print_r($result);die;
-         if ($result) {
-             return $result->getResultArray();
-         } else {
-             return false;
-         }
-
-     }*/
-    // Get view history for a specific program
-    public function getProgramViewHistory($prog_id)
-    {
-        return $this->where('prog_id', $prog_id)->orderBy('viewed_at', 'DESC')->findAll();
-    }
-
-    // Log a view
-    public function logView($prog_id, $user_id = null)
-    {
-        return $this->insert([
-            'prog_id' => $prog_id,
-            'user_id' => $user_id,
-            'viewed_at' => date('Y-m-d H:i:s')
-        ]);
-    }
-
+    }*/
 }
 

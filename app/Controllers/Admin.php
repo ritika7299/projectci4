@@ -393,25 +393,38 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');
     }
 
-    // get program pdf history view
+
+
     public function get_program_pdf_history()
     {
-        // print_r("hh");
-        // die;
-        echo view('hello');
         $id = $this->request->getGet('prog_id');
-        // echo $id;
+        // print_r($id);
         // die;
 
         if (!$id) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is correct :( ']);
-        } else {
-            $result = $this->programModel->get_program_pdf_data($id);
-            // print_r($result);
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is not correct :( ']);
+            // print_r($id);
             // die;
-            echo json_encode($result);
+        } else {
+            // Fetch history from your model
+            $result = $this->programModel->get_program_pdf_data($id);
+
+            if ($result) {
+                // Fetch the username from session
+                $username = session()->get('username'); // Assuming the session key for username is 'username'
+
+                // Attach username to each history item
+                foreach ($result as &$item) {
+                    $item['user'] = $username; // Add username to the history
+                }
+
+                return $this->response->setJSON($result);
+            } else {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'No history found']);
+            }
         }
     }
+
     // Admin logout function
     public function logout()
     {
