@@ -392,10 +392,7 @@ class Admin extends BaseController
         // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
-
-
-
-    public function get_program_pdf_history()
+    /*public function get_program_pdf_history()
     {
         $id = $this->request->getGet('prog_id');
         // print_r($id);
@@ -408,10 +405,11 @@ class Admin extends BaseController
         } else {
             // Fetch history from your model
             $result = $this->programModel->get_program_pdf_data($id);
-
+            print_r($result);
+            die;
             if ($result) {
                 // Fetch the username from session
-                $username = session()->get('username'); // Assuming the session key for username is 'username'
+                $username = session()->get('name'); // Assuming the session key for username is 'username'
 
                 // Attach username to each history item
                 foreach ($result as &$item) {
@@ -423,7 +421,56 @@ class Admin extends BaseController
                 return $this->response->setJSON(['status' => 'error', 'message' => 'No history found']);
             }
         }
+    }*/
+
+    public function get_program_pdf_history()
+    {
+        // Get the program ID from the GET request
+        $id = $this->request->getGet('prog_id');
+        // print_r('hello');
+        // die;
+        // Validate that the program ID exists
+        if (!$id) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Programme ID is not provided or is incorrect.'
+            ]);
+        }
+
+        // Fetch the history from your model using the program ID
+        $result = $this->programModel->get_program_pdf_data($id);
+
+        // Check if results are found
+        if ($result) {
+            // Fetch the username from the session
+            $username = session()->get('name'); // Assuming session holds 'name' for the user
+
+            // If username exists in session, attach it to each history item
+            if ($username) {
+                foreach ($result as &$item) {
+                    $item['user'] = $username; // Add the username to each history item
+                }
+            } else {
+                // If no username in session, you might want to handle that, or return just the data
+                foreach ($result as &$item) {
+                    $item['user'] = 'Guest'; // Default to 'Guest' if username not found
+                }
+            }
+
+            // Return the result as a JSON response
+            return $this->response->setJSON([
+                'status' => 'success',
+                'data' => $result
+            ]);
+        } else {
+            // No data found for the given program ID
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'No history found for the given Programme ID.'
+            ]);
+        }
     }
+
 
     // Admin logout function
     public function logout()

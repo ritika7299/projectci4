@@ -163,20 +163,18 @@ class ProgramModel extends Model
     }
 
     //get programs pdf history method
-    public function get_history_by_program($prog_id)
+    public function get_history_by_program($data, $id)
     {
-        // print ('hh');
-        // die;
         // Validate input to prevent SQL injection or errors
-        if (!$prog_id) {
+        if (!$id) {
             return false;
         }
 
         // Perform the query to get history logs related to the program ID
         $query = $this->db->table($this->table)
-            ->select('timestamp') // Assuming 'action' is a column in your table
-            ->where('prog_id', $prog_id)
-            ->orderBy('timestamp', 'DESC')
+            ->select('timestamp, user') // Assuming 'action' is a column in your table
+            ->where('prog_id', $id)
+            ->orderBy('timestamp', 'DESC', $data)
             ->get();
 
         // Check if the result has any rows
@@ -200,7 +198,6 @@ class ProgramModel extends Model
         } else {
             return false;
         }
-
     }*/
 }
 

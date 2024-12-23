@@ -55,6 +55,12 @@
             text-align: ;
             /* Centers the icon */
         }
+
+            {
+            /* Reset cursor to the default */
+            cursor: auto !important;
+
+        }
     </style>
 </head>
 

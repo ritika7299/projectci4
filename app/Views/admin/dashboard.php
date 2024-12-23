@@ -985,7 +985,7 @@
     // Get the session expiration time passed from PHP
     let sessionExpiryTime = <?= $session_expiry_time ?>; // The timestamp when the session will expire
     let lastActivityTime = Date.now(); // Store the last activity time (initially the page load time)
-    let inactivityLimit = 120 * 1000; // 10 minute in milliseconds
+    let inactivityLimit = 900 * 1000; // 10 minute in milliseconds
 
     // Function to reset the inactivity timer on user activity
     function resetInactivityTimer() {
