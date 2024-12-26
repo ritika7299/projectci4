@@ -515,7 +515,6 @@
                             </button>
                             <?php echo form_close(); ?>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -549,12 +548,13 @@
                                         <tr>
                                             <td style="width: 30%;">
                                                 <label for="progPdf_11">Programme Schedule in PDF</label>
-                                                <br><br>
+                                                <br>
                                                 <a href="#" span
                                                     class="badge badge-outline-info float-right programs_pdf_history"
-                                                    id="programs_pdf_history" data-toggle="modal"
-                                                    data-target="#programs_pdf_history_modal">
-                                                    <!-- <i class="fa fa-info"></i> -->
+                                                    data-toggle="modal" data-target="#programs_pdf_history_modal"
+                                                    data-id="<?php echo $key['prog_id']; ?>"
+                                                    value="<?php echo $key['prog_id']; ?>"
+                                                    title="History log of program pdf">
                                                     <u><span class="text-info">Pdf History <i class="fa fa-history"
                                                                 aria-hidden="true"></i></span></u></a>
                                             </td>
@@ -584,7 +584,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /end program (pdf)  -->
+            <!-- /end program (pdf) details modal -->
             <!-- edit attendance(pdf) details modal -->
             <div class="modal fade" id="edit_attendance_pdf_Modal" tabindex="-1" role="dialog"
                 aria-labelledby="editProgramPdfModalLabel" aria-hidden="true">
@@ -642,38 +642,8 @@
                 </div>
 
             </div>
+            <!-- /end edit attendance(pdf) details modal -->
             <!-- Modal for Programs PDF History -->
-            <!-- <div class="modal fade" id="programs_pdf_history_modal" tabindex="-1" role="dialog"
-                aria-labelledby="ProgramsPdfHistoryModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="ProgramsPdfHistoryModalLabel">Programs PDF History <i
-                                    class="fa fa-file-pdf-o"></i></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="ProgramspdfHistoryContent">
-                                <div
-                                    class="mb-3 dashboard-changelog color-bg-default border color-border-default p-3 rounded-2">
-                                    <h2 class="f5 text-bold mb-3">Latest Changes</h2>
-
-                                    <ul class="list-style-none" id="history-list">
-                                        <skfjsklfdjsalkfj></skfjsklfdjsalkfj>
-                                    </ul>
-
-                                    <div class="ml-1 pt-2 pl-4 border-left color-border-muted">
-                                        <a class="text-small mt-2 Link--muted" href="#">View
-                                            changelog →</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div class="modal fade" id="programs_pdf_history_modal" tabindex="-1" role="dialog"
                 aria-labelledby="ProgramsPdfHistoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -690,8 +660,9 @@
                                 <div
                                     class="mb-3 dashboard-changelog color-bg-default border color-border-default p-3 rounded-2">
                                     <h2 class="f5 text-bold mb-3">Latest Changes</h2>
-                                    <ul class="list-style-none" id="history-list">
-                                        <!-- Dynamic history content will be inserted here -->
+                                    <ul class="list-style-none proghistory" id="history-list">
+
+                                        <!-- Dynamic content will be added here -->
                                     </ul>
                                     <div class="ml-1 pt-2 pl-4 border-left color-border-muted">
                                         <a class="text-small mt-2 Link--muted" href="#">View changelog →</a>
@@ -702,9 +673,10 @@
                     </div>
                 </div>
             </div>
+            <!-- /end modal for programsPDF History -->
 
-            <!-- Attendance PDF History Modal -->
-            <div class="modal fade" id="attendance_pdf_history_modal" tabindex="-1" role="dialog"
+            <!-- get Attendance PDF History Modal -->
+            <!-- <div class="modal fade" id="attendance_pdf_history_modal" tabindex="-1" role="dialog"
                 aria-labelledby="AttendancePdfHistoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -725,13 +697,14 @@
                                     </tr>
                                 </thead>
                                 <tbody id="history-table-body">
-                                    <!-- Dynamic content will be added here -->
+                                    **Dynamic content will be added here
                                 </tbody>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <!--/get Attendance PDF History Modal -->
         </div>
     </div>
 </div>
@@ -740,7 +713,7 @@
 <!-- details edit script  -->
 <script>
     $(".edit_btn").click(function () {
-        // alert("sameer");
+        // alert("edit details ");
         var progId = $(this).data('id');
         // alert(progId);
         // alert("progId:" + progId);
@@ -774,8 +747,7 @@
     });
 </script>
 <!-- /details edit script end -->
-<!-- edit programs and attendance pdf script -->
-<!-- programs pdf -->
+<!-- edit programs pdf -->
 <script>
     $(".edit_btn_program").click(function () {
         // alert("ProgramsPDF");
@@ -806,17 +778,16 @@
         });
     });
 </script>
-<!-- attendance pdf -->
+<!-- edit attendance pdf -->
 <script>
     $(".edit_btn_attendance").click(function () {
-        // alert("AttendancePDF");                 // alert for attendance pdf 
+        alert("AttendancePDF");                 // alert for attendance pdf 
         var progId = $(this).data('id');
-        // alert(progId);                          // alert for program ID
-        $("#attidd").val(progId);
+        alert(progId);                          // alert for program ID
+        $(".attidd").val(progId);
         // $("#att_Title_id").val(progTitle);
         // alert("progId:" + progId);              // alert again for program ID
         $.ajax({
-
             url: '<?php echo base_url() . "/admin/get-data-for-program/" ?>',
             dataType: 'json',
             contentType: 'application/json',
@@ -840,7 +811,6 @@
     });
 
 </script>
-<!-- /edit programs and attendance pdf script -->
 <!-- this script for lock details  -->
 <script>
     // Key to store locked state in localStorage
@@ -1031,52 +1001,36 @@
 </script>
 <!--  programs pdf history script -->
 <script>
-    $("#programs_pdf_history").click(function () {
-        var progId = $(this).data('id'); // Get the program ID from the clicked element
-        alert('run ritika');
+    $(".programs_pdf_history").click(function () {
+        alert('This is program pdf history modal.');
+        var progId = $(this).data('id');
+        alert(progId);
+        $("#history-list").val(progId);
+        alert("progId:" + progId);
         $.ajax({
-            url: '<?php echo base_url() . "/admin/history-program-pdf/"; ?>',
-            type: 'GET',
+            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>',
             dataType: 'json',
-            data: { prog_id: progId },
-            beforeSend: function () {
-                // You can add a loading spinner or something to show while fetching data
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                prog_id: progId,//all, branch, court, both, individual, deputation & diverted
             },
+            beforeSend: function () { },
             success: function (data) {
-                // Clear any previous content in the history list
-                $('#history-list').empty();
-
-                if (data.status && data.status === 'error') {
-                    alert(data.message); // Show an error message if any
-                    return;
-                }
-
-                // Loop through the returned data and append it to the modal's history list
-                $.each(data, function (index, item) {
-                    $('#history-list').append(
-                        '<li class="list-group-item">' +
-                        '<strong>' + item.action + '</strong><br>' +
-                        '<small>By ' + item.user + ' on ' + item.timestamp + '</small>' +
-                        '</li>'
-                    );
-                });
-                // Show the modal once the data is populated
-                $('#programs_pdf_history_modal').modal('show');
+                // console.log(data);
             },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText);
-                alert('An error occurred while fetching the history data.');
+            error: function (data) {
+                console.log(data);
             }
+        }).done(function (data) {
         });
+
     });
 </script>
-
-
 <!-- attendance pdf history script -->
 <script>
     $(".attendance_pdf_history").click(function () {
         alert("this is attendance pdf history modal");
-
     });
 </script>
 <?php include('template/footer.php'); ?>

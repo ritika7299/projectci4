@@ -9,6 +9,7 @@ use App\Controllers\Pages;
  */
 // $routes->get('/', 'Home::index');    //home page routes
 /************************************************************************************************************************************/
+
 $routes->get('/', 'Admin::index');                                                          //view page of login
 $routes->get('admin/register', 'Admin::register');                                          //view page of registration
 $routes->post('admin/registerSubmit', 'Admin::registerSubmit');                             // registration details submit
@@ -23,3 +24,5 @@ $routes->get('admin/get-data-for-program', 'Admin::getProgramRecord');          
 $routes->post('admin/updateProgramRecord', 'Admin::updateProgramRecord');                   // For updating program pdf 
 $routes->post('admin/updateAttendanceRecord', 'Admin::updateAttendanceRecord');             // For updating attendance pdf
 $routes->get('admin/history-program-pdf', 'Admin::get_program_pdf_history');                //view history log for program pdf
+// $routes->get('admin/history-attendance-pdf', 'Admin::get_attendance_pdf_history');          //view history log for attendance pdf
+

@@ -23,6 +23,9 @@ class ProgramModel extends Model
         'paymentdone'
     ];
     protected $useTimestamps = true;
+    // Automatically fill in created_at and updated_at
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
 
     // **Method to save the details
     public function saveDetail($data)
@@ -138,7 +141,6 @@ class ProgramModel extends Model
         $query->update($data);
         // print_r($query);
         // die;
-
         // $query->insert($userdata);
 
         if ($query) {
@@ -161,29 +163,41 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
-
     //get programs pdf history method
-    public function get_history_by_program($data, $id)
+    public function get_history_by_program($prog_id)
     {
-        // Validate input to prevent SQL injection or errors
-        if (!$id) {
+        // print_r($prog_id);
+        // die;
+        $query = "select prog_id, progPdf, created_at, updated_at, timestamp from programme_info where prog_id = '$prog_id'";
+        // print_r($query);
+        // die;
+        $result = $this->db->query($query);
+        // print_r($result);die;
+        if ($result) {
+            return $result->getResultArray();
+        } else {
             return false;
         }
-
-        // Perform the query to get history logs related to the program ID
-        $query = $this->db->table($this->table)
-            ->select('timestamp, user') // Assuming 'action' is a column in your table
-            ->where('prog_id', $id)
-            ->orderBy('timestamp', 'DESC', $data)
-            ->get();
-
-        // Check if the result has any rows
-        if ($query->getNumRows() > 0) {
-            return $query->getResultArray();  // Return the fetched data as an array
-        } else {
-            return false;  // No data found
-        }
     }
+    /*public function get_history_by_program($prog_id)
+    {
+        // SQL query to select the program history including file upload history and updates
+        $query = "SELECT prog_id, progPdf, created_at, updated_at, timestamp 
+              FROM programme_info 
+              WHERE prog_id = '$prog_id' 
+              ORDER BY timestamp DESC";  // Sorting by timestamp to get the latest history first
+
+        // Execute the query
+        $result = $this->db->query($query);
+
+        // Check if query was successful and return the result as an array
+        if ($result) {
+            return $result->getResultArray();
+        } else {
+            return false;
+        }
+    }*/
+
     //  get attendance pdf history method
     /*public function get_attendance_pdf_data($prog_id)
     {

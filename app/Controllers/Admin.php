@@ -14,6 +14,26 @@ class Admin extends BaseController
     {
         return view('admin/login');
     }
+    // login function;
+    public function login()
+    {
+        $session = session();
+        $email = $this->request->getPost('name');
+        $password = $this->request->getPost('password');
+        $model = new AdminModel();
+        $admin = $model->where('name', $email)->first();
+
+        if ($admin && $admin['password'] === $password) {
+            // Store user info in session (you may want to store more than just 'name')
+            $session->set('logged_in', true);
+            $session->set('name', $admin['name']);  // Store the logged-in user's name
+            //  echo"hello";die;
+            return redirect()->to('admin/dashboard');
+        } else {
+            $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
+            return redirect()->to('/');
+        }
+    }
     // registeration view page 
     public function register()
     {
@@ -60,39 +80,7 @@ class Admin extends BaseController
         // Redirect to the login page after successful registration
         return redirect()->to('admin/register')->with('success', 'Registration successful. Please login.');
     }
-    // admin login function
-    public function login()
-    {
-        $session = session();
-        $email = $this->request->getPost('name');
-        $password = $this->request->getPost('password');
-        $model = new AdminModel();
-        $admin = $model->where('name', $email)->first();
-
-        if ($admin && $admin['password'] === $password) {
-            // Store user info in session (you may want to store more than just 'name')
-            $session->set('logged_in', true);
-            $session->set('name', $admin['name']);  // Store the logged-in user's name
-            //  echo"hello";die;
-            return redirect()->to('admin/dashboard');
-        } else {
-            $session->setFlashdata('error', '<i class="fa fa-warning"></i> Invalid username or password.');
-            return redirect()->to('/');
-        }
-    }
-
-    public function checkSessionTimeout()
-    {
-        $session = session();
-        $loggedInTime = $session->get('logged_in_time');
-        $timeoutDuration = 30 * 60; // 30 minutes in seconds
-
-        if ($loggedInTime && (time() - $loggedInTime) > $timeoutDuration) {
-            // If the session has expired, destroy the session and redirect to login
-            $session->destroy();
-            return redirect()->to('/');
-        }
-    }
+    // dashboard details function
     public function dashboard()
     {
         // Helper functions for form and filesystem
@@ -111,7 +99,6 @@ class Admin extends BaseController
                 $programme['date'] = date('d/m/Y', strtotime($programme['date'])); // Format date if available
             }
         }
-
         // Store the session expiration timestamp
         $session_expiry_time = time() + config('App')->session['expiration']; // Session expiration time (15 minutes from now)
 
@@ -392,86 +379,24 @@ class Admin extends BaseController
         // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
-    /*public function get_program_pdf_history()
-    {
-        $id = $this->request->getGet('prog_id');
-        // print_r($id);
-        // die;
-
-        if (!$id) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is not correct :( ']);
-            // print_r($id);
-            // die;
-        } else {
-            // Fetch history from your model
-            $result = $this->programModel->get_program_pdf_data($id);
-            print_r($result);
-            die;
-            if ($result) {
-                // Fetch the username from session
-                $username = session()->get('name'); // Assuming the session key for username is 'username'
-
-                // Attach username to each history item
-                foreach ($result as &$item) {
-                    $item['user'] = $username; // Add username to the history
-                }
-
-                return $this->response->setJSON($result);
-            } else {
-                return $this->response->setJSON(['status' => 'error', 'message' => 'No history found']);
-            }
-        }
-    }*/
+    // get program pdf history
 
     public function get_program_pdf_history()
     {
-        // Get the program ID from the GET request
-        $id = $this->request->getGet('prog_id');
-        // print_r('hello');
+        // print_r("hh");
         // die;
-        // Validate that the program ID exists
+        $id = $this->request->getGet('prog_id');
+        // echo $id;
+        // die;
         if (!$id) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Programme ID is not provided or is incorrect.'
-            ]);
-        }
-
-        // Fetch the history from your model using the program ID
-        $result = $this->programModel->get_program_pdf_data($id);
-
-        // Check if results are found
-        if ($result) {
-            // Fetch the username from the session
-            $username = session()->get('name'); // Assuming session holds 'name' for the user
-
-            // If username exists in session, attach it to each history item
-            if ($username) {
-                foreach ($result as &$item) {
-                    $item['user'] = $username; // Add the username to each history item
-                }
-            } else {
-                // If no username in session, you might want to handle that, or return just the data
-                foreach ($result as &$item) {
-                    $item['user'] = 'Guest'; // Default to 'Guest' if username not found
-                }
-            }
-
-            // Return the result as a JSON response
-            return $this->response->setJSON([
-                'status' => 'success',
-                'data' => $result
-            ]);
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is missing hai!!']);
         } else {
-            // No data found for the given program ID
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'No history found for the given Programme ID.'
-            ]);
+            $result = $this->programModel->get_history_by_program($id);
+            // print_r($result);
+            // die;
+            echo json_encode($result);
         }
     }
-
-
     // Admin logout function
     public function logout()
     {
