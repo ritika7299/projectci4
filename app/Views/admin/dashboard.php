@@ -549,9 +549,10 @@
                                             <td style="width: 30%;">
                                                 <label for="progPdf_11">Programme Schedule in PDF</label>
                                                 <br>
-                                                <a href="#" span
+                                                <a href="#"
                                                     class="badge badge-outline-info float-right programs_pdf_history"
-                                                    data-toggle="modal" data-target="#programs_pdf_history_modal"
+                                                    id="programs_pdf_history" data-toggle="modal"
+                                                    data-target="#programs_pdf_history_modal"
                                                     data-id="<?php echo $key['prog_id']; ?>"
                                                     value="<?php echo $key['prog_id']; ?>"
                                                     title="History log of program pdf">

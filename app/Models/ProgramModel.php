@@ -179,7 +179,6 @@ class ProgramModel extends Model
             return false;
         }
     }
-
     //  method get attendance pdf history 
     public function get_attendancePdf_history($prog_id)
     {
