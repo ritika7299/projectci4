@@ -379,9 +379,8 @@ class Admin extends BaseController
         // Redirect to the dashboard
         return redirect()->to('admin/dashboard');
     }
-    // get program pdf history
-
-    public function get_program_pdf_history()
+    // get program pdf history function
+    public function get_program_history()
     {
         // print_r("hh");
         // die;
@@ -391,7 +390,24 @@ class Admin extends BaseController
         if (!$id) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is missing hai!!']);
         } else {
-            $result = $this->programModel->get_history_by_program($id);
+            $result = $this->programModel->get_programPdf_history($id);
+            // print_r($result);
+            // die;
+            echo json_encode($result);
+        }
+    }
+    // get attendance pdf history function 
+    public function get_attendance_history()
+    {
+        // print_r("hh");
+        // die;
+        $id = $this->request->getGet('prog_id');
+        // echo $id;
+        // die;
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is missing hai!!']);
+        } else {
+            $result = $this->programModel->get_attendancePdf_history($id);
             // print_r($result);
             // die;
             echo json_encode($result);

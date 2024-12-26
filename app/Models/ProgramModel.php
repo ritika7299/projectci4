@@ -163,12 +163,12 @@ class ProgramModel extends Model
             return FALSE;
         }
     }
-    //get programs pdf history method
-    public function get_history_by_program($prog_id)
+    //method get programs pdf history 
+    public function get_programPdf_history($prog_id)
     {
         // print_r($prog_id);
         // die;
-        $query = "select prog_id, progPdf, created_at, updated_at, timestamp from programme_info where prog_id = '$prog_id'";
+        $query = "select prog_id, progTitle progPdf, created_at, updated_at, timestamp from programme_info where prog_id = '$prog_id'";
         // print_r($query);
         // die;
         $result = $this->db->query($query);
@@ -179,30 +179,12 @@ class ProgramModel extends Model
             return false;
         }
     }
-    /*public function get_history_by_program($prog_id)
-    {
-        // SQL query to select the program history including file upload history and updates
-        $query = "SELECT prog_id, progPdf, created_at, updated_at, timestamp 
-              FROM programme_info 
-              WHERE prog_id = '$prog_id' 
-              ORDER BY timestamp DESC";  // Sorting by timestamp to get the latest history first
 
-        // Execute the query
-        $result = $this->db->query($query);
-
-        // Check if query was successful and return the result as an array
-        if ($result) {
-            return $result->getResultArray();
-        } else {
-            return false;
-        }
-    }*/
-
-    //  get attendance pdf history method
-    /*public function get_attendance_pdf_data($prog_id)
+    //  method get attendance pdf history 
+    public function get_attendancePdf_history($prog_id)
     {
         // print_r($prog_id);die;
-        $query = "select prog_id, progTitle, attendancePdf from programme_info where prog_id = '$prog_id'";
+        $query = "select prog_id, progTitle attendancePdf, created_at, updated_at, timestamp from programme_info where prog_id = '$prog_id'";
         // print_r($query);
         // die;
         $result = $this->db->query($query);
@@ -212,6 +194,6 @@ class ProgramModel extends Model
         } else {
             return false;
         }
-    }*/
+    }
 }
 

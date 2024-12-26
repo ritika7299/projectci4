@@ -23,6 +23,6 @@ $routes->post('admin/updateDetails', 'Admin::updateDetails');                   
 $routes->get('admin/get-data-for-program', 'Admin::getProgramRecord');                      // For fetching pdf details
 $routes->post('admin/updateProgramRecord', 'Admin::updateProgramRecord');                   // For updating program pdf 
 $routes->post('admin/updateAttendanceRecord', 'Admin::updateAttendanceRecord');             // For updating attendance pdf
-$routes->get('admin/history-program-pdf', 'Admin::get_program_pdf_history');                //view history log for program pdf
-// $routes->get('admin/history-attendance-pdf', 'Admin::get_attendance_pdf_history');          //view history log for attendance pdf
+$routes->get('admin/history-program-pdf', 'Admin::get_program_history');                //view history log for program pdf
+$routes->get('admin/history-attendance-pdf', 'Admin::get_attendance_history');          //view history log for attendance pdf
 

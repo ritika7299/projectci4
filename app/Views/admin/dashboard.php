@@ -1004,9 +1004,10 @@
     $(".programs_pdf_history").click(function () {
         alert('This is program pdf history modal.');
         var progId = $(this).data('id');
+        // print_r(progId); die;
         alert(progId);
-        $("#history-list").val(progId);
-        alert("progId:" + progId);
+        // $("#history-list").val(progId);
+        // alert("progId:" + progId);
         $.ajax({
             url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>',
             dataType: 'json',
@@ -1024,13 +1025,31 @@
             }
         }).done(function (data) {
         });
-
     });
 </script>
 <!-- attendance pdf history script -->
 <script>
     $(".attendance_pdf_history").click(function () {
-        alert("this is attendance pdf history modal");
+        alert("This is attendance pdf history modal.");
+        var progId = $(this).data('id');
+        alett(progId);
+        $.ajax({
+            url: '<?php echo base_url() . "/admin/history-attendance-pdf/" ?>',
+            dataType: 'json',
+            contentType: 'application/json',
+            type: 'GET',
+            data: {
+                prog_id: progId,//all, branch, court, both, individual, deputation & diverted
+            },
+            beforeSend: function () { },
+            success: function (data) {
+                // console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        }).done(function (data) {
+        });
     });
 </script>
 <?php include('template/footer.php'); ?>
