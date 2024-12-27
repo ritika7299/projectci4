@@ -105,7 +105,6 @@
                             <p id="session-warning" style="color: red; display: none;">Your session is about to expire.
                                 Please take action!</p>
                         </div> -->
-
                     <nav class="nav navbar-nav">
                         <ul class="navbar-right">
                             <li class="nav-item dropdown open" style="padding-left: 15px">
