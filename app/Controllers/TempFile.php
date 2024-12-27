@@ -69,72 +69,72 @@ class TempFile extends BaseController
              $session->setFlashdata('success', 'Details added successfully.');
              return redirect()->to('admin/dashboard');  // Redirect to the dashboard or another page
          }*/
+    /**<!-- <div class="modal-body">
+                                <div id="ProgramspdfHistoryContent">
+                                    <div class="col-lg-12 col-md-8">
+                                        <div class="card h-100">
+                                            <div class="card-header d-flex pb-0">
+                                                <h6 class="">Activity Logs </h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="timeline timeline-one-side">
 
-<!-- <div class="modal-body">
-                            <div id="ProgramspdfHistoryContent">
-                                <div class="col-lg-12 col-md-8">
-                                    <div class="card h-100">
-                                        <div class="card-header d-flex pb-0">
-                                            <h6 class="">Activity Logs </h6>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <div class="timeline timeline-one-side">
-
-                                                <div class="timeline-block mb-3">
-                                                    <span class="timeline-step">
-                                                        <i class="text-primary text-gradient">Uploaded
-                                                            By</i>
-                                                    </span>
-                                                    <div class="timeline-content">
-                                                        <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                                            ritika rani,
-                                                        </h6>
-                                                        <div class="d-flex">
-                                                            <p
-                                                                class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                                                22 DEC 2024,
-                                                            </p><span class="text-danger text-xs mt-1 ml-1"> 12:00
-                                                                AM</span>
+                                                    <div class="timeline-block mb-3">
+                                                        <span class="timeline-step">
+                                                            <i class="text-primary text-gradient">Uploaded
+                                                                By</i>
+                                                        </span>
+                                                        <div class="timeline-content">
+                                                            <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                                                ritika rani,
+                                                            </h6>
+                                                            <div class="d-flex">
+                                                                <p
+                                                                    class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                                                    22 DEC 2024,
+                                                                </p><span class="text-danger text-xs mt-1 ml-1"> 12:00
+                                                                    AM</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="timeline-block mb-3">
-                                                    <span class="timeline-step">
-                                                        <i class="text-success text-gradient">Updated
-                                                            By</i>
-                                                    </span>
-                                                    <div class="timeline-content">
-                                                        <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                                            User1,
-                                                        </h6>
+                                                    <div class="timeline-block mb-3">
+                                                        <span class="timeline-step">
+                                                            <i class="text-success text-gradient">Updated
+                                                                By</i>
+                                                        </span>
+                                                        <div class="timeline-content">
+                                                            <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                                                User1,
+                                                            </h6>
 
-                                                        <div class="d-flex">
-                                                            <p
-                                                                class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                                                24 DEC 2024,
-                                                            </p><span class="text-danger text-xs mt-1 ml-1"> 2:00
-                                                                PM</span>
+                                                            <div class="d-flex">
+                                                                <p
+                                                                    class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                                                    24 DEC 2024,
+                                                                </p><span class="text-danger text-xs mt-1 ml-1"> 2:00
+                                                                    PM</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="timeline-block mb-3">
-                                                    <span class="timeline-step">
-                                                        <i class="text-success text-gradient">Updated
-                                                            By</i>
-                                                    </span>
-                                                    <div class="timeline-content">
-                                                        <h6 class="text-dark text-sm font-weight-bold mb-0">
-                                                            Admin,
-                                                        </h6>
-                                                        <div class="d-flex">
-                                                            <p
-                                                                class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                                                26 DEC 2024,
-                                                            </p>
-                                                            <span class="text-danger text-xs mt-1 ml-1"> 4:38
-                                                                PM</span>
+                                                    <div class="timeline-block mb-3">
+                                                        <span class="timeline-step">
+                                                            <i class="text-success text-gradient">Updated
+                                                                By</i>
+                                                        </span>
+                                                        <div class="timeline-content">
+                                                            <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                                                Admin,
+                                                            </h6>
+                                                            <div class="d-flex">
+                                                                <p
+                                                                    class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                                                    26 DEC 2024,
+                                                                </p>
+                                                                <span class="text-danger text-xs mt-1 ml-1"> 4:38
+                                                                    PM</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,6 +142,6 @@ class TempFile extends BaseController
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> -->
+                            </div> --> */
+
 }

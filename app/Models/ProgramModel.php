@@ -183,7 +183,7 @@ class ProgramModel extends Model
     public function get_programPdf_history($prog_id)
     {
         $query = "SELECT prog_id, progTitle AS progPdf, created_at, updated_at, timestamp
-              FROM programme_info WHERE prog_id = '$prog_id'";
+                  FROM programme_info WHERE prog_id = '$prog_id'";
 
         // Run the query and get results
         $result = $this->db->query($query);
@@ -194,27 +194,39 @@ class ProgramModel extends Model
 
             // Process each program data record
             foreach ($programData as $data) {
+                // Extract the username from the uploaded PDF file name
+                $progFileName = $data['progPdf'];
+                $fileParts = explode(' by ', $progFileName); // Split the filename at ' by '
+                $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
+
                 // Add uploaded history
                 $history[] = [
                     'action_type' => 'Uploaded by',
-                    'username' => '', // Replace with actual user
+                    'username' => $uploadedBy, // Now includes the extracted username
                     'date' => date('d M Y', strtotime($data['created_at'])),
                     'time' => date('h:i A', strtotime($data['created_at'])),
                 ];
 
                 // Add updated history (if applicable)
-                $history[] = [
-                    'action_type' => 'Updated by',
-                    'username' => '', // Replace with actual user
-                    'date' => date('d M Y', strtotime($data['updated_at'])),
-                    'time' => date('h:i A', strtotime($data['updated_at'])),
-                ];
+                if (!empty($data['updated_at'])) {
+                    $updatedFileName = $data['progPdf']; // Assuming the file name doesn't change on update
+                    $updatedFileParts = explode(' by ', $updatedFileName);
+                    $updatedBy = isset($updatedFileParts[1]) ? $updatedFileParts[1] : 'Unknown';
+
+                    $history[] = [
+                        'action_type' => 'Updated by',
+                        'username' => $updatedBy, // Extracted username from the update
+                        'date' => date('d M Y', strtotime($data['updated_at'])),
+                        'time' => date('h:i A', strtotime($data['updated_at'])),
+                    ];
+                }
             }
             return $history;
         } else {
             return false;
         }
     }
+
     //  method get attendance pdf history 
     public function get_attendancePdf_history($prog_id)
     {

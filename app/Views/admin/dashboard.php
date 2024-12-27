@@ -1024,7 +1024,7 @@
         console.log(progId);
 
         $.ajax({
-            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>', // Your server URL
+            url: '<?php //echo base_url() . "/admin/history-program-pdf/" ?>', // Your server URL
             type: 'GET',
             dataType: 'json', // Expecting JSON data in response
             data: {
@@ -1045,30 +1045,33 @@
     });
 </script> -->
 <script>
-    // Event listener for button click
+    // Event listener for button click (when "programs_pdf_history" button is clicked)
     $(".programs_pdf_history").click(function () {
         alert('program pdf modal');
         var progId = $(this).data('id'); // Get prog_id from data-id attribute
         alert(progId);
+
         // Make AJAX request to fetch program history
         $.ajax({
-            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>', // Your server URL
+            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>', // Your server URL for history endpoint
             type: 'GET',
-            dataType: 'json', // Expecting JSON data in response
+            dataType: 'json', // Expecting JSON response
             data: {
                 prog_id: progId, // Send the prog_id in the request
             },
             beforeSend: function () {
-                // Optional: Show loading indicator before sending the request
+                // Optional: Show a loading indicator before the request
+                $('#ProgramspdfHistoryContent').html('<p>Loading...</p>'); // Show loading text in the modal content
             },
             success: function (data) {
                 // Clear existing content in the modal body
                 $('#ProgramspdfHistoryContent').empty();
 
-                // Check if we received valid data
+                // Check if the response contains valid data
                 if (data && Array.isArray(data)) {
-                    // Loop through the history data and append to the modal
+                    // Loop through each history item and display it in the modal
                     data.forEach(function (item) {
+                        // Dynamically create HTML for each history entry
                         var timelineBlock = `
                             <div class="timeline-block mb-3">
                                 <span class="timeline-step">
@@ -1078,27 +1081,30 @@
                                     <h6 class="text-dark text-sm font-weight-bold mb-0">${item.username}</h6>
                                     <div class="d-flex">
                                         <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
-                                            ${item.date},
-                                        </p><span class="text-danger text-xs mt-1 ml-1">${item.time}</span>
+                                            ${item.date}
+                                        </p>
+                                        <span class="text-danger text-xs mt-1 ml-1">${item.time}</span>
                                     </div>
                                 </div>
                             </div>
                         `;
-                        // Append the generated HTML to the modal content
+                        // Append the generated timeline block to the modal's content
                         $('#ProgramspdfHistoryContent').append(timelineBlock);
                     });
                 } else {
-                    // If no data, show a message
+                    // If no history data is found, display a message in the modal
                     $('#ProgramspdfHistoryContent').append('<p>No history available for this program.</p>');
                 }
             },
             error: function (data) {
-                // Handle errors
+                // Handle errors and show a message if the request fails
                 console.error("Error:", data);
+                $('#ProgramspdfHistoryContent').html('<p>Error fetching history data. Please try again later.</p>');
             }
         });
     });
 </script>
+
 
 
 <!-- attendance pdf history script -->

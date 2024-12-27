@@ -117,7 +117,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right"
                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="<?php echo base_url('admin/profile'); ?>">Profile</a>
                                     <!-- <a class="dropdown-item" href="#">
                                         <span>Settings</span>
                                     </a> -->
