@@ -61,7 +61,7 @@
                             <div class="col-sm-12">
                                 <div class="fixed">
                                     <table id="datatable-responsive"
-                                        class="table table-striped table-bordered dt-responsive nowrap datatable-responsive"
+                                        class="table table-striped table-bordered dt-responsive nowrap datatable-responsive myTable"
                                         cellspacing="0" width="100%">
                                         <thead class="text-center mt-0">
                                             <tr>
@@ -132,7 +132,7 @@
                                                                 $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
                                                                 $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
                                                                 ?>
-                                                                <span class="text-info">
+                                                                <span class="text-primary">
                                                                     <?= 'updated by ' . $uploadedBy; ?>
                                                                 </span>
                                                             <?php elseif (!empty($key['progPdf'])): ?>
@@ -150,9 +150,23 @@
                                                                 $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
                                                                 $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
                                                                 ?>
-                                                                <span class="text-info">
+                                                                <span class="text-primary">
                                                                     <?= 'uploaded by ' . $uploadedBy; ?>
+                                                                </span><br>
+                                                                <!-- programs pdf history log -->
+                                                                <span class="programsPdf_history_log">
+                                                                    <a href="#"
+                                                                        class="badge badge-outline-success float-right programs_pdf_history"
+                                                                        id="programs_pdf_history" data-toggle="modal"
+                                                                        data-target="#programs_pdf_history_modal"
+                                                                        data-id="<?php echo $key['prog_id']; ?>"
+                                                                        value="<?php echo $key['prog_id']; ?>"
+                                                                        title="History log of program pdf">
+                                                                        <u><span class="text-success">Programme Logs <i
+                                                                                    class="fa fa-history"
+                                                                                    aria-hidden="true"></i></span></u></a>
                                                                 </span>
+                                                                <!-- /programs pdf history log -->
                                                             <?php else: ?>
                                                                 <!-- If no PDF available -->
                                                                 <span class="text-danger font-italic">No PDF Available</span>
@@ -179,7 +193,7 @@
                                                                 $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
                                                                 $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
                                                                 ?>
-                                                                <span class="text-info">
+                                                                <span class="text-primary">
                                                                     <?= 'updated by ' . $uploadedBy; ?>
                                                                 </span>
                                                             <?php elseif (!empty($key['attendancePdf'])): ?>
@@ -197,9 +211,23 @@
                                                                 $fileParts = explode(' by ', $fileName); // Split the filename at ' by '
                                                                 $uploadedBy = isset($fileParts[1]) ? $fileParts[1] : 'Unknown'; // Extract username or set as 'Unknown'
                                                                 ?>
-                                                                <span class="text-info">
+                                                                <span class="text-primary">
                                                                     <?= 'uploaded by ' . $uploadedBy; ?>
                                                                 </span>
+                                                                <br>
+                                                                <!-- attendance pdf history log -->
+                                                                <span class="attendancePdf_history_log">
+                                                                    <a href="#"
+                                                                        class="badge badge-outline-success float-right attendance_pdf_history"
+                                                                        id="attendance_pdf_history" data-toggle="modal"
+                                                                        data-target="#attendance_pdf_history_modal"
+                                                                        data-id="<?php echo $key['prog_id']; ?>"
+                                                                        value="<?php echo $key['prog_id']; ?>"
+                                                                        title="History log of attendance pdf">
+                                                                        <u><span class="text-success">Attendance Logs <i
+                                                                                    class="fa fa-history"
+                                                                                    aria-hidden="true"></i></span></u></a></span>
+                                                                <!-- /attendance pdf history log -->
                                                             <?php else: ?>
                                                                 <!-- If no attendance PDF available -->
                                                                 <span class="text-danger font-italic">No PDF Available</span>
@@ -548,16 +576,6 @@
                                         <tr>
                                             <td style="width: 30%;">
                                                 <label for="progPdf_11">Programme Schedule in PDF</label>
-                                                <br>
-                                                <a href="#"
-                                                    class="badge badge-outline-info float-right programs_pdf_history"
-                                                    id="programs_pdf_history" data-toggle="modal"
-                                                    data-target="#programs_pdf_history_modal"
-                                                    data-id="<?php echo $key['prog_id']; ?>"
-                                                    value="<?php echo $key['prog_id']; ?>"
-                                                    title="History log of program pdf">
-                                                    <u><span class="text-info">Pdf History <i class="fa fa-history"
-                                                                aria-hidden="true"></i></span></u></a>
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="progPdf_666"
                                                     name="progPdf">
@@ -619,11 +637,7 @@
                                         <tr>
                                             <td style="width: 30%;"><label for="attandancePdf">Attendance in
                                                     PDF</label><br><br>
-                                                <a href="#" span
-                                                    class="badge badge-outline-info  float-right attendance_pdf_history"
-                                                    data-toggle="modal" data-target="#attendance_pdf_history_modal">
-                                                    <u><span class="text-info">Pdf History <i class="fa fa-history"
-                                                                aria-hidden="true"></i></span></u></a>
+
                                             </td>
                                             <td><input type="file" class="mt-2 text-primary" id="attendancePdf_666"
                                                     name="attendancePdf">
@@ -650,23 +664,24 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="ProgramsPdfHistoryModalLabel">Programs PDF History <i
-                                    class="fa fa-file-pdf-o"></i></h5>
+                            <h5 class="modal-title text-white" id="ProgramsPdfHistoryModalLabel">Programs Logs <i
+                                    class="fa fa-history"></i></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div id="ProgramspdfHistoryContent">
-                                <div
-                                    class="mb-3 dashboard-changelog color-bg-default border color-border-default p-3 rounded-2">
-                                    <h2 class="f5 text-bold mb-3">Latest Changes</h2>
-                                    <ul class="list-style-none proghistory" id="history-list">
-
-                                        <!-- Dynamic content will be added here -->
-                                    </ul>
-                                    <div class="ml-1 pt-2 pl-4 border-left color-border-muted">
-                                        <a class="text-small mt-2 Link--muted" href="#">View changelog →</a>
+                                <div class="col-lg-12 col-md-8">
+                                    <div class="card h-100">
+                                        <div class="card-header d-flex pb-0">
+                                            <h6 class="">Activity Logs</h6>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <div class="timeline timeline-one-side">
+                                                <!-- Timeline content will be inserted dynamically here -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -675,15 +690,14 @@
                 </div>
             </div>
             <!-- /end modal for programsPDF History -->
-
             <!-- get Attendance PDF History Modal -->
-            <!-- <div class="modal fade" id="attendance_pdf_history_modal" tabindex="-1" role="dialog"
+            <div class="modal fade" id="attendance_pdf_history_modal" tabindex="-1" role="dialog"
                 aria-labelledby="AttendancePdfHistoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color: #2A3F54;">
-                            <h5 class="modal-title text-white" id="AttendancePdfHistoryModalLabel">Attendance PDF
-                                History <i class="fa fa-file-pdf-o"></i></h5>
+                            <h5 class="modal-title text-white" id="AttendancePdfHistoryModalLabel">Attendance Log <i
+                                    class="fa fa-file-pdf-o"></i></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -698,13 +712,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="history-table-body">
-                                    **Dynamic content will be added here
+                                    <!-- Dynamic content will be added here -->
                                 </tbody>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <!--/get Attendance PDF History Modal -->
         </div>
     </div>
@@ -903,7 +917,6 @@
             lockBtn.removeAttribute('href');
         }
     }
-
     // Function to unlock actions (optional, for reset functionality)
     function unlockActions(progId) {
         // Retrieve current locked state
@@ -1001,39 +1014,99 @@
     }, 1000); // Update every 1 second
 </script>
 <!--  programs pdf history script -->
-<script>
+<!-- <script>
     $(".programs_pdf_history").click(function () {
-        alert('This is program pdf history modal.');
-        var progId = $(this).data('id');
-        // print_r(progId); die;
-        alert(progId);
-        // $("#history-list").val(progId);
-        // alert("progId:" + progId);
+        alert("This is program pdf history modal.");
+        var progId = $(this).data('id'); // Get the prog_id from the data attribute
+        // alert(progId);
+
+        // Optional: Log the progId to check if it's correctly passed
+        console.log(progId);
+
         $.ajax({
-            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>',
-            dataType: 'json',
-            contentType: 'application/json',
+            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>', // Your server URL
             type: 'GET',
+            dataType: 'json', // Expecting JSON data in response
             data: {
-                prog_id: progId,//all, branch, court, both, individual, deputation & diverted
+                prog_id: progId, // Send the prog_id in the request
             },
-            beforeSend: function () { },
+            beforeSend: function () {
+                // Optional: Show loading indicator
+            },
             success: function (data) {
-                // console.log(data);
+                // Log or handle the response data
+                console.log(data);
             },
             error: function (data) {
-                console.log(data);
+                // Handle errors here
+                console.error("Error:", data);
             }
-        }).done(function (data) {
+        });
+    });
+</script> -->
+<script>
+    // Event listener for button click
+    $(".programs_pdf_history").click(function () {
+        alert('program pdf modal');
+        var progId = $(this).data('id'); // Get prog_id from data-id attribute
+        alert(progId);
+        // Make AJAX request to fetch program history
+        $.ajax({
+            url: '<?php echo base_url() . "/admin/history-program-pdf/" ?>', // Your server URL
+            type: 'GET',
+            dataType: 'json', // Expecting JSON data in response
+            data: {
+                prog_id: progId, // Send the prog_id in the request
+            },
+            beforeSend: function () {
+                // Optional: Show loading indicator before sending the request
+            },
+            success: function (data) {
+                // Clear existing content in the modal body
+                $('#ProgramspdfHistoryContent').empty();
+
+                // Check if we received valid data
+                if (data && Array.isArray(data)) {
+                    // Loop through the history data and append to the modal
+                    data.forEach(function (item) {
+                        var timelineBlock = `
+                            <div class="timeline-block mb-3">
+                                <span class="timeline-step">
+                                    <i class="text-${item.action_type === 'Uploaded by' ? 'primary' : 'success'} text-gradient">${item.action_type} By</i>
+                                </span>
+                                <div class="timeline-content">
+                                    <h6 class="text-dark text-sm font-weight-bold mb-0">${item.username}</h6>
+                                    <div class="d-flex">
+                                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">
+                                            ${item.date},
+                                        </p><span class="text-danger text-xs mt-1 ml-1">${item.time}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        // Append the generated HTML to the modal content
+                        $('#ProgramspdfHistoryContent').append(timelineBlock);
+                    });
+                } else {
+                    // If no data, show a message
+                    $('#ProgramspdfHistoryContent').append('<p>No history available for this program.</p>');
+                }
+            },
+            error: function (data) {
+                // Handle errors
+                console.error("Error:", data);
+            }
         });
     });
 </script>
+
+
 <!-- attendance pdf history script -->
 <script>
     $(".attendance_pdf_history").click(function () {
         alert("This is attendance pdf history modal.");
         var progId = $(this).data('id');
-        alett(progId);
+        // alert(progId);
         $.ajax({
             url: '<?php echo base_url() . "/admin/history-attendance-pdf/" ?>',
             dataType: 'json',
@@ -1053,5 +1126,6 @@
         });
     });
 </script>
+<!-- <script>let table = new DataTable('.myTable');</script> -->
 <?php include('template/footer.php'); ?>
 <!-- /page content -->

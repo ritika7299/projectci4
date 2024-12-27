@@ -380,6 +380,7 @@ class Admin extends BaseController
         return redirect()->to('admin/dashboard');
     }
     // get program pdf history function
+    /* this is correct code
     public function get_program_history()
     {
         // print_r("hh");
@@ -395,7 +396,22 @@ class Admin extends BaseController
             // die;
             echo json_encode($result);
         }
+    }*/
+    public function get_program_history()
+    {
+        $id = $this->request->getGet('prog_id');
+
+        // Check if prog_id is provided
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Programme ID is missing']);
+        } else {
+            // Get program PDF history from the model
+            $result = $this->programModel->get_programPdf_history($id);
+            // Return the result as JSON
+            echo json_encode($result);
+        }
     }
+
     // get attendance pdf history function 
     public function get_attendance_history()
     {

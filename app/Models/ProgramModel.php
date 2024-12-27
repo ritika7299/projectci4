@@ -164,7 +164,7 @@ class ProgramModel extends Model
         }
     }
     //method get programs pdf history 
-    public function get_programPdf_history($prog_id)
+    /*public function get_programPdf_history($prog_id)
     {
         // print_r($prog_id);
         // die;
@@ -175,6 +175,42 @@ class ProgramModel extends Model
         // print_r($result);die;
         if ($result) {
             return $result->getResultArray();
+        } else {
+            return false;
+        }
+    }*/
+
+    public function get_programPdf_history($prog_id)
+    {
+        $query = "SELECT prog_id, progTitle AS progPdf, created_at, updated_at, timestamp
+              FROM programme_info WHERE prog_id = '$prog_id'";
+
+        // Run the query and get results
+        $result = $this->db->query($query);
+
+        if ($result) {
+            $history = [];
+            $programData = $result->getResultArray();
+
+            // Process each program data record
+            foreach ($programData as $data) {
+                // Add uploaded history
+                $history[] = [
+                    'action_type' => 'Uploaded by',
+                    'username' => '', // Replace with actual user
+                    'date' => date('d M Y', strtotime($data['created_at'])),
+                    'time' => date('h:i A', strtotime($data['created_at'])),
+                ];
+
+                // Add updated history (if applicable)
+                $history[] = [
+                    'action_type' => 'Updated by',
+                    'username' => '', // Replace with actual user
+                    'date' => date('d M Y', strtotime($data['updated_at'])),
+                    'time' => date('h:i A', strtotime($data['updated_at'])),
+                ];
+            }
+            return $history;
         } else {
             return false;
         }
